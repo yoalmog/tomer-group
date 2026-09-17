@@ -203,6 +203,10 @@
                         </Border>
                         <Label Text="גלה עוד" FontSize="12" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
                     </VerticalStackLayout>
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenExploreCommand}" />
+                    </Border.GestureRecognizers>
+                </Border>
             </Grid>
 
             <!-- ============================================================ -->
