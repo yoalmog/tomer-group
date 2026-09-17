@@ -10,8 +10,7 @@
     NavBarIsVisible="True"
     Shell.BackgroundColor="#FFF7FB"
     Shell.NavBarHasShadow="False"
-    FlyoutBackgroundColor="#FFFDFE"
-    FlyoutForegroundColor="#0F172A">
+    FlyoutBackgroundColor="#FFFDFE">
 
     <FlyoutItem Title="Dashboard" Icon="dashboard_icon.png" FlyoutIcon="dashboard_icon.png">
         <ShellContent ContentTemplate="{DataTemplate agency:AgencyDashboardPage}" Route="AgencyDashboard" />
