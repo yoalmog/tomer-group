@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             xmlns:dto="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
              x:Class="TomerGroup.Mobile.Pages.Customer.MyDayPage"
              x:DataType="vm:MyDayViewModel"
              BackgroundColor="#F8FAFC"
@@ -195,7 +196,7 @@
                         </Border>
                     </CollectionView.EmptyView>
                     <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="dto:ActivityDto">
                             <Border StrokeThickness="0"
                                     StrokeShape="RoundRectangle 14"
                                     BackgroundColor="#FFFFFF"
