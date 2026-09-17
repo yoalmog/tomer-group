@@ -31,15 +31,19 @@ public class Phase16MobileNavigationTests
 
         var mockSyncManager = new Mock<IOfflineSyncManager>();
         services.AddSingleton(mockSyncManager.Object);
+        services.AddSingleton<IDestinationImageService, DestinationImageService>();
 
         // 2. Register all ViewModels (same as MauiProgram.cs)
         services.AddTransient<SplashViewModel>();
         services.AddTransient<LoginViewModel>();
         services.AddTransient<ForgotPasswordViewModel>();
         services.AddTransient<CustomerHomeViewModel>();
+        services.AddTransient<ExploreViewModel>();
         services.AddTransient<MyTripViewModel>();
+        services.AddTransient<ActivityDetailViewModel>();
         services.AddTransient<ProfileViewModel>();
         services.AddTransient<BookingsViewModel>();
+        services.AddTransient<BookingDetailViewModel>();
         services.AddTransient<DocumentsViewModel>();
         services.AddTransient<NotificationsViewModel>();
         services.AddTransient<MoreViewModel>();
@@ -98,9 +102,12 @@ public class Phase16MobileNavigationTests
         Assert.NotNull(provider.GetRequiredService<LoginViewModel>());
         Assert.NotNull(provider.GetRequiredService<ForgotPasswordViewModel>());
         Assert.NotNull(provider.GetRequiredService<CustomerHomeViewModel>());
+        Assert.NotNull(provider.GetRequiredService<ExploreViewModel>());
         Assert.NotNull(provider.GetRequiredService<MyTripViewModel>());
+        Assert.NotNull(provider.GetRequiredService<ActivityDetailViewModel>());
         Assert.NotNull(provider.GetRequiredService<ProfileViewModel>());
         Assert.NotNull(provider.GetRequiredService<BookingsViewModel>());
+        Assert.NotNull(provider.GetRequiredService<BookingDetailViewModel>());
         Assert.NotNull(provider.GetRequiredService<DocumentsViewModel>());
         Assert.NotNull(provider.GetRequiredService<NotificationsViewModel>());
         Assert.NotNull(provider.GetRequiredService<MoreViewModel>());

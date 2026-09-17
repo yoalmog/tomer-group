@@ -10,8 +10,7 @@ public partial class ProfilePage : Microsoft.Maui.Controls.ContentPage
     public ProfilePage(ProfileViewModel viewModel)
     {
         InitializeComponent();
-        _viewModel = viewModel;
-        BindingContext = viewModel;
+        BindingContext = _viewModel = viewModel;
     }
 
     protected override async void OnAppearing()

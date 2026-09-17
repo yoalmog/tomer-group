@@ -5,27 +5,18 @@ namespace TomerGroup.Mobile.Pages.Customer;
 
 public partial class BookingsPage : Microsoft.Maui.Controls.ContentPage
 {
-    private readonly BookingsViewModel? _viewModel;
-
-    public BookingsPage()
-    {
-        InitializeComponent();
-    }
+    private readonly BookingsViewModel _viewModel;
 
     public BookingsPage(BookingsViewModel viewModel)
     {
         InitializeComponent();
-        _viewModel = viewModel;
-        BindingContext = viewModel;
+        BindingContext = _viewModel = viewModel;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (_viewModel != null)
-        {
-            await _viewModel.InitializeAsync();
-        }
+        await _viewModel.InitializeAsync();
     }
 }
 #endif

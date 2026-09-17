@@ -2,118 +2,146 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TomerGroup.Mobile.Pages.LoginPage"
-             Title="{Binding Title}">
+             Title="{Binding Title}"
+             BackgroundColor="#F8FAFC">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="18" Padding="20" VerticalOptions="Center">
+        <VerticalStackLayout Spacing="16" Padding="20,16,20,32">
 
-            <Border BackgroundColor="#FFF7FB" StrokeThickness="0" StrokeShape="RoundRectangle 30" Padding="22" Margin="0,6,0,0">
-                <VerticalStackLayout Spacing="18">
-                    <Grid ColumnDefinitions="Auto,*,Auto" RowDefinitions="Auto">
-                        <Border Grid.Column="0" BackgroundColor="White" StrokeShape="RoundRectangle 20" WidthRequest="54" HeightRequest="54" StrokeThickness="0">
-                            <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="44" HeightRequest="44" />
-                        </Border>
+            <!-- Top Bar with Back Button -->
+            <Grid ColumnDefinitions="Auto,*" VerticalOptions="Center">
+                <Button Text="✕ חזרה לגלות"
+                        Command="{Binding GoBackCommand}"
+                        BackgroundColor="#E2E8F0"
+                        TextColor="#0F172A"
+                        CornerRadius="18"
+                        HeightRequest="36"
+                        FontSize="12"
+                        FontAttributes="Bold"
+                        Padding="14,0" />
+            </Grid>
 
-                        <VerticalStackLayout Grid.Column="1" Spacing="2" Padding="10,0,0,0" VerticalOptions="Center">
-                            <Label Text="Tomer Group" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" />
-                            <Label Text="Luxury Peru Travel" FontSize="12" TextColor="#7C2D12" FontAttributes="Bold" />
-                        </VerticalStackLayout>
+            <!-- Brand Header -->
+            <VerticalStackLayout Spacing="8" HorizontalOptions="Center" Margin="0,8,0,4">
+                <Border StrokeThickness="0" WidthRequest="60" HeightRequest="60" BackgroundColor="Transparent" HorizontalOptions="Center">
+                    <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="60" HeightRequest="60" />
+                </Border>
+                <Label Text="Tomer Group" FontSize="24" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+                <Label Text="Peru Travel Experience" FontSize="12" FontAttributes="Bold" TextColor="#E11D48" CharacterSpacing="1.5" HorizontalOptions="Center" />
+            </VerticalStackLayout>
 
-                        <Border Grid.Column="2" BackgroundColor="#FDF2F8" StrokeShape="RoundRectangle 14" Padding="8,6" StrokeThickness="0">
-                            <Label Text="24/7" FontSize="11" FontAttributes="Bold" TextColor="#BE123C" />
-                        </Border>
-                    </Grid>
+            <!-- Login Method Toggle (Email / Phone) -->
+            <Grid ColumnDefinitions="*,*" BackgroundColor="#E2E8F0" HeightRequest="44" Margin="0,4,0,4">
+                <Button Grid.Column="0" Text="אימייל וסיסמה"
+                        Command="{Binding ToggleLoginMethodCommand}"
+                        CommandParameter="Email"
+                        BackgroundColor="{Binding IsPhoneLoginMode, Converter={StaticResource BoolToTabBgConverter}}"
+                        TextColor="{Binding IsPhoneLoginMode, Converter={StaticResource BoolToTabTextConverter}}"
+                        CornerRadius="14" HeightRequest="38" FontSize="13" FontAttributes="Bold" Margin="3" />
 
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="Adventure, designed for you" FontSize="28" FontAttributes="Bold" TextColor="#0F172A" />
-                        <Label Text="Private journeys through Cusco, Machu Picchu, the Sacred Valley, and the most iconic stays in Peru." FontSize="14" TextColor="#475569" LineBreakMode="WordWrap" />
-                    </VerticalStackLayout>
+                <Button Grid.Column="1" Text="קוד ב-SMS"
+                        Command="{Binding ToggleLoginMethodCommand}"
+                        CommandParameter="Phone"
+                        BackgroundColor="{Binding IsPhoneLoginMode, Converter={StaticResource InvertedBoolToTabBgConverter}}"
+                        TextColor="{Binding IsPhoneLoginMode, Converter={StaticResource InvertedBoolToTabTextConverter}}"
+                        CornerRadius="14" HeightRequest="38" FontSize="13" FontAttributes="Bold" Margin="3" />
+            </Grid>
 
-                    <HorizontalStackLayout Spacing="8" HorizontalOptions="Start">
-                        <Border BackgroundColor="#FCE7F3" StrokeShape="RoundRectangle 18" Padding="10,6" StrokeThickness="0">
-                            <Label Text="Cusco" FontSize="12" FontAttributes="Bold" TextColor="#9D174D" />
-                        </Border>
-                        <Border BackgroundColor="#FDE68A" StrokeShape="RoundRectangle 18" Padding="10,6" StrokeThickness="0">
-                            <Label Text="Machu Picchu" FontSize="12" FontAttributes="Bold" TextColor="#7C2D12" />
-                        </Border>
-                        <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 18" Padding="10,6" StrokeThickness="0">
-                            <Label Text="Sacred Valley" FontSize="12" FontAttributes="Bold" TextColor="#166534" />
-                        </Border>
-                    </HorizontalStackLayout>
-
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" ColumnSpacing="10">
-                        <Border Grid.Column="0" BackgroundColor="#0F172A" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="12,10">
-                            <Label Text="4.9/5 traveler rating" FontSize="11" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" />
-                        </Border>
-                        <Border Grid.Column="1" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="12,10">
-                            <Label Text="12k+ happy travelers" FontSize="11" TextColor="#0F172A" FontAttributes="Bold" HorizontalOptions="Center" />
-                        </Border>
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
-
-            <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
-                <Button Text="עברית" Command="{Binding ChangeLanguageCommand}" CommandParameter="he" HeightRequest="36" FontSize="13" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="18" Padding="14,0" />
-                <Button Text="English" Command="{Binding ChangeLanguageCommand}" CommandParameter="en" HeightRequest="36" FontSize="13" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="18" Padding="14,0" />
-                <Button Text="Español" Command="{Binding ChangeLanguageCommand}" CommandParameter="es" HeightRequest="36" FontSize="13" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="18" Padding="14,0" />
-            </HorizontalStackLayout>
-
-            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White" StrokeShape="RoundRectangle 24" Padding="18">
+            <!-- Email & Password Form -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White" Padding="20"
+                    IsVisible="{Binding IsPhoneLoginMode, Converter={StaticResource InvertedBoolConverter}}">
                 <VerticalStackLayout Spacing="14">
-                    <Label Text="Welcome back" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" />
+                    <Label Text="כניסה לאזור האישי" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" />
 
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="Email address" FontSize="13" FontAttributes="Bold" TextColor="#475569" />
-                        <Border Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" Padding="10,2">
-                            <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="traveler@example.com" FontSize="14" BackgroundColor="Transparent" />
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="כתובת אימייל" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+                        <Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 12" Padding="12,2" BackgroundColor="#F8FAFC">
+                            <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="name@example.com" FontSize="14" BackgroundColor="Transparent" TextColor="#0F172A" />
                         </Border>
                     </VerticalStackLayout>
 
-                    <VerticalStackLayout Spacing="6">
-                        <Label Text="Password" FontSize="13" FontAttributes="Bold" TextColor="#475569" />
-                        <Border Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" Padding="10,2">
-                            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="••••••••" FontSize="14" BackgroundColor="Transparent" />
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="סיסמה" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+                        <Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 12" Padding="12,2" BackgroundColor="#F8FAFC">
+                            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="••••••••" FontSize="14" BackgroundColor="Transparent" TextColor="#0F172A" />
                         </Border>
                     </VerticalStackLayout>
 
-                    <Button Text="Forgot password?"
+                    <Button Text="שכחת סיסמה?"
                             Command="{Binding OpenForgotPasswordCommand}"
                             BackgroundColor="Transparent"
                             TextColor="#E11D48"
-                            FontSize="13"
+                            FontSize="12"
+                            FontAttributes="Bold"
                             HorizontalOptions="End"
                             Padding="0" />
 
-                    <Button Text="Log in to my trip"
+                    <Button Text="התחבר עכשיו"
                             Command="{Binding LoginCommand}"
-                            Style="{StaticResource PrimaryButtonStyle}" />
-
-                    <Label Text="Quick demo access" FontSize="12" FontAttributes="Bold" TextColor="#64748B" HorizontalOptions="Center" />
-
-                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" ColumnSpacing="8" RowSpacing="8">
-                        <Button Grid.Column="0" Grid.Row="0" Text="Customer" Command="{Binding SelectRoleDemoCommand}" CommandParameter="customer" BackgroundColor="#FEF2F2" TextColor="#9F1239" CornerRadius="10" HeightRequest="38" FontSize="12" />
-                        <Button Grid.Column="1" Grid.Row="0" Text="Sales" Command="{Binding SelectRoleDemoCommand}" CommandParameter="sales" BackgroundColor="#FDF2F8" TextColor="#9D174D" CornerRadius="10" HeightRequest="38" FontSize="12" />
-                        <Button Grid.Column="0" Grid.Row="1" Text="Operations" Command="{Binding SelectRoleDemoCommand}" CommandParameter="operations" BackgroundColor="#F0FDF4" TextColor="#166534" CornerRadius="10" HeightRequest="38" FontSize="12" />
-                        <Button Grid.Column="1" Grid.Row="1" Text="Manager" Command="{Binding SelectRoleDemoCommand}" CommandParameter="manager" BackgroundColor="#EFF6FF" TextColor="#1D4ED8" CornerRadius="10" HeightRequest="38" FontSize="12" />
-                        <Button Grid.Column="0" Grid.Row="2" Text="Finance" Command="{Binding SelectRoleDemoCommand}" CommandParameter="finance" BackgroundColor="#FFFBEB" TextColor="#B45309" CornerRadius="10" HeightRequest="38" FontSize="12" />
-                        <Button Grid.Column="1" Grid.Row="2" Text="Guide" Command="{Binding SelectRoleDemoCommand}" CommandParameter="guide" BackgroundColor="#F5F3FF" TextColor="#6D28D9" CornerRadius="10" HeightRequest="38" FontSize="12" />
-                    </Grid>
+                            Style="{StaticResource BrandButtonStyle}"
+                            HeightRequest="48"
+                            Margin="0,4,0,0" />
                 </VerticalStackLayout>
             </Border>
 
+            <!-- Phone OTP Form -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White" Padding="20"
+                    IsVisible="{Binding IsPhoneLoginMode}">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="כניסה באמצעות SMS" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="מספר טלפון נייד" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+                        <Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 12" Padding="12,2" BackgroundColor="#F8FAFC">
+                            <Entry Text="{Binding PhoneNumber}" Keyboard="Telephone" Placeholder="+972 50 000 0000" FontSize="14" BackgroundColor="Transparent" TextColor="#0F172A" />
+                        </Border>
+                    </VerticalStackLayout>
+
+                    <Button Text="שלח קוד אימות 📲"
+                            Command="{Binding SendPhoneCodeCommand}"
+                            IsVisible="{Binding IsCodeSent, Converter={StaticResource InvertedBoolConverter}}"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            HeightRequest="44" />
+
+                    <VerticalStackLayout Spacing="4" IsVisible="{Binding IsCodeSent}">
+                        <Label Text="קוד אימות בן 6 ספרות" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+                        <Border Stroke="#CBD5E1" StrokeShape="RoundRectangle 12" Padding="12,2" BackgroundColor="#F8FAFC">
+                            <Entry Text="{Binding VerificationCode}" Keyboard="Numeric" Placeholder="123456" FontSize="16" FontAttributes="Bold" BackgroundColor="Transparent" TextColor="#0F172A" HorizontalTextAlignment="Center" />
+                        </Border>
+
+                        <Button Text="אמת קוד והתחבר ✓"
+                                Command="{Binding VerifyPhoneCodeCommand}"
+                                Style="{StaticResource BrandButtonStyle}"
+                                HeightRequest="46"
+                                Margin="0,6,0,0" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Error / Status Messages -->
             <Border IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
-                    BackgroundColor="#FEF2F2" StrokeShape="RoundRectangle 12" Padding="12,8" StrokeThickness="0">
-                <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="13" FontAttributes="Bold" HorizontalOptions="Center" />
+                    BackgroundColor="#FEF2F2" Stroke="#FECACA" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="12,8">
+                <Label Text="{Binding ErrorMessage}" TextColor="#B91C1C" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center" />
             </Border>
 
             <Border IsVisible="{Binding StatusInfo, Converter={StaticResource StringNotEmptyConverter}}"
-                    BackgroundColor="#ECFDF5" StrokeShape="RoundRectangle 12" Padding="12,8" StrokeThickness="0">
-                <Label Text="{Binding StatusInfo}" TextColor="#065F46" FontSize="13" FontAttributes="Bold" HorizontalOptions="Center" />
+                    BackgroundColor="#ECFDF5" Stroke="#A7F3D0" StrokeThickness="1" StrokeShape="RoundRectangle 12" Padding="12,8">
+                <Label Text="{Binding StatusInfo}" TextColor="#065F46" FontSize="12" FontAttributes="Bold" HorizontalOptions="Center" />
             </Border>
 
-            <VerticalStackLayout Spacing="4" HorizontalOptions="Center" Margin="0,4,0,12">
-                <Label Text="Need help? Our team is available 24/7" FontSize="12" TextColor="#64748B" HorizontalOptions="Center" />
-                <Label Text="+51 984 999 888 • Calle San Agustín 415, Cusco" FontSize="11" TextColor="#0F172A" FontAttributes="Bold" HorizontalOptions="Center" />
+            <!-- Continue Exploring as Guest Button -->
+            <Button Text="המשך לגלות יעדים כאורח ←"
+                    Command="{Binding ContinueAsGuestCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="#64748B"
+                    FontSize="13"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center" />
+
+            <!-- Support Hotline Info -->
+            <VerticalStackLayout Spacing="2" HorizontalOptions="Center" Margin="0,8,0,0">
+                <Label Text="צוות Tomer Group זמין 24/7 לכל סיוע" FontSize="11" TextColor="#94A3B8" HorizontalOptions="Center" />
+                <Label Text="+51 84 223 456 • Cusco, Peru" FontSize="11" TextColor="#64748B" FontAttributes="Bold" HorizontalOptions="Center" />
             </VerticalStackLayout>
 
         </VerticalStackLayout>

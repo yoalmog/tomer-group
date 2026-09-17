@@ -114,6 +114,9 @@ public partial class ProfileViewModel : ObservableObject
     private bool _isEditing = false;
 
     [ObservableProperty]
+    private bool _isAuthenticated;
+
+    [ObservableProperty]
     private bool _isBusy = false;
 
     [ObservableProperty]
@@ -139,6 +142,12 @@ public partial class ProfileViewModel : ObservableObject
     [RelayCommand]
     public async Task InitializeAsync()
     {
+        IsAuthenticated = _apiClient.IsAuthenticated;
+        if (!IsAuthenticated)
+        {
+            return;
+        }
+
         IsBusy = true;
         try
         {
@@ -285,6 +294,22 @@ public partial class ProfileViewModel : ObservableObject
     public async Task LogoutAsync()
     {
         _apiClient.SetAuthToken(null);
+        await _secureStorage.RemoveAsync("auth_token");
+        await _secureStorage.RemoveAsync("refresh_token");
+        IsAuthenticated = false;
+        // LOGOUT -> PUBLIC HOME (Never force user to login screen)
+        await _navigationService.NavigateToCustomerShellAsync();
+    }
+
+    [RelayCommand]
+    public async Task OpenSignInAsync()
+    {
         await _navigationService.NavigateToLoginAsync();
+    }
+
+    [RelayCommand]
+    public void ChangeLanguage(string lang)
+    {
+        _localizationService.SetLanguage(lang);
     }
 }

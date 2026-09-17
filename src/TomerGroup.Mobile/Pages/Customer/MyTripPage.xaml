@@ -1,79 +1,195 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
-              x:Class="TomerGroup.Mobile.Pages.Customer.MyTripPage"
-              Title="מסלול הטיול שלי">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+             x:Class="TomerGroup.Mobile.Pages.Customer.MyTripPage"
+             Title="הטיול שלי"
+             BackgroundColor="#F8FAFC">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="16" Padding="16">
+        <VerticalStackLayout Spacing="16" Padding="16,12,16,32">
 
-            <!-- Active Trip Overview Banner (Visible when HasTrip is True) -->
-            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}" IsVisible="{Binding HasTrip}">
-                <VerticalStackLayout Spacing="6">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="{Binding CurrentTrip.TripCode}" FontSize="12" TextColor="{StaticResource SecondaryLight}" FontAttributes="Bold" />
-                        <Border Grid.Column="1" BackgroundColor="{StaticResource Secondary}" Padding="8,2" StrokeShape="RoundRectangle 6">
-                            <Label Text="{Binding CurrentTrip.Status}" TextColor="White" FontSize="11" FontAttributes="Bold" />
-                        </Border>
-                    </Grid>
-                    <Label Text="{Binding CurrentTrip.Title}" FontSize="19" FontAttributes="Bold" TextColor="White" />
-                    <Label Text="{Binding CurrentTrip.CustomerName}" FontSize="13" TextColor="#CBD5E1" IsVisible="{Binding CurrentTrip.CustomerName, Converter={StaticResource StringNotEmptyConverter}}" />
-                    <Label Text="{Binding CurrentTrip.StartDate, StringFormat='תאריכים: {0:dd.MM.yyyy}'}" FontSize="12" TextColor="{StaticResource SecondaryLight}" />
-                </VerticalStackLayout>
-            </Border>
-
-            <!-- Professional Empty State (Visible when HasTrip is False) -->
-            <Border Style="{StaticResource EmptyStateCardStyle}" IsVisible="{Binding HasTrip, Converter={StaticResource InvertedBoolConverter}}">
-                <VerticalStackLayout Spacing="14" HorizontalOptions="Center">
-                    <Border BackgroundColor="#F1F5F9" StrokeShape="RoundRectangle 32" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center">
-                        <Label Text="🗺️" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" />
+            <!-- ============================================================ -->
+            <!-- 1. CONTEXTUAL AUTHENTICATION GATEWAY (Unauthenticated)        -->
+            <!-- ============================================================ -->
+            <Border Style="{StaticResource CardFrameStyle}"
+                    IsVisible="{Binding IsAuthenticated, Converter={StaticResource InvertedBoolConverter}}"
+                    BackgroundColor="White"
+                    Padding="24">
+                <VerticalStackLayout Spacing="16" HorizontalOptions="Center">
+                    <Border StrokeThickness="0" WidthRequest="64" HeightRequest="64" BackgroundColor="Transparent" HorizontalOptions="Center">
+                        <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="64" HeightRequest="64" />
                     </Border>
-                    <Label Text="{Binding EmptyTitle}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                    <Label Text="{Binding EmptyDescription}" FontSize="13" TextColor="{StaticResource TextSecondaryLight}" HorizontalOptions="Center" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
-                    <Button Text="צור קשר עם הסוכנות 💬"
-                            Command="{Binding OpenContactCommand}"
-                            Style="{StaticResource PrimaryButtonStyle}"
-                            HorizontalOptions="Center"
-                            Padding="20,0" />
+
+                    <Label Text="המסע שלך ממתין לך" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+                    <Label Text="התחבר כדי לצפות במסלול הטיול המפורט יום אחרי יום, זמני האיסוף, פרטי המדריכים וההעברות הפרטיות בהרי האנדים."
+                           FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" LineHeight="1.3" />
+
+                    <Button Text="התחבר עכשיו"
+                            Command="{Binding OpenSignInCommand}"
+                            Style="{StaticResource BrandButtonStyle}"
+                            WidthRequest="220"
+                            HorizontalOptions="Center" />
+
+                    <Button Text="המשך לגלות יעדים ←"
+                            Command="{Binding ContinueExploringCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="#64748B"
+                            FontSize="13"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Interactive Day-by-Day Timeline List (Visible when HasTrip is True) -->
-            <CollectionView ItemsSource="{Binding Days}" IsVisible="{Binding HasTrip}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,14">
-                            <VerticalStackLayout Spacing="12">
-                                <HorizontalStackLayout Spacing="10">
-                                    <Border BackgroundColor="{StaticResource Secondary}" Padding="8,4" StrokeShape="RoundRectangle 6">
-                                        <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" TextColor="White" FontSize="12" FontAttributes="Bold" />
-                                    </Border>
-                                    <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" VerticalOptions="Center" />
-                                </HorizontalStackLayout>
+            <!-- ============================================================ -->
+            <!-- 2. EMPTY STATE (Authenticated but No Active Trip Yet)       -->
+            <!-- ============================================================ -->
+            <Border Style="{StaticResource EmptyStateCardStyle}"
+                    IsVisible="{Binding HasTrip, Converter={StaticResource InvertedBoolConverter}}"
+                    BackgroundColor="White">
+                <VerticalStackLayout Spacing="14" HorizontalOptions="Center"
+                                     IsVisible="{Binding IsAuthenticated}">
+                    <Border BackgroundColor="#FFF1F2" StrokeShape="RoundRectangle 32" StrokeThickness="0" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center">
+                        <Label Text="🏔️" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
 
-                                <CollectionView ItemsSource="{Binding Activities}">
-                                    <CollectionView.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Stroke="{StaticResource CardBorder}" StrokeShape="RoundRectangle 8" Padding="12,8" Margin="0,3" BackgroundColor="{AppThemeBinding Light=#F8FAFC, Dark=#1E293B}">
-                                                <Grid ColumnDefinitions="55,*" RowSpacing="4">
-                                                    <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" VerticalOptions="Start" />
-                                                    <VerticalStackLayout Grid.Column="1" Spacing="2">
-                                                        <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" />
-                                                        <Label Text="{Binding Location}" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" IsVisible="{Binding Location, Converter={StaticResource StringNotEmptyConverter}}" />
-                                                        <Label Text="{Binding GuideName, StringFormat='מדריך: {0}'}" FontSize="11" TextColor="{StaticResource PrimaryLight}" IsVisible="{Binding GuideName, Converter={StaticResource StringNotEmptyConverter}}" />
-                                                        <Label Text="{Binding DriverName, StringFormat='נהג: {0}'}" FontSize="11" TextColor="{StaticResource PrimaryLight}" IsVisible="{Binding DriverName, Converter={StaticResource StringNotEmptyConverter}}" />
-                                                    </VerticalStackLayout>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </CollectionView.ItemTemplate>
-                                </CollectionView>
-                            </VerticalStackLayout>
+                    <Label Text="{Binding EmptyTitle}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+                    <Label Text="{Binding EmptyDescription}" FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" LineHeight="1.3" />
+
+                    <Button Text="צור קשר עם מומחי היעד 💬"
+                            Command="{Binding OpenContactCommand}"
+                            Style="{StaticResource BrandButtonStyle}"
+                            HorizontalOptions="Center"
+                            Padding="20,0"
+                            Margin="0,6,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ============================================================ -->
+            <!-- 3. AUTHENTICATED: TRIP HERO BANNER                           -->
+            <!-- ============================================================ -->
+            <Border Style="{StaticResource TravelCardStyle}" IsVisible="{Binding HasTrip}">
+                <Grid HeightRequest="200">
+                    <Image Source="{Binding TripCoverImage}" Aspect="AspectFill" HeightRequest="200" />
+                    <BoxView Color="#4D000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
+
+                    <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Start" Margin="16">
+                        <Border BackgroundColor="#10B981" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
+                            <Label Text="CONFIRMED TRIP" TextColor="White" FontSize="10" FontAttributes="Bold" />
                         </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout VerticalOptions="End" Margin="16" Spacing="4">
+                        <Label Text="{Binding CurrentTrip.Title}" FontSize="22" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="{Binding TripDates}" FontSize="12" TextColor="#F1F5F9" />
+                        <Label Text="{Binding TripDestinations}" FontSize="12" TextColor="#CBD5E1" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- ============================================================ -->
+            <!-- 4. HORIZONTAL DAY SELECTOR TABS                              -->
+            <!-- ============================================================ -->
+            <VerticalStackLayout Spacing="8" IsVisible="{Binding HasTrip}">
+                <Label Text="ימי המסלול" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
+
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="8">
+                        <CollectionView ItemsSource="{Binding Days}">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="8" />
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BackgroundColor="#FFFFFF"
+                                            Stroke="#E2E8F0"
+                                            StrokeThickness="1"
+                                            StrokeShape="RoundRectangle 18"
+                                            Padding="14,8"
+                                            WidthRequest="84"
+                                            HeightRequest="60">
+                                        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" FontSize="12" FontAttributes="Bold" TextColor="#E11D48" HorizontalOptions="Center" />
+                                            <Label Text="{Binding Destination}" FontSize="11" TextColor="#64748B" HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
+                                        </VerticalStackLayout>
+                                        <Border.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyTripViewModel}}, Path=SelectDayCommand}"
+                                                                 CommandParameter="{Binding .}" />
+                                        </Border.GestureRecognizers>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </HorizontalStackLayout>
+                </ScrollView>
+            </VerticalStackLayout>
+
+            <!-- ============================================================ -->
+            <!-- 5. SELECTED DAY HEADER                                       -->
+            <!-- ============================================================ -->
+            <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding HasTrip}" BackgroundColor="White">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Spacing="3">
+                        <Label Text="{Binding SelectedDayTitle}" FontSize="17" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="{Binding SelectedDayDate}" FontSize="12" TextColor="#64748B" />
+                    </VerticalStackLayout>
+
+                    <Border Grid.Column="1" BackgroundColor="#FFF1F2" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="10,4" VerticalOptions="Center">
+                        <Label Text="{Binding SelectedDayDestination}" TextColor="#E11D48" FontSize="11" FontAttributes="Bold" />
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- ============================================================ -->
+            <!-- 6. VERTICAL TIMELINE OF ACTIVITIES                           -->
+            <!-- ============================================================ -->
+            <VerticalStackLayout Spacing="10" IsVisible="{Binding HasTrip}">
+                <Label Text="לוח זמנים ופעילויות" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
+
+                <CollectionView ItemsSource="{Binding SelectedDayActivities}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,10" BackgroundColor="White">
+                                <Grid ColumnDefinitions="64,Auto,*" ColumnSpacing="12">
+                                    <!-- Time Column -->
+                                    <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" FontSize="16" FontAttributes="Bold" TextColor="#E11D48" HorizontalOptions="Center" />
+                                        <Label Text="התחלה" FontSize="10" TextColor="#94A3B8" HorizontalOptions="Center" />
+                                    </VerticalStackLayout>
+
+                                    <!-- Vertical Timeline Pin & Line -->
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Fill" HorizontalOptions="Center" Spacing="0">
+                                        <Border BackgroundColor="#E11D48" StrokeShape="RoundRectangle 6" StrokeThickness="0" WidthRequest="12" HeightRequest="12" Margin="0,4,0,4" />
+                                        <BoxView WidthRequest="2" Color="#E2E8F0" VerticalOptions="FillAndExpand" />
+                                    </VerticalStackLayout>
+
+                                    <!-- Activity Details Card Content -->
+                                    <VerticalStackLayout Grid.Column="2" Spacing="4">
+                                        <Label Text="{Binding Title}" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                                        <Label Text="{Binding Location, StringFormat='📍 {0}'}" FontSize="12" TextColor="#64748B" IsVisible="{Binding Location, Converter={StaticResource StringNotEmptyConverter}}" />
+
+                                        <HorizontalStackLayout Spacing="6" Margin="0,2,0,0" IsVisible="{Binding GuideName, Converter={StaticResource StringNotEmptyConverter}}">
+                                            <Border BackgroundColor="#F0FDF4" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="8,2">
+                                                <Label Text="{Binding GuideName, StringFormat='👤 מדריך: {0}'}" TextColor="#166534" FontSize="11" FontAttributes="Bold" />
+                                            </Border>
+                                        </HorizontalStackLayout>
+
+                                        <HorizontalStackLayout Spacing="6" Margin="0,2,0,0" IsVisible="{Binding DriverName, Converter={StaticResource StringNotEmptyConverter}}">
+                                            <Border BackgroundColor="#EFF6FF" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="8,2">
+                                                <Label Text="{Binding DriverName, StringFormat='🚗 נהג: {0}'}" TextColor="#1E40AF" FontSize="11" FontAttributes="Bold" />
+                                            </Border>
+                                        </HorizontalStackLayout>
+                                    </VerticalStackLayout>
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyTripViewModel}}, Path=OpenActivityDetailCommand}"
+                                                         CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
 
         </VerticalStackLayout>
     </ScrollView>

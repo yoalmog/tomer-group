@@ -24,6 +24,9 @@ public partial class DocumentsViewModel : ObservableObject
     public ObservableCollection<DocumentDto> FilteredDocuments { get; }
 
     [ObservableProperty]
+    private bool _isAuthenticated;
+
+    [ObservableProperty]
     private bool _isBusy;
 
     [ObservableProperty]
@@ -39,14 +42,23 @@ public partial class DocumentsViewModel : ObservableObject
     private bool _hasDocuments = false;
 
     [ObservableProperty]
-    private string _emptyTitle = "אין עדיין מסמכים";
+    private string _emptyTitle = "אין עדיין מסמכים בארנק";
 
     [ObservableProperty]
-    private string _emptyDescription = "מסמכי הטיול שלך, כרטיסי כניסה ושוברים יופיעו כאן ויהיו זמינים לצפייה גם ללא חיבור לאינטרנט.";
+    private string _emptyDescription = "אישורי כניסה למאצ'ו פיצ'ו, שוברי רכבות, מלונות ופוליסות ביטוח יופיעו כאן ויהיו זמינים לצפייה אופליין.";
 
     [RelayCommand]
     public async Task InitializeAsync()
     {
+        IsAuthenticated = _apiClient.IsAuthenticated;
+        if (!IsAuthenticated)
+        {
+            HasDocuments = false;
+            Documents.Clear();
+            FilteredDocuments.Clear();
+            return;
+        }
+
         await LoadDocumentsAsync();
     }
 
@@ -126,17 +138,28 @@ public partial class DocumentsViewModel : ObservableObject
     public async Task DownloadDocumentAsync(DocumentDto doc)
     {
         if (doc == null) return;
-        StatusMessage = $"מוריד מסמך: {doc.HebrewName ?? doc.Name}...";
+        StatusMessage = $"✓ המסמך {doc.HebrewName ?? doc.Name} זמין כעת לצפייה ללא חיבור לאינטרנט.";
         await Task.Delay(200);
-        StatusMessage = $"המסמך {doc.Name} נשמר במכשיר וזמין לצפייה אופליין.";
     }
 
     [RelayCommand]
     public async Task ShareDocumentAsync(DocumentDto doc)
     {
         if (doc == null) return;
-        StatusMessage = $"שיתוף מסמך {doc.Name} בווטסאפ...";
+        StatusMessage = $"✓ המסמך {doc.Name} מוכן לשיתוף.";
         await Task.CompletedTask;
+    }
+
+    [RelayCommand]
+    public async Task OpenSignInAsync()
+    {
+        await _navigationService.NavigateToLoginAsync();
+    }
+
+    [RelayCommand]
+    public async Task ContinueExploringAsync()
+    {
+        await _navigationService.NavigateToAsync("//Home");
     }
 
     [RelayCommand]

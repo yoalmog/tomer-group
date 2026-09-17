@@ -10,27 +10,46 @@ namespace TomerGroup.Mobile.ViewModels;
 public partial class CustomerHomeViewModel : BaseViewModel
 {
     private readonly IApiClient _apiClient;
+    private readonly IDestinationImageService _imageService;
 
     [ObservableProperty]
-    private string _customerGreeting = "שלום";
+    private bool _isAuthenticated;
+
+    [ObservableProperty]
+    private string _customerGreeting = "ברוכים הבאים";
+
+    [ObservableProperty]
+    private string _customerName = string.Empty;
+
+    [ObservableProperty]
+    private string _heroImageUrl = string.Empty;
+
+    [ObservableProperty]
+    private string _heroTitle = "המסע שלך בפרו מתחיל כאן";
+
+    [ObservableProperty]
+    private string _heroSubtitle = "חוויות טיול בוטיק מותאמות אישית, ליווי ישראלי צמוד ומסלולים מרהיבים";
+
+    [ObservableProperty]
+    private bool _hasActiveTrip;
 
     [ObservableProperty]
     private string _tripTitle = string.Empty;
 
     [ObservableProperty]
-    private string _countryBadge = "פרו 🇵🇪";
-
-    [ObservableProperty]
     private string _tripDates = string.Empty;
 
     [ObservableProperty]
-    private string _currentDestination = string.Empty;
+    private string _tripDestinationsSummary = string.Empty;
 
     [ObservableProperty]
-    private bool _hasActiveTrip = false;
+    private string _tripProgressText = string.Empty;
 
     [ObservableProperty]
-    private bool _hasNextActivity = false;
+    private double _tripProgressValue = 0.0;
+
+    [ObservableProperty]
+    private bool _hasNextActivity;
 
     [ObservableProperty]
     private string _nextActivityTime = string.Empty;
@@ -42,16 +61,19 @@ public partial class CustomerHomeViewModel : BaseViewModel
     private string _nextActivityLocation = string.Empty;
 
     [ObservableProperty]
-    private string _secondActivityTime = string.Empty;
+    private string _nextActivityDetail = string.Empty;
 
     [ObservableProperty]
-    private string _secondActivityTitle = string.Empty;
+    private string _machuPicchuImage = string.Empty;
 
     [ObservableProperty]
-    private string _thirdActivityTime = string.Empty;
+    private string _cuscoImage = string.Empty;
 
     [ObservableProperty]
-    private string _thirdActivityTitle = string.Empty;
+    private string _sacredValleyImage = string.Empty;
+
+    [ObservableProperty]
+    private string _lakeTiticacaImage = string.Empty;
 
     [ObservableProperty]
     private string _agencyContactPhone = "+51 84 223 456";
@@ -59,27 +81,28 @@ public partial class CustomerHomeViewModel : BaseViewModel
     [ObservableProperty]
     private string _emergencyPhone = "+51 984 999 888";
 
-    [ObservableProperty]
-    private int _unreadNotificationsCount = 0;
-
-    [ObservableProperty]
-    private string _emptyTripMessage = "אין עדיין טיול פעיל";
-
-    [ObservableProperty]
-    private string _emptyTripSubtext = "הטיול שלך ב-Tomer Group יופיע כאן ברגע שצוות הסוכנות יקים את ההזמנה שלך.";
-
-    public CustomerHomeViewModel(ILocalizationService localization, INavigationService navigation, IApiClient apiClient)
+    public CustomerHomeViewModel(
+        ILocalizationService localization,
+        INavigationService navigation,
+        IApiClient apiClient,
+        IDestinationImageService imageService)
         : base(localization, navigation)
     {
         _apiClient = apiClient;
+        _imageService = imageService;
         Title = Localize(LocalizationKeys.NavHome);
-        UpdateLocalizedContent();
+
+        HeroImageUrl = _imageService.GetMachuPicchuImage();
+        MachuPicchuImage = _imageService.GetMachuPicchuImage();
+        CuscoImage = _imageService.GetCuscoImage();
+        SacredValleyImage = _imageService.GetSacredValleyImage();
+        LakeTiticacaImage = _imageService.GetLakeTiticacaImage();
+
+        UpdateLocalizedTexts();
     }
 
-    private void UpdateLocalizedContent()
+    private void UpdateLocalizedTexts()
     {
-        CustomerGreeting = Localize(LocalizationKeys.Greeting);
-        CountryBadge = Localize(LocalizationKeys.CountryPeru);
         AgencyContactPhone = LocalizationService.FormatPhoneNumber(Brand.ContactPhone);
         EmergencyPhone = LocalizationService.FormatPhoneNumber(Brand.EmergencyContact);
     }
@@ -88,58 +111,86 @@ public partial class CustomerHomeViewModel : BaseViewModel
     public async Task InitializeAsync()
     {
         IsBusy = true;
+        IsAuthenticated = _apiClient.IsAuthenticated;
+
         try
         {
-            var profileRes = await _apiClient.GetMyProfileAsync();
-            if (profileRes.Success && profileRes.Data != null)
+            if (IsAuthenticated)
             {
-                var name = !string.IsNullOrWhiteSpace(profileRes.Data.HebrewName)
-                    ? profileRes.Data.HebrewName
-                    : $"{profileRes.Data.FirstName} {profileRes.Data.LastName}".Trim();
-
-                CustomerGreeting = !string.IsNullOrWhiteSpace(name)
-                    ? $"{Localize(LocalizationKeys.Greeting)} {name} 👋"
-                    : Localize(LocalizationKeys.Greeting);
-            }
-
-            var tripsRes = await _apiClient.GetCustomerTripsAsync(Guid.Empty);
-            if (tripsRes.Success && tripsRes.Data != null && tripsRes.Data.Count > 0)
-            {
-                var activeTrip = tripsRes.Data.FirstOrDefault();
-                if (activeTrip != null)
+                // 1. Fetch real customer profile
+                var profileRes = await _apiClient.GetMyProfileAsync();
+                if (profileRes.Success && profileRes.Data != null)
                 {
-                    HasActiveTrip = true;
-                    TripTitle = activeTrip.Title;
-                    TripDates = $"{activeTrip.StartDate:dd.MM.yyyy} – {activeTrip.EndDate:dd.MM.yyyy}";
-                    CurrentDestination = activeTrip.Days.FirstOrDefault()?.Destination ?? "Peru";
+                    var data = profileRes.Data;
+                    var name = !string.IsNullOrWhiteSpace(data.HebrewName)
+                        ? data.HebrewName
+                        : (!string.IsNullOrWhiteSpace(data.FirstName) ? data.FirstName : string.Empty);
 
-                    var firstDay = activeTrip.Days.FirstOrDefault();
-                    if (firstDay != null && firstDay.Activities.Count > 0)
+                    CustomerName = name;
+                    CustomerGreeting = !string.IsNullOrWhiteSpace(name)
+                        ? $"שלום, {name} 👋"
+                        : "שלום 👋";
+                }
+                else
+                {
+                    CustomerGreeting = "שלום 👋";
+                }
+
+                // 2. Fetch real customer trips
+                var tripsRes = await _apiClient.GetCustomerTripsAsync(Guid.Empty);
+                if (tripsRes.Success && tripsRes.Data != null && tripsRes.Data.Count > 0)
+                {
+                    var activeTrip = tripsRes.Data.FirstOrDefault();
+                    if (activeTrip != null)
                     {
-                        var firstAct = firstDay.Activities[0];
-                        HasNextActivity = true;
-                        NextActivityTime = $"{firstAct.StartTime:hh\\:mm}";
-                        NextActivityTitle = firstAct.Title;
-                        NextActivityLocation = firstAct.Location ?? string.Empty;
+                        HasActiveTrip = true;
+                        TripTitle = activeTrip.Title;
+                        TripDates = $"{activeTrip.StartDate:dd.MM.yyyy} — {activeTrip.EndDate:dd.MM.yyyy}";
+                        HeroImageUrl = _imageService.GetDestinationHeroImage(activeTrip.Title);
 
-                        if (firstDay.Activities.Count > 1)
+                        var totalDays = activeTrip.Days.Count;
+                        if (totalDays > 0)
                         {
-                            SecondActivityTime = $"{firstDay.Activities[1].StartTime:hh\\:mm}";
-                            SecondActivityTitle = firstDay.Activities[1].Title;
-                        }
+                            TripDestinationsSummary = string.Join(" · ", activeTrip.Days.Select(d => d.Destination).Distinct());
+                            TripProgressText = $"יום 1 מתוך {totalDays}";
+                            TripProgressValue = 1.0 / totalDays;
 
-                        if (firstDay.Activities.Count > 2)
-                        {
-                            ThirdActivityTime = $"{firstDay.Activities[2].StartTime:hh\\:mm}";
-                            ThirdActivityTitle = firstDay.Activities[2].Title;
+                            var firstDay = activeTrip.Days[0];
+                            if (firstDay.Activities.Count > 0)
+                            {
+                                var firstAct = firstDay.Activities[0];
+                                HasNextActivity = true;
+                                NextActivityTime = $"{firstAct.StartTime:hh\\:mm}";
+                                NextActivityTitle = firstAct.Title;
+                                NextActivityLocation = firstAct.Location ?? "קוסקו";
+                                NextActivityDetail = !string.IsNullOrWhiteSpace(firstAct.GuideName)
+                                    ? $"מדריך: {firstAct.GuideName}"
+                                    : "שירות מאושר ומסודר";
+                            }
                         }
                     }
+                    else
+                    {
+                        HasActiveTrip = false;
+                        HasNextActivity = false;
+                    }
+                }
+                else
+                {
+                    HasActiveTrip = false;
+                    HasNextActivity = false;
                 }
             }
             else
             {
+                // Public unauthenticated state
+                CustomerGreeting = "Tomer Group";
+                CustomerName = string.Empty;
                 HasActiveTrip = false;
                 HasNextActivity = false;
+                HeroImageUrl = _imageService.GetMachuPicchuImage();
+                HeroTitle = "המסע שלך בפרו מתחיל כאן";
+                HeroSubtitle = "טיולי בוטיק, אישורי כניסה למאצ'ו פיצ'ו, רכבות פנורמיות ומלונות יוקרה בהרי האנדים";
             }
         }
         catch
@@ -154,15 +205,15 @@ public partial class CustomerHomeViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task OpenMyTripAsync()
+    public async Task OpenExploreAsync()
     {
-        await Navigation.NavigateToAsync("//MyTrip");
+        await Navigation.NavigateToAsync("//Explore");
     }
 
     [RelayCommand]
-    public async Task OpenPlanTripAsync()
+    public async Task OpenMyTripAsync()
     {
-        await Navigation.NavigateToAsync("//PlanTrip");
+        await Navigation.NavigateToAsync("//MyTrip");
     }
 
     [RelayCommand]
@@ -174,25 +225,32 @@ public partial class CustomerHomeViewModel : BaseViewModel
     [RelayCommand]
     public async Task OpenDocumentsAsync()
     {
-        await Navigation.NavigateToAsync("//Documents");
+        await Navigation.NavigateToAsync("Documents");
     }
 
     [RelayCommand]
-    public async Task OpenMoreAsync()
+    public async Task OpenProfileAsync()
     {
-        await Navigation.NavigateToAsync("//More");
+        await Navigation.NavigateToAsync("//Profile");
     }
 
     [RelayCommand]
-    public async Task ContactAgencyAsync()
+    public async Task OpenLoginAsync()
     {
-        await Navigation.NavigateToAsync("//More");
-    }
-
-    [RelayCommand]
-    public async Task LogoutAsync()
-    {
-        _apiClient.SetAuthToken(null);
         await Navigation.NavigateToLoginAsync();
+    }
+
+    [RelayCommand]
+    public void ToggleLanguage()
+    {
+        var next = Localization.CurrentLanguage switch
+        {
+            "he" => "en",
+            "en" => "es",
+            _ => "he"
+        };
+        Localization.SetLanguage(next);
+        RefreshDirection();
+        UpdateLocalizedTexts();
     }
 }

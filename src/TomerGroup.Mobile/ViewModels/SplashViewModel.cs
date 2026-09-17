@@ -48,6 +48,7 @@ public abstract partial class BaseViewModel : ObservableObject
 public partial class SplashViewModel : BaseViewModel
 {
     private readonly IApiClient _apiClient;
+    private readonly ISecureStorageService? _secureStorage;
 
     [ObservableProperty]
     private string _tagline = "Peru Travel Experience";
@@ -55,10 +56,15 @@ public partial class SplashViewModel : BaseViewModel
     [ObservableProperty]
     private string _statusMessage = "Loading travel experience...";
 
-    public SplashViewModel(ILocalizationService localization, INavigationService navigation, IApiClient apiClient)
+    public SplashViewModel(
+        ILocalizationService localization,
+        INavigationService navigation,
+        IApiClient apiClient,
+        ISecureStorageService? secureStorage = null)
         : base(localization, navigation)
     {
         _apiClient = apiClient;
+        _secureStorage = secureStorage;
         Title = "Tomer Group";
     }
 
@@ -78,16 +84,25 @@ public partial class SplashViewModel : BaseViewModel
                 Tagline = Brand.Tagline;
             }
 
-            // Brief delay for splash presentation
-            await Task.Delay(500);
+            if (_secureStorage != null)
+            {
+                var token = await _secureStorage.GetAsync("auth_token");
+                if (!string.IsNullOrEmpty(token))
+                {
+                    _apiClient.SetAuthToken(token);
+                }
+            }
 
-            // Navigate to Login
-            await Navigation.NavigateToLoginAsync();
+            // Brief delay for splash presentation
+            await Task.Delay(300);
+
+            // SPLASH -> HOME (Always launch into the Tomer Group travel experience)
+            await Navigation.NavigateToCustomerShellAsync();
         }
         catch (Exception ex)
         {
             ErrorMessage = ex.Message;
-            await Navigation.NavigateToLoginAsync();
+            await Navigation.NavigateToCustomerShellAsync();
         }
         finally
         {

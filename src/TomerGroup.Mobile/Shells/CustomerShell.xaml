@@ -5,65 +5,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:customer="clr-namespace:TomerGroup.Mobile.Pages.Customer"
     Title="Tomer Group"
-    BackgroundColor="#FFF7FB"
+    BackgroundColor="#F8FAFC"
     ForegroundColor="#0F172A"
-    NavBarIsVisible="True"
+    NavBarIsVisible="False"
     Shell.TabBarBackgroundColor="#FFFFFF"
-    Shell.TabBarForegroundColor="#0F172A"
-    Shell.TabBarTitleColor="#0F172A"
+    Shell.TabBarForegroundColor="#E11D48"
+    Shell.TabBarTitleColor="#E11D48"
     Shell.TabBarUnselectedColor="#64748B"
     Shell.NavBarHasShadow="False">
 
     <TabBar>
-        <Tab Title="HOME" Icon="home_icon.png">
+        <Tab Title="בית" Icon="home_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:CustomerHomePage}" Route="Home" />
         </Tab>
-        <Tab Title="MY TRIP" Icon="trip_icon.png">
+        <Tab Title="גלה" Icon="trip_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:ExplorePage}" Route="Explore" />
+        </Tab>
+        <Tab Title="הטיול שלי" Icon="trip_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:MyTripPage}" Route="MyTrip" />
         </Tab>
-        <Tab Title="PLAN" Icon="trip_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:PlanTripPage}" Route="PlanTrip" />
-        </Tab>
-        <Tab Title="BOOKINGS" Icon="booking_icon.png">
+        <Tab Title="הזמנות" Icon="booking_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:BookingsPage}" Route="Bookings" />
         </Tab>
-        <Tab Title="EXTRAS" Icon="extras_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:AddOnsPage}" Route="AddOns" />
-        </Tab>
-        <Tab Title="PAYMENT" Icon="payment_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:PaymentPage}" Route="Payment" />
-        </Tab>
-        <Tab Title="RECAP" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:CheckoutRecapPage}" Route="CheckoutRecap" />
-        </Tab>
-        <Tab Title="ITINERARY" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:TripSummaryPage}" Route="TripSummary" />
-        </Tab>
-        <Tab Title="CONCIERGE" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:TravelConciergePage}" Route="TravelConcierge" />
-        </Tab>
-        <Tab Title="STAY" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:HotelStayPage}" Route="HotelStay" />
-        </Tab>
-        <Tab Title="TRANSFER" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:TransferDetailsPage}" Route="TransferDetails" />
-        </Tab>
-        <Tab Title="DASHBOARD" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:BookingDashboardPage}" Route="BookingDashboard" />
-        </Tab>
-        <Tab Title="BRAND" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:LuxuryBrandingPage}" Route="LuxuryBranding" />
-        </Tab>
-        <Tab Title="DOCUMENTS" Icon="doc_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:DocumentsPage}" Route="Documents" />
-        </Tab>
-        <Tab Title="PROFILE" Icon="profile_icon.png">
+        <Tab Title="פרופיל" Icon="profile_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:ProfilePage}" Route="Profile" />
-        </Tab>
-        <Tab Title="MORE" Icon="more_icon.png">
-            <ShellContent ContentTemplate="{DataTemplate customer:MorePage}" Route="More" />
         </Tab>
     </TabBar>
 
 </Shell>
-

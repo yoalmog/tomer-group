@@ -5,27 +5,18 @@ namespace TomerGroup.Mobile.Pages.Customer;
 
 public partial class MyTripPage : Microsoft.Maui.Controls.ContentPage
 {
-    private readonly MyTripViewModel? _viewModel;
-
-    public MyTripPage()
-    {
-        InitializeComponent();
-    }
+    private readonly MyTripViewModel _viewModel;
 
     public MyTripPage(MyTripViewModel viewModel)
     {
         InitializeComponent();
-        _viewModel = viewModel;
-        BindingContext = viewModel;
+        BindingContext = _viewModel = viewModel;
     }
 
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        if (_viewModel != null)
-        {
-            await _viewModel.InitializeAsync();
-        }
+        await _viewModel.InitializeAsync();
     }
 }
 #endif

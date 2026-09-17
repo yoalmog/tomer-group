@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             x:Class="TomerGroup.Mobile.Pages.Customer.BookingDetailPage"
+             Title="{Binding Title}"
+             BackgroundColor="#F8FAFC">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0">
+
+            <!-- Hero Image with Back Button Overlay -->
+            <Grid HeightRequest="230">
+                <Image Source="{Binding HeaderImage}" Aspect="AspectFill" HeightRequest="230" />
+                <BoxView Color="#4D000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
+
+                <!-- Back Button -->
+                <Button Text="← חזרה להזמנות"
+                        Command="{Binding GoBackCommand}"
+                        BackgroundColor="#CC0F172A"
+                        TextColor="White"
+                        CornerRadius="20"
+                        HeightRequest="38"
+                        FontSize="12"
+                        FontAttributes="Bold"
+                        Padding="14,0"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start"
+                        Margin="16,16,16,0" />
+
+                <!-- Bottom Title & Status on Photo -->
+                <VerticalStackLayout VerticalOptions="End" Margin="20" Spacing="4">
+                    <HorizontalStackLayout Spacing="8">
+                        <Border BackgroundColor="#E11D48" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
+                            <Label Text="{Binding BookingType}" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                        </Border>
+                        <Border BackgroundColor="#10B981" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
+                            <Label Text="{Binding Status}" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                        </Border>
+                    </HorizontalStackLayout>
+                    <Label Text="{Binding BookingTitle}" FontSize="22" FontAttributes="Bold" TextColor="White" />
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Voucher Content -->
+            <VerticalStackLayout Spacing="16" Padding="18,20,18,32">
+
+                <!-- Confirmation Code Card -->
+                <Border BackgroundColor="#0F172A" StrokeShape="RoundRectangle 18" StrokeThickness="0" Padding="16">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="3">
+                            <Label Text="מספר אישור רשמי / VOUCHER CODE" FontSize="11" TextColor="#E11D48" FontAttributes="Bold" CharacterSpacing="1" />
+                            <Label Text="{Binding ConfirmationCode}" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="1" BackgroundColor="#1E293B" StrokeShape="RoundRectangle 12" StrokeThickness="0" WidthRequest="44" HeightRequest="44" VerticalOptions="Center">
+                            <Label Text="🎫" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <!-- Dates & Travelers -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                    <Border Grid.Column="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="📅 תאריכי השירות" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                            <Label Text="{Binding Dates}" FontSize="14" FontAttributes="Bold" TextColor="#0F172A" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border Grid.Column="1" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="👥 נוסעים" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                            <Label Text="{Binding Travelers}" FontSize="14" FontAttributes="Bold" TextColor="#0F172A" />
+                        </VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <!-- Provider & Location -->
+                <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="ספק שירות ומיקום" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="{Binding Provider}" FontSize="13" TextColor="#334155" FontAttributes="Bold" />
+                        <Label Text="{Binding Location, StringFormat='📍 {0}'}" FontSize="13" TextColor="#64748B" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Special Requests -->
+                <Border BackgroundColor="#F0FDF4" Stroke="#BBF7D0" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="✨ בקשות ודגשים שאושרו" FontSize="14" FontAttributes="Bold" TextColor="#166534" />
+                        <Label Text="{Binding SpecialRequests}" FontSize="12" TextColor="#14532D" LineHeight="1.3" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Official Notes -->
+                <Border BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="📋 הנחיות שימוש בשובר" FontSize="13" FontAttributes="Bold" TextColor="#475569" />
+                        <Label Text="{Binding VoucherNotes}" FontSize="12" TextColor="#64748B" LineHeight="1.3" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Support Action -->
+                <Button Text="צור קשר עם מוקד ההזמנות 💬"
+                        Command="{Binding ContactSupportCommand}"
+                        Style="{StaticResource BrandButtonStyle}"
+                        Margin="0,8,0,0" />
+
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

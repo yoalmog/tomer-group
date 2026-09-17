@@ -18,8 +18,8 @@ public partial class App : Microsoft.Maui.Controls.Application
 
         _navigationService.ShellChanged += OnShellChanged;
 
-        // Start with the branded travel homepage so the first screen feels like the agency website.
-        MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<LoginPage>());
+        // Start with the branded Tomer Group Splash which transitions smoothly to Public Home (SPLASH -> HOME)
+        MainPage = _serviceProvider.GetRequiredService<SplashPage>();
     }
 
     private void OnShellChanged(string shellName)
@@ -48,4 +48,3 @@ public partial class App : Microsoft.Maui.Controls.Application
     }
 }
 #endif
-

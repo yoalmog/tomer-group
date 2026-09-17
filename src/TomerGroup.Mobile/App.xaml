@@ -12,12 +12,18 @@
 
             <!-- Global Value Converters for Tomer Group Mobile -->
             <converters:StringNotEmptyConverter x:Key="StringNotEmptyConverter" />
+            <converters:StringEmptyConverter x:Key="StringEmptyConverter" />
             <converters:NotNullOrEmptyConverter x:Key="NotNullOrEmptyConverter" />
             <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
             <converters:InvertedBoolConverter x:Key="InvertedBoolConverter" />
             <converters:StringEqualsConverter x:Key="StringEqualsConverter" />
             <converters:ReadStatusColorConverter x:Key="ReadStatusColorConverter" />
             <converters:ReadStatusTextConverter x:Key="ReadStatusTextConverter" />
+            <converters:BoolToTabBgConverter x:Key="BoolToTabBgConverter" />
+            <converters:BoolToTabTextConverter x:Key="BoolToTabTextConverter" />
+            <converters:InvertedBoolToTabBgConverter x:Key="InvertedBoolToTabBgConverter" />
+            <converters:InvertedBoolToTabTextConverter x:Key="InvertedBoolToTabTextConverter" />
+            <converters:BoolToEditIconConverter x:Key="BoolToEditIconConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

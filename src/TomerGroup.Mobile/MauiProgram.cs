@@ -31,6 +31,7 @@ public static class MauiProgram
         // Register Core Services
         builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
         builder.Services.AddSingleton<ISecureStorageService, SecureStorageService>();
+        builder.Services.AddSingleton<IDestinationImageService, DestinationImageService>();
         var navService = new NavigationService();
         builder.Services.AddSingleton<NavigationService>(navService);
         builder.Services.AddSingleton<INavigationService>(navService);
@@ -49,7 +50,9 @@ public static class MauiProgram
         builder.Services.AddTransient<LoginViewModel>();
         builder.Services.AddTransient<ForgotPasswordViewModel>();
         builder.Services.AddTransient<CustomerHomeViewModel>();
+        builder.Services.AddTransient<ExploreViewModel>();
         builder.Services.AddTransient<MyTripViewModel>();
+        builder.Services.AddTransient<ActivityDetailViewModel>();
         builder.Services.AddTransient<PlanTripViewModel>();
         builder.Services.AddTransient<BookingConfirmationViewModel>();
         builder.Services.AddTransient<AddOnsViewModel>();
@@ -64,6 +67,7 @@ public static class MauiProgram
         builder.Services.AddTransient<LuxuryBrandingViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
         builder.Services.AddTransient<BookingsViewModel>();
+        builder.Services.AddTransient<BookingDetailViewModel>();
         builder.Services.AddTransient<DocumentsViewModel>();
         builder.Services.AddTransient<NotificationsViewModel>();
         builder.Services.AddTransient<MoreViewModel>();
@@ -87,7 +91,9 @@ public static class MauiProgram
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<ForgotPasswordPage>();
         builder.Services.AddTransient<CustomerHomePage>();
+        builder.Services.AddTransient<ExplorePage>();
         builder.Services.AddTransient<MyTripPage>();
+        builder.Services.AddTransient<ActivityDetailPage>();
         builder.Services.AddTransient<PlanTripPage>();
         builder.Services.AddTransient<BookingConfirmationPage>();
         builder.Services.AddTransient<AddOnsPage>();
@@ -101,6 +107,7 @@ public static class MauiProgram
         builder.Services.AddTransient<BookingDashboardPage>();
         builder.Services.AddTransient<LuxuryBrandingPage>();
         builder.Services.AddTransient<BookingsPage>();
+        builder.Services.AddTransient<BookingDetailPage>();
         builder.Services.AddTransient<DocumentsPage>();
         builder.Services.AddTransient<NotificationsPage>();
         builder.Services.AddTransient<ProfilePage>();
@@ -126,4 +133,3 @@ public static class MauiProgram
     }
 }
 #endif
-

@@ -21,6 +21,21 @@ public class StringNotEmptyConverter : IValueConverter
     }
 }
 
+public class StringEmptyConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is null) return true;
+        if (value is string s) return string.IsNullOrWhiteSpace(s);
+        return false;
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
 public class NotNullOrEmptyConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -87,9 +102,9 @@ public class ReadStatusColorConverter : IValueConverter
     {
         if (value is bool isRead && isRead)
         {
-            return Color.FromArgb("#94A3B8"); // Read: muted slate gray
+            return Color.FromArgb("#94A3B8");
         }
-        return Color.FromArgb("#1B365D"); // Unread: Tomer primary navy
+        return Color.FromArgb("#E11D48");
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
@@ -114,5 +129,89 @@ public class ReadStatusTextConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
-#endif
 
+public class BoolToTabBgConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool isPhone && isPhone)
+        {
+            return Color.FromArgb("#E2E8F0");
+        }
+        return Color.FromArgb("#FFFFFF");
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class BoolToTabTextConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool isPhone && isPhone)
+        {
+            return Color.FromArgb("#64748B");
+        }
+        return Color.FromArgb("#0F172A");
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class InvertedBoolToTabBgConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool isPhone && isPhone)
+        {
+            return Color.FromArgb("#FFFFFF");
+        }
+        return Color.FromArgb("#E2E8F0");
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class InvertedBoolToTabTextConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool isPhone && isPhone)
+        {
+            return Color.FromArgb("#0F172A");
+        }
+        return Color.FromArgb("#64748B");
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+public class BoolToEditIconConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is bool isEditing && isEditing)
+        {
+            return "✕";
+        }
+        return "✏️";
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}
+#endif
