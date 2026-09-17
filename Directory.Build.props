@@ -1,0 +1,6 @@
+<Project>
+  <PropertyGroup>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <NoWarn>$(NoWarn);NETSDK1202</NoWarn>
+  </PropertyGroup>
+</Project>

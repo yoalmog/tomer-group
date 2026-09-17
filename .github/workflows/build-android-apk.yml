@@ -40,6 +40,8 @@ jobs:
           -c Release
           /p:EnableMaui=true
           /p:AndroidPackageFormats=apk
+          /p:CheckEolTargetFramework=false
+          /p:NoWarn=NETSDK1202
           -o ./artifacts/apk
 
       - name: Upload APK Artifact
