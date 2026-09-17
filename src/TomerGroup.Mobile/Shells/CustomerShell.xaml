@@ -33,6 +33,9 @@
         <Tab Title="PAYMENT" Icon="payment_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:PaymentPage}" Route="Payment" />
         </Tab>
+        <Tab Title="RECAP" Icon="doc_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:CheckoutRecapPage}" Route="CheckoutRecap" />
+        </Tab>
         <Tab Title="ITINERARY" Icon="doc_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:TripSummaryPage}" Route="TripSummary" />
         </Tab>
@@ -47,6 +50,9 @@
         </Tab>
         <Tab Title="DASHBOARD" Icon="doc_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:BookingDashboardPage}" Route="BookingDashboard" />
+        </Tab>
+        <Tab Title="BRAND" Icon="doc_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:LuxuryBrandingPage}" Route="LuxuryBranding" />
         </Tab>
         <Tab Title="DOCUMENTS" Icon="doc_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:DocumentsPage}" Route="Documents" />

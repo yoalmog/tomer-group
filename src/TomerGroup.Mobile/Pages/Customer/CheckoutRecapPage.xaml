@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.CheckoutRecapPage"
+             Title="Final recap">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Ready to travel" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="Your luxury trip is confirmed" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Everything is locked in for a seamless arrival in Cusco." FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Booking recap" Style="{StaticResource SectionTitleStyle}"/>
+
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto,Auto">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Trip" FontSize="13" TextColor="#64748B"/>
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding TripName}" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="Confirmation" FontSize="13" TextColor="#64748B"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding ConfirmationCode}" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="Guests" FontSize="13" TextColor="#64748B"/>
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding TravelerSummary}" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+
+                        <Label Grid.Row="3" Grid.Column="0" Text="Extras" FontSize="13" TextColor="#64748B"/>
+                        <Label Grid.Row="3" Grid.Column="1" Text="{Binding ExtrasLabel}" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                    </Grid>
+
+                    <Border BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Trip total" FontSize="13" TextColor="#64748B"/>
+                                <Label Grid.Column="1" Text="{Binding TotalAmount}" FontSize="18" FontAttributes="Bold" TextColor="#111827"/>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Deposit paid" FontSize="13" TextColor="#64748B"/>
+                                <Label Grid.Column="1" Text="{Binding DepositAmount}" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#F0FDF4" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="Status" FontSize="12" FontAttributes="Bold" TextColor="#15803D"/>
+                            <Label Text="{Binding StatusText}" FontSize="16" FontAttributes="Bold" TextColor="#0F172A"/>
+                            <Label Text="{Binding NextStep}" FontSize="12" TextColor="#475569"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Button Text="View itinerary" Style="{StaticResource PrimaryButtonStyle}"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

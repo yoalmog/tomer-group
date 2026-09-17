@@ -71,6 +71,26 @@ public class PlanTripFlowTests
         Assert.Equal(3, viewModel.ConciergeServices.Count);
     }
 
+    [Fact]
+    public void LuxuryBrandingViewModel_ShouldDefinePremiumTravelIdentity()
+    {
+        var viewModel = new LuxuryBrandingViewModel();
+
+        Assert.Equal("Tomer Group", viewModel.BrandName);
+        Assert.Equal("Luxury Peru Travel", viewModel.Tagline);
+        Assert.Contains("#F59E0B", viewModel.AccentColor);
+    }
+
+    [Fact]
+    public void CheckoutRecapViewModel_ShouldSummarizeFinalLuxuryBooking()
+    {
+        var viewModel = new CheckoutRecapViewModel();
+
+        Assert.Equal("Cusco & Sacred Valley", viewModel.TripName);
+        Assert.Equal("$2,890", viewModel.TotalAmount);
+        Assert.Equal("3 premium additions", viewModel.ExtrasLabel);
+    }
+
     private sealed class TestNavigationService : INavigationService
     {
         public string CurrentShell => "CustomerShell";

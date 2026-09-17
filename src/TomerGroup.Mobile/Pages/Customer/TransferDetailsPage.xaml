@@ -17,7 +17,7 @@
 
             <Border Style="{StaticResource CardFrameStyle}">
                 <VerticalStackLayout Spacing="12">
-                    <Label Text="Driver & vehicle" Style="{StaticResource SectionTitleStyle}"/>
+                    <Label Text="Driver &amp; vehicle" Style="{StaticResource SectionTitleStyle}"/>
                     <Label Text="{Binding DriverName}" FontSize="18" FontAttributes="Bold" TextColor="#111827"/>
                     <Label Text="{Binding VehicleInfo}" FontSize="14" TextColor="#475569"/>
                     <Label Text="Route" FontSize="12" FontAttributes="Bold" TextColor="#7C2D12"/>

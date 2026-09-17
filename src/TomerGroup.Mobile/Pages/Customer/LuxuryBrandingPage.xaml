@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.LuxuryBrandingPage"
+             Title="Brand story">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Brand identity" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="{Binding BrandName}" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="{Binding Tagline}" FontSize="15" TextColor="#FDE68A"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Luxury positioning" Style="{StaticResource SectionTitleStyle}"/>
+                    <Label Text="{Binding SupportingCopy}" FontSize="15" TextColor="#475569"/>
+                    <Border Padding="10,8" BackgroundColor="#FFF7ED" StrokeThickness="0" StrokeShape="RoundRectangle 12">
+                        <Label Text="Accent color:  #F59E0B" FontSize="14" FontAttributes="Bold" TextColor="#7C2D12"/>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
