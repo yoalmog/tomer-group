@@ -87,6 +87,7 @@ public class NavigationService : INavigationService
 #else
         CurrentShell = "CustomerShell";
         ShellChanged?.Invoke(CurrentShell);
+        await Task.CompletedTask;
 #endif
     }
 
@@ -105,6 +106,8 @@ public class NavigationService : INavigationService
         {
             // Ignore unsupported back navigation while shell is not active.
         }
+#else
+        await Task.CompletedTask;
 #endif
     }
 }
