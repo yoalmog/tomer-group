@@ -54,10 +54,10 @@
     <PackageReference Include="CommunityToolkit.Maui" Version="8.0.0" />
 
     <!-- App Icon -->
-    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#0F172A" />
+    <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#000000" />
 
     <!-- Splash Screen -->
-    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0F172A" BaseSize="160,160" />
+    <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#000000" BaseSize="160,160" />
 
     <!-- Custom Fonts -->
     <MauiFont Include="Resources\Fonts\*" />

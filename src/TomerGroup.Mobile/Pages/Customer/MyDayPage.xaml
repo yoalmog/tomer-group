@@ -77,12 +77,12 @@
                             <Label Text="GOOD MORNING 👋"
                                    FontSize="12"
                                    FontAttributes="Bold"
-                                   TextColor="#E11D48"
+                                   TextColor="{StaticResource Primary}"
                                    CharacterSpacing="1" />
                             <Label Text="{Binding CustomerName, StringFormat='Ready for today\'s journey, {0}?'}"
                                    FontSize="18"
                                    FontAttributes="Bold"
-                                   TextColor="#0F172A" />
+                                   TextColor="{StaticResource Secondary}" />
                         </VerticalStackLayout>
                     </Grid>
                 </Border>
@@ -91,13 +91,13 @@
                 <Border StrokeThickness="1"
                         Stroke="#FEE2E2"
                         StrokeShape="RoundRectangle 18"
-                        BackgroundColor="#FFF1F2"
+                        BackgroundColor="{StaticResource TomerRoseTint}"
                         Padding="16"
                         IsVisible="{Binding HasNextUpActivity}">
                     <VerticalStackLayout Spacing="10">
                         <Grid ColumnDefinitions="Auto, *, Auto">
                             <Border Grid.Column="0"
-                                    BackgroundColor="#E11D48"
+                                    BackgroundColor="{StaticResource Primary}"
                                     StrokeThickness="0"
                                     StrokeShape="RoundRectangle 8"
                                     Padding="10, 4">
@@ -111,7 +111,7 @@
                                    Text="{Binding NextUpTime}"
                                    FontSize="16"
                                    FontAttributes="Bold"
-                                   TextColor="#E11D48"
+                                   TextColor="{StaticResource Primary}"
                                    VerticalOptions="Center" />
                         </Grid>
 
@@ -238,7 +238,7 @@
                 <!-- Support Card -->
                 <Border StrokeThickness="0"
                         StrokeShape="RoundRectangle 16"
-                        BackgroundColor="#0F172A"
+                        BackgroundColor="{StaticResource Secondary}"
                         Padding="16"
                         Margin="0, 10, 0, 0">
                     <Grid ColumnDefinitions="*, Auto">
@@ -255,7 +255,7 @@
                         <Button Grid.Column="1"
                                 Text="Contact Support"
                                 Command="{Binding OpenSupportCommand}"
-                                BackgroundColor="#E11D48"
+                                BackgroundColor="{StaticResource Primary}"
                                 TextColor="#FFFFFF"
                                 CornerRadius="10"
                                 FontSize="12"

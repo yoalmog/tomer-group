@@ -5,12 +5,14 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:agency="clr-namespace:TomerGroup.Mobile.Pages.Agency"
     Title="Tomer Group — Agency Portal"
-    BackgroundColor="#FFF7FB"
-    ForegroundColor="#0F172A"
+    BackgroundColor="#0A0A0C"
+    ForegroundColor="#FFFFFF"
     NavBarIsVisible="True"
-    Shell.BackgroundColor="#FFF7FB"
+    Shell.BackgroundColor="#0A0A0C"
+    Shell.ForegroundColor="#BC225E"
+    Shell.TitleColor="#FFFFFF"
     Shell.NavBarHasShadow="False"
-    FlyoutBackgroundColor="#FFFDFE">
+    FlyoutBackgroundColor="#121218">
 
     <FlyoutItem Title="Dashboard" Icon="dashboard_icon.png" FlyoutIcon="dashboard_icon.png">
         <ShellContent ContentTemplate="{DataTemplate agency:AgencyDashboardPage}" Route="AgencyDashboard" />

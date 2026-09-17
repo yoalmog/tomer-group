@@ -78,7 +78,7 @@ public class PlanTripFlowTests
 
         Assert.Equal("Tomer Group", viewModel.BrandName);
         Assert.Equal("Peru Travel Experience", viewModel.Tagline);
-        Assert.Contains("#E11D48", viewModel.AccentColor);
+        Assert.Contains("#BC225E", viewModel.AccentColor);
     }
 
     [Fact]

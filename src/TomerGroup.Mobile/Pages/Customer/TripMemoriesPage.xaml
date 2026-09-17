@@ -79,9 +79,9 @@
                             <Label Text="Rating:"
                                    FontSize="13"
                                    FontAttributes="Bold"
-                                   TextColor="#0F172A"
+                                   TextColor="{StaticResource Secondary}"
                                    VerticalOptions="Center" />
-                            <Button Text="★ 5" Command="{Binding SetRatingCommand}" CommandParameter="{x:Int32 5}" BackgroundColor="#FFF1F2" TextColor="#E11D48" CornerRadius="8" HeightRequest="32" Padding="8, 0" />
+                            <Button Text="★ 5" Command="{Binding SetRatingCommand}" CommandParameter="{x:Int32 5}" BackgroundColor="{StaticResource TomerRoseTint}" TextColor="{StaticResource Primary}" CornerRadius="8" HeightRequest="32" Padding="8, 0" />
                             <Button Text="★ 4" Command="{Binding SetRatingCommand}" CommandParameter="{x:Int32 4}" BackgroundColor="#F1F5F9" TextColor="#475569" CornerRadius="8" HeightRequest="32" Padding="8, 0" />
                             <Button Text="★ 3" Command="{Binding SetRatingCommand}" CommandParameter="{x:Int32 3}" BackgroundColor="#F1F5F9" TextColor="#475569" CornerRadius="8" HeightRequest="32" Padding="8, 0" />
                         </HorizontalStackLayout>
@@ -89,7 +89,7 @@
                         <!-- Save Button -->
                         <Button Text="Save to Trip Journal ✨"
                                 Command="{Binding AddMemoryCommand}"
-                                BackgroundColor="#E11D48"
+                                BackgroundColor="{StaticResource Primary}"
                                 TextColor="#FFFFFF"
                                 FontAttributes="Bold"
                                 FontSize="13"
@@ -108,7 +108,7 @@
                 <Label Text="YOUR TRIP TIMELINE"
                        FontSize="13"
                        FontAttributes="Bold"
-                       TextColor="#0F172A"
+                       TextColor="{StaticResource Secondary}"
                        Margin="0, 8, 0, 2" />
 
                 <!-- Memories Cards -->
@@ -121,7 +121,7 @@
                                     Padding="0"
                                     Margin="0, 6">
                                 <Border.Shadow>
-                                    <Shadow Brush="#0F172A" Offset="0,2" Radius="8" Opacity="0.04" />
+                                    <Shadow Brush="#0A0A0C" Offset="0,2" Radius="8" Opacity="0.04" />
                                 </Border.Shadow>
                                 <VerticalStackLayout Spacing="0">
                                     <Image Source="{Binding ImageUrl}"
@@ -134,11 +134,11 @@
                                                    Text="{Binding Title}"
                                                    FontSize="15"
                                                    FontAttributes="Bold"
-                                                   TextColor="#0F172A" />
+                                                   TextColor="{StaticResource Secondary}" />
                                             <Label Grid.Column="1"
                                                    Text="{Binding RatingStars}"
                                                    FontSize="13"
-                                                   TextColor="#E11D48" />
+                                                   TextColor="{StaticResource Primary}" />
                                         </Grid>
 
                                         <Label Text="{Binding DateFormatted}"

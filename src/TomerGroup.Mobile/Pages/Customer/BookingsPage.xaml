@@ -70,11 +70,11 @@
             <!-- ============================================================ -->
             <Border Style="{StaticResource CardFrameStyle}"
                     IsVisible="{Binding HasBookings}"
-                    BackgroundColor="#0F172A"
+                    BackgroundColor="{StaticResource Secondary}"
                     Padding="18">
                 <Grid ColumnDefinitions="*,Auto">
                     <VerticalStackLayout Spacing="4">
-                        <Label Text="סטטוס שירותים והזמנות" FontSize="12" TextColor="#E11D48" FontAttributes="Bold" />
+                        <Label Text="סטטוס שירותים והזמנות" FontSize="12" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
                         <Label Text="כל ההזמנות והמלונות שלך מסודרים" FontSize="16" FontAttributes="Bold" TextColor="White" />
                         <Label Text="שוברי שירות מקוריים זמינים גם ללא חיבור אינטרנט" FontSize="11" TextColor="#94A3B8" />
                     </VerticalStackLayout>
@@ -89,7 +89,7 @@
             <!-- 4. RICH BOOKING CARDS LIST                                   -->
             <!-- ============================================================ -->
             <VerticalStackLayout Spacing="12" IsVisible="{Binding HasBookings}">
-                <Label Text="שירותים ושוברי נסיעה" FontSize="17" FontAttributes="Bold" TextColor="#0F172A" />
+                <Label Text="שירותים ושוברי נסיעה" FontSize="17" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
 
                 <CollectionView ItemsSource="{Binding DisplayCards}">
                     <CollectionView.ItemTemplate>
@@ -102,7 +102,7 @@
                                         <BoxView Color="#4D000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
 
                                         <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Start" Margin="12" Spacing="6">
-                                            <Border BackgroundColor="#E11D48" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
+                                            <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
                                                 <Label Text="{Binding BookingType}" TextColor="White" FontSize="11" FontAttributes="Bold" />
                                             </Border>
                                         </HorizontalStackLayout>
@@ -120,7 +120,7 @@
                                     <!-- Bottom Info Bar -->
                                     <Grid ColumnDefinitions="*,Auto" Padding="14,12" BackgroundColor="White">
                                         <VerticalStackLayout Spacing="2" VerticalOptions="Center">
-                                            <Label Text="{Binding DateFormatted}" FontSize="13" FontAttributes="Bold" TextColor="#0F172A" />
+                                            <Label Text="{Binding DateFormatted}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                                             <Label Text="{Binding ConfirmationCode, StringFormat='אישור: {0}'}" FontSize="11" TextColor="#64748B" />
                                         </VerticalStackLayout>
 

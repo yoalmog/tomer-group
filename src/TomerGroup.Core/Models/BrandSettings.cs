@@ -13,16 +13,16 @@ public class BrandSettings
     public string LogoUrl { get; set; } = "https://tomergroup.com/assets/logo.png";
     public string LogoPlaceholder { get; set; } = "tomer_group_logo";
 
-    // Tomer Group Official Brand Palette: Brand Magenta, Deep Luxury Black/Navy, Clean White
-    public string PrimaryColor { get; set; } = "#E11D48";
-    public string SecondaryColor { get; set; } = "#0F172A";
-    public string AccentColor { get; set; } = "#FB7185";
-    public string BackgroundLight { get; set; } = "#F8FAFC";
-    public string BackgroundDark { get; set; } = "#0A0E1A";
+    // Tomer Group Official Brand Palette: Brand Magenta, Deep Luxury Black/Onyx, Clean White
+    public string PrimaryColor { get; set; } = "#BC225E";
+    public string SecondaryColor { get; set; } = "#0A0A0C";
+    public string AccentColor { get; set; } = "#E11D68";
+    public string BackgroundLight { get; set; } = "#FAF9FB";
+    public string BackgroundDark { get; set; } = "#000000";
     public string SurfaceLight { get; set; } = "#FFFFFF";
-    public string SurfaceDark { get; set; } = "#1E293B";
-    public string TextLight { get; set; } = "#0F172A";
-    public string TextDark { get; set; } = "#F8FAFC";
+    public string SurfaceDark { get; set; } = "#121218";
+    public string TextLight { get; set; } = "#0A0A0C";
+    public string TextDark { get; set; } = "#FAF9FB";
 
     // Contact Information (Cusco headquarters)
     public string ContactPhone { get; set; } = "+51 84 223 456";

@@ -34,7 +34,7 @@ public class Phase15ProductionHardeningTests
             { "JwtSettings:Audience", "TomerGroupApp" },
             { "BrandSettings:AgencyName", "Tomer Group" },
             { "BrandSettings:Tagline", "Peru Travel Experience" },
-            { "BrandSettings:PrimaryColor", "#1B365D" },
+            { "BrandSettings:PrimaryColor", "#BC225E" },
             { "BrandSettings:ContactPhone", "+51 84 223 456" }
         };
 

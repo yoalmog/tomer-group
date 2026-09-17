@@ -57,16 +57,16 @@
                                    Text="Packing Progress"
                                    FontSize="14"
                                    FontAttributes="Bold"
-                                   TextColor="#0F172A" />
+                                   TextColor="{StaticResource Secondary}" />
                             <Label Grid.Column="1"
                                    Text="{Binding ProgressText}"
                                    FontSize="12"
                                    FontAttributes="Bold"
-                                   TextColor="#E11D48" />
+                                   TextColor="{StaticResource Primary}" />
                         </Grid>
 
                         <ProgressBar Progress="{Binding ProgressValue}"
-                                     ProgressColor="#E11D48"
+                                     ProgressColor="{StaticResource Primary}"
                                      HeightRequest="6" />
 
                         <Label Text="💡 Pro Tip: Weight limit on PeruRail &amp; Inca Rail trains to Machu Picchu is strictly 5kg (11lbs) per bag. Store excess luggage securely at your Cusco hotel."
@@ -87,7 +87,7 @@
                                Text="{Binding NewItemName, Mode=TwoWay}"
                                Placeholder="Add your own custom item..."
                                FontSize="13"
-                               TextColor="#0F172A"
+                               TextColor="{StaticResource Secondary}"
                                PlaceholderColor="#94A3B8"
                                VerticalOptions="Center"
                                ReturnCommand="{Binding AddCustomItemCommand}" />
@@ -95,7 +95,7 @@
                         <Button Grid.Column="1"
                                 Text="+ Add"
                                 Command="{Binding AddCustomItemCommand}"
-                                BackgroundColor="#E11D48"
+                                BackgroundColor="{StaticResource Primary}"
                                 TextColor="#FFFFFF"
                                 CornerRadius="10"
                                 FontSize="12"
@@ -116,14 +116,14 @@
                                 <Grid ColumnDefinitions="Auto, *, Auto">
                                     <CheckBox Grid.Column="0"
                                               IsChecked="{Binding IsChecked, Mode=TwoWay}"
-                                              Color="#E11D48"
+                                              Color="{StaticResource Primary}"
                                               VerticalOptions="Center" />
 
                                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Padding="8, 0">
                                         <Label Text="{Binding Name}"
                                                FontSize="13"
                                                FontAttributes="Bold"
-                                               TextColor="#0F172A" />
+                                               TextColor="{StaticResource Secondary}" />
                                     </VerticalStackLayout>
 
                                     <Border Grid.Column="2"

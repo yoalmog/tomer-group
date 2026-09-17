@@ -17,7 +17,7 @@
                 <!-- Back Button -->
                 <Button Text="← חזרה להזמנות"
                         Command="{Binding GoBackCommand}"
-                        BackgroundColor="#CC0F172A"
+                        BackgroundColor="#CC0A0A0C"
                         TextColor="White"
                         CornerRadius="20"
                         HeightRequest="38"
@@ -31,7 +31,7 @@
                 <!-- Bottom Title & Status on Photo -->
                 <VerticalStackLayout VerticalOptions="End" Margin="20" Spacing="4">
                     <HorizontalStackLayout Spacing="8">
-                        <Border BackgroundColor="#E11D48" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
+                        <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
                             <Label Text="{Binding BookingType}" TextColor="White" FontSize="11" FontAttributes="Bold" />
                         </Border>
                         <Border BackgroundColor="#10B981" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
@@ -46,10 +46,10 @@
             <VerticalStackLayout Spacing="16" Padding="18,20,18,32">
 
                 <!-- Confirmation Code Card -->
-                <Border BackgroundColor="#0F172A" StrokeShape="RoundRectangle 18" StrokeThickness="0" Padding="16">
+                <Border BackgroundColor="{StaticResource Secondary}" StrokeShape="RoundRectangle 18" StrokeThickness="0" Padding="16">
                     <Grid ColumnDefinitions="*,Auto">
                         <VerticalStackLayout Spacing="3">
-                            <Label Text="מספר אישור רשמי / VOUCHER CODE" FontSize="11" TextColor="#E11D48" FontAttributes="Bold" CharacterSpacing="1" />
+                            <Label Text="מספר אישור רשמי / VOUCHER CODE" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" CharacterSpacing="1" />
                             <Label Text="{Binding ConfirmationCode}" FontSize="18" FontAttributes="Bold" TextColor="White" />
                         </VerticalStackLayout>
 
@@ -64,7 +64,7 @@
                     <Border Grid.Column="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 16" Padding="14">
                         <VerticalStackLayout Spacing="4">
                             <Label Text="📅 תאריכי השירות" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
-                            <Label Text="{Binding Dates}" FontSize="14" FontAttributes="Bold" TextColor="#0F172A" />
+                            <Label Text="{Binding Dates}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                         </VerticalStackLayout>
                     </Border>
 

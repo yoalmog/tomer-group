@@ -146,13 +146,13 @@ public partial class AgencySettingsViewModel : BaseViewModel
     private string _tagline = "Peru Travel Experience";
 
     [ObservableProperty]
-    private string _primaryColor = "#E11D48";
+    private string _primaryColor = "#BC225E";
 
     [ObservableProperty]
-    private string _secondaryColor = "#0F172A";
+    private string _secondaryColor = "#0A0A0C";
 
     [ObservableProperty]
-    private string _accentColor = "#FB7185";
+    private string _accentColor = "#E11D68";
 
     [ObservableProperty]
     private string _contactPhone = "+51 984 231961";

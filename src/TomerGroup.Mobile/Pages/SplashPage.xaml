@@ -3,10 +3,10 @@
               xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
               xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
               x:Class="TomerGroup.Mobile.Pages.SplashPage"
-              BackgroundColor="#0F172A">
+              BackgroundColor="#000000">
 
     <Grid VerticalOptions="Center" HorizontalOptions="Center" RowDefinitions="Auto,Auto,Auto" RowSpacing="24" Padding="32">
-        <!-- Official Tomer Group Logo with AspectFit -->
+        <!-- Official Tomer Group Logo with AspectFit on seamless black background -->
         <Border StrokeThickness="0" StrokeShape="RoundRectangle 24" WidthRequest="180" HeightRequest="180" HorizontalOptions="Center" BackgroundColor="Transparent">
             <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="180" HeightRequest="180" HorizontalOptions="Center" VerticalOptions="Center" />
         </Border>
@@ -19,7 +19,7 @@
                    CharacterSpacing="1.5"
                    HorizontalOptions="Center" />
             <Label Text="PERU TRAVEL EXPERIENCE"
-                   TextColor="#C28251"
+                   TextColor="#E11D68"
                    FontSize="13"
                    FontAttributes="Bold"
                    CharacterSpacing="2"
@@ -28,7 +28,7 @@
 
         <ActivityIndicator Grid.Row="2"
                            IsRunning="{Binding IsBusy}"
-                           Color="#E11D48"
+                           Color="#BC225E"
                            WidthRequest="36"
                            HeightRequest="36"
                            HorizontalOptions="Center" />

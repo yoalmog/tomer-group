@@ -109,12 +109,12 @@
                                             WidthRequest="84"
                                             HeightRequest="60">
                                         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="2">
-                                            <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" FontSize="12" FontAttributes="Bold" TextColor="#E11D48" HorizontalOptions="Center" />
+                                            <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                                             <Label Text="{Binding Destination}" FontSize="11" TextColor="#64748B" HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
                                         </VerticalStackLayout>
                                         <Border.GestureRecognizers>
                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyTripViewModel}}, Path=SelectDayCommand}"
-                                                                 CommandParameter="{Binding .}" />
+                                                                  CommandParameter="{Binding .}" />
                                         </Border.GestureRecognizers>
                                     </Border>
                                 </DataTemplate>
@@ -130,12 +130,12 @@
             <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding HasTrip}" BackgroundColor="White">
                 <Grid ColumnDefinitions="*,Auto">
                     <VerticalStackLayout Spacing="3">
-                        <Label Text="{Binding SelectedDayTitle}" FontSize="17" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="{Binding SelectedDayTitle}" FontSize="17" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                         <Label Text="{Binding SelectedDayDate}" FontSize="12" TextColor="#64748B" />
                     </VerticalStackLayout>
 
-                    <Border Grid.Column="1" BackgroundColor="#FFF1F2" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="10,4" VerticalOptions="Center">
-                        <Label Text="{Binding SelectedDayDestination}" TextColor="#E11D48" FontSize="11" FontAttributes="Bold" />
+                    <Border Grid.Column="1" BackgroundColor="{StaticResource TomerRoseTint}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="10,4" VerticalOptions="Center">
+                        <Label Text="{Binding SelectedDayDestination}" TextColor="{StaticResource Primary}" FontSize="11" FontAttributes="Bold" />
                     </Border>
                 </Grid>
             </Border>
@@ -144,7 +144,7 @@
             <!-- 6. VERTICAL TIMELINE OF ACTIVITIES                           -->
             <!-- ============================================================ -->
             <VerticalStackLayout Spacing="10" IsVisible="{Binding HasTrip}">
-                <Label Text="לוח זמנים ופעילויות" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
+                <Label Text="לוח זמנים ופעילויות" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
 
                 <CollectionView ItemsSource="{Binding SelectedDayActivities}">
                     <CollectionView.ItemTemplate>
@@ -153,19 +153,19 @@
                                 <Grid ColumnDefinitions="64,Auto,*" ColumnSpacing="12">
                                     <!-- Time Column -->
                                     <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Center" Spacing="2">
-                                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" FontSize="16" FontAttributes="Bold" TextColor="#E11D48" HorizontalOptions="Center" />
+                                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                                         <Label Text="התחלה" FontSize="10" TextColor="#94A3B8" HorizontalOptions="Center" />
                                     </VerticalStackLayout>
 
                                     <!-- Vertical Timeline Pin & Line -->
                                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Fill" HorizontalOptions="Center" Spacing="0">
-                                        <Border BackgroundColor="#E11D48" StrokeShape="RoundRectangle 6" StrokeThickness="0" WidthRequest="12" HeightRequest="12" Margin="0,4,0,4" />
+                                        <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 6" StrokeThickness="0" WidthRequest="12" HeightRequest="12" Margin="0,4,0,4" />
                                         <BoxView WidthRequest="2" Color="#E2E8F0" VerticalOptions="FillAndExpand" />
                                     </VerticalStackLayout>
 
                                     <!-- Activity Details Card Content -->
                                     <VerticalStackLayout Grid.Column="2" Spacing="4">
-                                        <Label Text="{Binding Title}" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                                        <Label Text="{Binding Title}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                                         <Label Text="{Binding Location, StringFormat='📍 {0}'}" FontSize="12" TextColor="#64748B" IsVisible="{Binding Location, Converter={StaticResource StringNotEmptyConverter}}" />
 
                                         <HorizontalStackLayout Spacing="6" Margin="0,2,0,0" IsVisible="{Binding GuideName, Converter={StaticResource StringNotEmptyConverter}}">

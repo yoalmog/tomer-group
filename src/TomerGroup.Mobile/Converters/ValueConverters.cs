@@ -104,7 +104,7 @@ public class ReadStatusColorConverter : IValueConverter
         {
             return Color.FromArgb("#94A3B8");
         }
-        return Color.FromArgb("#E11D48");
+        return Color.FromArgb("#BC225E");
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

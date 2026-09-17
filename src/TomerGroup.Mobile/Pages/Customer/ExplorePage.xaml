@@ -16,7 +16,7 @@
                 </Border>
 
                 <VerticalStackLayout Grid.Column="1" Padding="12,0" VerticalOptions="Center" Spacing="2">
-                    <Label Text="גלה את פרו" FontSize="20" FontAttributes="Bold" TextColor="#0F172A" />
+                    <Label Text="גלה את פרו" FontSize="20" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                     <Label Text="יעדים, טרקים וחוויות בלתי נשכחות" FontSize="12" TextColor="#64748B" />
                 </VerticalStackLayout>
             </Grid>
@@ -27,7 +27,7 @@
                     <Button Text="הכל"
                             Command="{Binding FilterDestinationsCommand}"
                             CommandParameter="הכל"
-                            BackgroundColor="#0F172A"
+                            BackgroundColor="{StaticResource Secondary}"
                             TextColor="White"
                             CornerRadius="20"
                             HeightRequest="38"
@@ -100,10 +100,10 @@
 
                                     <!-- Top Badges -->
                                     <HorizontalStackLayout HorizontalOptions="Start" VerticalOptions="Start" Margin="14" Spacing="8">
-                                        <Border BackgroundColor="#E11D48" StrokeShape="RoundRectangle 12" StrokeThickness="0" Padding="10,4">
+                                        <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 12" StrokeThickness="0" Padding="10,4">
                                             <Label Text="{Binding Elevation}" TextColor="White" FontSize="11" FontAttributes="Bold" />
                                         </Border>
-                                        <Border BackgroundColor="#CC0F172A" StrokeShape="RoundRectangle 12" StrokeThickness="0" Padding="10,4">
+                                        <Border BackgroundColor="#CC0A0A0C" StrokeShape="RoundRectangle 12" StrokeThickness="0" Padding="10,4">
                                             <Label Text="{Binding RecommendedDays}" TextColor="White" FontSize="11" />
                                         </Border>
                                     </HorizontalStackLayout>
@@ -117,7 +117,7 @@
 
                                 <!-- Card Content -->
                                 <VerticalStackLayout Padding="16" Spacing="10">
-                                    <Label Text="{Binding Tagline}" FontSize="14" FontAttributes="Bold" TextColor="#BE123C" />
+                                    <Label Text="{Binding Tagline}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
                                     <Label Text="{Binding Description}" FontSize="13" TextColor="#475569" LineHeight="1.3" />
 
                                     <!-- Highlights Chips -->
@@ -134,7 +134,7 @@
             </CollectionView>
 
             <!-- Peru Travel Advisory Tips Section -->
-            <Label Text="טיפים חיוניים למטייל בפרו" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" Margin="0,8,0,0" />
+            <Label Text="טיפים חיוניים למטייל בפרו" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" Margin="0,8,0,0" />
 
             <CollectionView ItemsSource="{Binding TravelTips}">
                 <CollectionView.ItemTemplate>
@@ -143,7 +143,7 @@
                             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
                                 <Label Text="{Binding Icon}" FontSize="24" VerticalOptions="Center" />
                                 <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                                    <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" TextColor="#0F172A" />
+                                    <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                                     <Label Text="{Binding Subtitle}" FontSize="12" TextColor="#64748B" LineHeight="1.3" />
                                 </VerticalStackLayout>
                             </Grid>
@@ -153,7 +153,7 @@
             </CollectionView>
 
             <!-- Need Help / Contact Card -->
-            <Border BackgroundColor="#0F172A" StrokeShape="RoundRectangle 22" StrokeThickness="0" Padding="20">
+            <Border BackgroundColor="{StaticResource Secondary}" StrokeShape="RoundRectangle 22" StrokeThickness="0" Padding="20">
                 <VerticalStackLayout Spacing="8">
                     <Label Text="מתכננים את הטיול שלכם לפרו?" FontSize="18" FontAttributes="Bold" TextColor="White" />
                     <Label Text="מומחי היעד של Tomer Group ירכיבו עבורכם מסלול אישי מותאם במדויק כולל מלונות, העברות והדרכה בעברית."

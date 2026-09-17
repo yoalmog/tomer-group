@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
     <linearGradient id="splashTgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FB7185" />
-      <stop offset="50%" stop-color="#E11D48" />
-      <stop offset="100%" stop-color="#BE123C" />
+      <stop offset="0%" stop-color="#E11D68" />
+      <stop offset="50%" stop-color="#BC225E" />
+      <stop offset="100%" stop-color="#99154A" />
     </linearGradient>
   </defs>
 
@@ -13,5 +13,5 @@
     <path d="M352 205 C345 170 315 145 275 145 C220 145 180 190 180 250 C180 310 222 355 285 355 C335 355 365 325 368 280 H280 V248 H398 C398 320 350 388 280 388 C198 388 144 326 144 250 C144 172 202 112 282 112 C335 112 376 145 388 195 Z" fill="#FFFFFF" />
   </g>
   <text x="256" y="420" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="26" font-weight="800" letter-spacing="4">TOMER GROUP</text>
-  <text x="256" y="450" text-anchor="middle" fill="#FB7185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" letter-spacing="3">PERU TRAVEL EXPERIENCE</text>
+  <text x="256" y="450" text-anchor="middle" fill="#E11D68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="600" letter-spacing="3">PERU TRAVEL EXPERIENCE</text>
 </svg>

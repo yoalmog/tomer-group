@@ -15,9 +15,9 @@ public class BrandSettingsTests
         Assert.Equal("Tomer Group", brand.AgencyName);
         Assert.Equal("Tomer Group", brand.AppName);
         Assert.Equal("Peru Travel Experience", brand.Tagline);
-        Assert.Equal("#E11D48", brand.PrimaryColor); // Official Tomer Magenta
-        Assert.Equal("#0F172A", brand.SecondaryColor); // Deep Luxury Black/Slate
-        Assert.Equal("#FB7185", brand.AccentColor); // Soft Rose Accent
+        Assert.Equal("#BC225E", brand.PrimaryColor); // Official Tomer Magenta
+        Assert.Equal("#0A0A0C", brand.SecondaryColor); // Deep Luxury Black/Onyx
+        Assert.Equal("#E11D68", brand.AccentColor); // Soft Rose Accent
         Assert.Contains("Cusco", brand.Address);
         Assert.NotEmpty(brand.WhatsApp);
         Assert.NotEmpty(brand.EmergencyContact);

@@ -26,8 +26,8 @@
                 <Border StrokeThickness="0" WidthRequest="60" HeightRequest="60" BackgroundColor="Transparent" HorizontalOptions="Center">
                     <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="60" HeightRequest="60" />
                 </Border>
-                <Label Text="Tomer Group" FontSize="24" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
-                <Label Text="Peru Travel Experience" FontSize="12" FontAttributes="Bold" TextColor="#E11D48" CharacterSpacing="1.5" HorizontalOptions="Center" />
+                <Label Text="Tomer Group" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+                <Label Text="Peru Travel Experience" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" CharacterSpacing="1.5" HorizontalOptions="Center" />
             </VerticalStackLayout>
 
             <!-- Login Method Toggle (Email / Phone) -->
@@ -70,7 +70,7 @@
                     <Button Text="שכחת סיסמה?"
                             Command="{Binding OpenForgotPasswordCommand}"
                             BackgroundColor="Transparent"
-                            TextColor="#E11D48"
+                            TextColor="{StaticResource Primary}"
                             FontSize="12"
                             FontAttributes="Bold"
                             HorizontalOptions="End"
