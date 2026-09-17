@@ -15,7 +15,7 @@ public class LocalizationTests
         // Assert
         Assert.Equal("he", service.CurrentLanguage);
         Assert.True(service.IsRightToLeft, "Hebrew layout direction MUST be Right-To-Left");
-        Assert.Equal("שלום דני 👋", service.GetString(LocalizationKeys.Greeting));
+        Assert.Equal("שלום 👋", service.GetString(LocalizationKeys.Greeting));
         Assert.Equal("פרו 🇵🇪", service.GetString(LocalizationKeys.CountryPeru));
         Assert.Equal("הטיול שלי", service.GetString(LocalizationKeys.NavMyTrip));
     }
@@ -30,14 +30,14 @@ public class LocalizationTests
         service.SetLanguage("en");
         Assert.Equal("en", service.CurrentLanguage);
         Assert.False(service.IsRightToLeft, "English layout direction MUST be Left-To-Right");
-        Assert.Equal("Hello Danny 👋", service.GetString(LocalizationKeys.Greeting));
+        Assert.Equal("Hello 👋", service.GetString(LocalizationKeys.Greeting));
         Assert.Equal("Peru Travel Experience", service.GetString(LocalizationKeys.Tagline));
 
         // Act & Assert Spanish
         service.SetLanguage("es");
         Assert.Equal("es", service.CurrentLanguage);
         Assert.False(service.IsRightToLeft, "Spanish layout direction MUST be Left-To-Right");
-        Assert.Equal("Hola Danny 👋", service.GetString(LocalizationKeys.Greeting));
+        Assert.Equal("Hola 👋", service.GetString(LocalizationKeys.Greeting));
         Assert.Equal("Mi Viaje", service.GetString(LocalizationKeys.NavMyTrip));
     }
 

@@ -29,7 +29,7 @@ public class LocalizationService : ILocalizationService
             [LocalizationKeys.NavProfile] = "פרופיל",
             [LocalizationKeys.NavMore] = "עוד",
 
-            [LocalizationKeys.Greeting] = "שלום דני 👋",
+            [LocalizationKeys.Greeting] = "שלום 👋",
             [LocalizationKeys.YourTripWith] = "הטיול שלך עם Tomer Group",
             [LocalizationKeys.CountryPeru] = "פרו 🇵🇪",
             [LocalizationKeys.NextActivity] = "הפעילות הבאה:",
@@ -120,7 +120,7 @@ public class LocalizationService : ILocalizationService
             [LocalizationKeys.NavProfile] = "Profile",
             [LocalizationKeys.NavMore] = "More",
 
-            [LocalizationKeys.Greeting] = "Hello Danny 👋",
+            [LocalizationKeys.Greeting] = "Hello 👋",
             [LocalizationKeys.YourTripWith] = "Your trip with Tomer Group",
             [LocalizationKeys.CountryPeru] = "Peru 🇵🇪",
             [LocalizationKeys.NextActivity] = "Next Activity:",
@@ -211,7 +211,7 @@ public class LocalizationService : ILocalizationService
             [LocalizationKeys.NavProfile] = "Perfil",
             [LocalizationKeys.NavMore] = "Más",
 
-            [LocalizationKeys.Greeting] = "Hola Danny 👋",
+            [LocalizationKeys.Greeting] = "Hola 👋",
             [LocalizationKeys.YourTripWith] = "Tu viaje con Tomer Group",
             [LocalizationKeys.CountryPeru] = "Perú 🇵🇪",
             [LocalizationKeys.NextActivity] = "Siguiente Actividad:",
