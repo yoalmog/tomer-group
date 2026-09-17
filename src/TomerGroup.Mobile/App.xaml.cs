@@ -1,4 +1,4 @@
-#if !NET8_0_OR_GREATER || USE_MAUI
+#if ANDROID || IOS || MACCATALYST || WINDOWS || USE_MAUI
 using TomerGroup.Mobile.Pages;
 using TomerGroup.Mobile.Services;
 using TomerGroup.Mobile.Shells;

@@ -54,11 +54,18 @@
     <PackageReference Include="CommunityToolkit.Maui" Version="8.0.0" />
   </ItemGroup>
 
-  <!-- In non-MAUI CLI fallback builds, exclude XAML files from MSBuild compilation while keeping all ViewModels, Services, and business logic compiled -->
+  <PropertyGroup Condition="'$(UseMaui)' == 'true'">
+    <DefineConstants>$(DefineConstants);USE_MAUI</DefineConstants>
+  </PropertyGroup>
+
+  <!-- In non-MAUI CLI fallback builds, exclude XAML files and MauiProgram from MSBuild compilation while keeping all ViewModels, Services, and business logic compiled -->
   <ItemGroup Condition="'$(UseMaui)' != 'true'">
     <Compile Remove="**\*.xaml.cs" />
+    <Compile Remove="MauiProgram.cs" />
+    <Compile Remove="Converters\**" />
     <None Include="**\*.xaml.cs" />
     <None Include="**\*.xaml" />
+    <None Include="MauiProgram.cs" />
   </ItemGroup>
 
 </Project>

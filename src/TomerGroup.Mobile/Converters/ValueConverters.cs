@@ -1,4 +1,4 @@
-#if !NET8_0_OR_GREATER || USE_MAUI
+#if ANDROID || IOS || MACCATALYST || WINDOWS || USE_MAUI
 using System;
 using System.Globalization;
 using Microsoft.Maui.Controls;
