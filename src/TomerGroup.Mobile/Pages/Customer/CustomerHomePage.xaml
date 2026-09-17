@@ -1,93 +1,136 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
-              x:Class="TomerGroup.Mobile.Pages.Customer.CustomerHomePage"
-              Title="{Binding Title}">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.CustomerHomePage"
+             Title="{Binding Title}">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="16" Padding="16">
+        <VerticalStackLayout Spacing="18" Padding="18">
 
-            <!-- Premium Header: Official Logo, Traveler Greeting, Notifications -->
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
-                <Border StrokeThickness="0" WidthRequest="44" HeightRequest="44" VerticalOptions="Center" BackgroundColor="Transparent">
-                    <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="44" HeightRequest="44" />
+                <Border StrokeThickness="0" WidthRequest="46" HeightRequest="46" BackgroundColor="Transparent">
+                    <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="46" HeightRequest="46" />
                 </Border>
-                <VerticalStackLayout Grid.Column="1" Padding="12,0" VerticalOptions="Center">
-                    <Label Text="{Binding CustomerGreeting}" FontSize="19" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
-                    <Label Text="Tomer Group • Peru Travel Experience" FontSize="12" TextColor="{StaticResource Secondary}" FontAttributes="Bold" />
+
+                <VerticalStackLayout Grid.Column="1" Padding="12,0" VerticalOptions="Center" Spacing="2">
+                    <Label Text="{Binding CustomerGreeting}" FontSize="21" FontAttributes="Bold" TextColor="#0F172A" />
+                    <Label Text="Tomer Group • Peru Travel Experience" FontSize="12" TextColor="#7C2D12" FontAttributes="Bold" />
                 </VerticalStackLayout>
-                <Border Grid.Column="2" Stroke="{StaticResource CardBorder}" StrokeShape="RoundRectangle 20" WidthRequest="40" HeightRequest="40" BackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource SurfaceDark}}" VerticalOptions="Center">
+
+                <Border Grid.Column="2" Stroke="#E2E8F0" StrokeShape="RoundRectangle 22" WidthRequest="42" HeightRequest="42" BackgroundColor="White">
                     <Label Text="🔔" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" />
                 </Border>
             </Grid>
 
-            <!-- Active Trip Hero Card (Visible if HasActiveTrip) -->
-            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}" IsVisible="{Binding HasActiveTrip}">
-                <VerticalStackLayout Spacing="10">
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="{Binding CountryBadge}" FontSize="20" FontAttributes="Bold" TextColor="White" />
-                        <Border Grid.Column="1" BackgroundColor="{StaticResource BrandMonogram}" Padding="8,3" StrokeShape="RoundRectangle 6">
-                            <Label Text="מסע פעיל" TextColor="White" FontSize="11" FontAttributes="Bold" />
+            <Border BackgroundColor="#FFF7FB" StrokeThickness="0" StrokeShape="RoundRectangle 28" Padding="18">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Featured journey" FontSize="12" TextColor="#9D174D" FontAttributes="Bold" />
+
+                    <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="4">
+                            <Label Text="{Binding CountryBadge}" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" />
+                            <Label Text="{Binding TripTitle}" FontSize="28" FontAttributes="Bold" TextColor="#111827" IsVisible="{Binding HasActiveTrip}" />
+                            <Label Text="Your next unforgettable escape" FontSize="17" FontAttributes="Bold" TextColor="#111827" IsVisible="{Binding HasActiveTrip, Converter={StaticResource InvertedBoolConverter}}" />
+                        </VerticalStackLayout>
+
+                        <Border Grid.Column="1" BackgroundColor="#E11D48" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="12,6">
+                            <Label Text="Live itinerary" FontSize="11" FontAttributes="Bold" TextColor="White" />
                         </Border>
                     </Grid>
-                    <Label Text="{Binding TripTitle}" FontSize="18" FontAttributes="Bold" TextColor="White" />
-                    <Label Text="{Binding CurrentDestination, StringFormat='יעד: {0}'}" FontSize="14" TextColor="{StaticResource SecondaryLight}" FontAttributes="Bold" />
-                    <Label Text="{Binding TripDates}" FontSize="13" TextColor="#CBD5E1" />
+
+                    <Label Text="{Binding TripDates}" FontSize="13" TextColor="#475569" IsVisible="{Binding HasActiveTrip}" />
+                    <Label Text="Let our travel advisors craft a personalized Peru experience for you." FontSize="13" TextColor="#475569" IsVisible="{Binding HasActiveTrip, Converter={StaticResource InvertedBoolConverter}}" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <Border Grid.Column="0" BackgroundColor="#FDF2F8" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="10">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Peru" FontSize="12" TextColor="#9D174D" FontAttributes="Bold" />
+                                <Label Text="Cusco • Sacred Valley" FontSize="12" TextColor="#334155" />
+                            </VerticalStackLayout>
+                        </Border>
+                        <Border Grid.Column="1" BackgroundColor="#F0FDF4" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="10">
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="Hotel + Guide" FontSize="12" TextColor="#166534" FontAttributes="Bold" />
+                                <Label Text="Included service" FontSize="12" TextColor="#334155" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Next Activity Section (Visible if HasActiveTrip and HasNextActivity) -->
-            <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding HasNextActivity}">
-                <VerticalStackLayout Spacing="12">
+            <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding HasActiveTrip}" BackgroundColor="White" StrokeShape="RoundRectangle 24">
+                <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions="Auto,*">
                         <Label Text="⏱️" FontSize="18" VerticalOptions="Center" Margin="0,0,8,0" />
-                        <Label Grid.Column="1" Text="הפעילות הבאה במסלול" Style="{StaticResource SectionTitleStyle}" VerticalOptions="Center" />
+                        <Label Grid.Column="1" Text="Next activity" Style="{StaticResource SectionTitleStyle}" VerticalOptions="Center" />
                     </Grid>
 
-                    <Grid ColumnDefinitions="55,*" RowSpacing="4">
-                        <Label Text="{Binding NextActivityTime}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" VerticalOptions="Center" />
+                    <Grid ColumnDefinitions="60,*" RowSpacing="8">
+                        <Label Text="{Binding NextActivityTime}" FontSize="16" FontAttributes="Bold" TextColor="#E11D48" VerticalOptions="Center" />
                         <VerticalStackLayout Grid.Column="1" Spacing="2">
-                            <Label Text="{Binding NextActivityTitle}" FontSize="15" FontAttributes="Bold" />
-                            <Label Text="{Binding NextActivityLocation}" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" IsVisible="{Binding NextActivityLocation, Converter={StaticResource StringNotEmptyConverter}}" />
+                            <Label Text="{Binding NextActivityTitle}" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                            <Label Text="{Binding NextActivityLocation}" FontSize="12" TextColor="#64748B" IsVisible="{Binding NextActivityLocation, Converter={StaticResource StringNotEmptyConverter}}" />
                         </VerticalStackLayout>
                     </Grid>
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Professional Empty State (Visible when HasActiveTrip is False) -->
             <Border Style="{StaticResource EmptyStateCardStyle}" IsVisible="{Binding HasActiveTrip, Converter={StaticResource InvertedBoolConverter}}">
                 <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
                     <Border BackgroundColor="#F1F5F9" StrokeShape="RoundRectangle 32" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center">
                         <Label Text="🏔️" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" />
                     </Border>
-                    <Label Text="{Binding EmptyTripMessage}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                    <Label Text="{Binding EmptyTripSubtext}" FontSize="13" TextColor="{StaticResource TextSecondaryLight}" HorizontalOptions="Center" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
-                    <Button Text="צור קשר עם הסוכנות 💬"
-                            Command="{Binding ContactAgencyCommand}"
-                            Style="{StaticResource BrandButtonStyle}"
-                            HorizontalOptions="Center"
-                            Padding="20,0"
-                            Margin="0,8,0,0" />
+                    <Label Text="{Binding EmptyTripMessage}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+                    <Label Text="{Binding EmptyTripSubtext}" FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
+                    <Button Text="Contact our travel team" Command="{Binding ContactAgencyCommand}" Style="{StaticResource BrandButtonStyle}" HorizontalOptions="Center" Padding="20,0" Margin="0,8,0,0" />
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Quick Access 4-Action Grid -->
-            <Label Text="גישה מהירה" Style="{StaticResource SectionTitleStyle}" Margin="0,4,0,0" />
+            <Label Text="Most loved destinations" Style="{StaticResource SectionTitleStyle}" Margin="0,4,0,0" />
 
-            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="12" ColumnSpacing="12">
-                <Button Grid.Row="0" Grid.Column="0" Text="🗺️ מסלול הטיול" Command="{Binding OpenMyTripCommand}" Style="{StaticResource PrimaryButtonStyle}" FontSize="14" />
-                <Button Grid.Row="0" Grid.Column="1" Text="📋 ההזמנות שלי" Command="{Binding OpenBookingsCommand}" Style="{StaticResource PrimaryButtonStyle}" FontSize="14" />
-                <Button Grid.Row="1" Grid.Column="0" Text="🎫 שוברים ומסמכים" Command="{Binding OpenDocumentsCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
-                <Button Grid.Row="1" Grid.Column="1" Text="ℹ️ עוד וסיוע 24/7" Command="{Binding OpenMoreCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
+            <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10" RowDefinitions="Auto" Margin="0,0,0,2">
+                <Border Grid.Column="0" BackgroundColor="#FFF7ED" StrokeThickness="0" StrokeShape="RoundRectangle 22" Padding="12">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="🏔️" FontSize="24" />
+                        <Label Text="Cusco" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="Sacred Valley" FontSize="11" TextColor="#7C2D12" FontAttributes="Bold" />
+                        <Label Text="4 nights • guided" FontSize="11" TextColor="#475569" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="1" BackgroundColor="#FDF2F8" StrokeThickness="0" StrokeShape="RoundRectangle 22" Padding="12">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="🌄" FontSize="24" />
+                        <Label Text="Machu Picchu" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="Sunrise tour" FontSize="11" TextColor="#9D174D" FontAttributes="Bold" />
+                        <Label Text="2 days • elite" FontSize="11" TextColor="#475569" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Column="2" BackgroundColor="#ECFDF5" StrokeThickness="0" StrokeShape="RoundRectangle 22" Padding="12">
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="🏝️" FontSize="24" />
+                        <Label Text="Arequipa" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="Andes escape" FontSize="11" TextColor="#166534" FontAttributes="Bold" />
+                        <Label Text="3 nights • luxury" FontSize="11" TextColor="#475569" />
+                    </VerticalStackLayout>
+                </Border>
             </Grid>
 
-            <!-- 24/7 Emergency Hotline Banner -->
-            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="#FEF2F2" Stroke="#FECACA">
+            <Label Text="Explore more" Style="{StaticResource SectionTitleStyle}" Margin="0,4,0,0" />
+
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="12" ColumnSpacing="12">
+                <Button Grid.Row="0" Grid.Column="0" Text="🗺️ My trip" Command="{Binding OpenMyTripCommand}" Style="{StaticResource PrimaryButtonStyle}" FontSize="14" />
+                <Button Grid.Row="0" Grid.Column="1" Text="📋 Bookings" Command="{Binding OpenBookingsCommand}" Style="{StaticResource PrimaryButtonStyle}" FontSize="14" />
+                <Button Grid.Row="1" Grid.Column="0" Text="🎫 Documents" Command="{Binding OpenDocumentsCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
+                <Button Grid.Row="1" Grid.Column="1" Text="💬 Support" Command="{Binding OpenMoreCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
+            </Grid>
+
+            <Border BackgroundColor="#FEF2F2" Stroke="#FECACA" StrokeShape="RoundRectangle 20" Padding="14" StrokeThickness="1">
                 <Grid ColumnDefinitions="Auto,*">
                     <Label Text="🚨" FontSize="26" VerticalOptions="Center" Padding="0,0,10,0" />
                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                        <Label Text="מוקד חירום ותמיכה למטיילים (24/7)" FontSize="12" FontAttributes="Bold" TextColor="#991B1B" />
+                        <Label Text="Travel support hotline" FontSize="12" FontAttributes="Bold" TextColor="#991B1B" />
                         <Label Text="{Binding EmergencyPhone}" FontSize="15" FontAttributes="Bold" TextColor="#B91C1C" />
                     </VerticalStackLayout>
                 </Grid>

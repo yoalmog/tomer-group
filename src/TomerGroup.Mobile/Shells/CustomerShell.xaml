@@ -4,7 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:customer="clr-namespace:TomerGroup.Mobile.Pages.Customer"
-    Title="Tomer Group">
+    Title="Tomer Group"
+    BackgroundColor="#FFF7FB"
+    ForegroundColor="#0F172A"
+    NavBarIsVisible="True"
+    Shell.TabBarBackgroundColor="#FFFFFF"
+    Shell.TabBarForegroundColor="#0F172A"
+    Shell.TabBarTitleColor="#0F172A"
+    Shell.TabBarUnselectedColor="#64748B"
+    Shell.NavBarHasShadow="False">
 
     <TabBar>
         <Tab Title="HOME" Icon="home_icon.png">
