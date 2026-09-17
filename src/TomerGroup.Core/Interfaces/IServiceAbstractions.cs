@@ -189,6 +189,7 @@ public interface ILocalizationService
     string CurrentLanguage { get; }
     bool IsRightToLeft { get; }
     void SetLanguage(string language);
+    event Action? LanguageChanged;
 }
 
 public interface IRateLimitingService

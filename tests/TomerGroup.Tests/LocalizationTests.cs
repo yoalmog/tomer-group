@@ -84,5 +84,78 @@ public class LocalizationTests
         Assert.Equal("S/ 350 PEN", LocalizationService.FormatCurrency(350, Currency.PEN));
         Assert.Equal("₪850 ILS", LocalizationService.FormatCurrency(850, Currency.ILS));
     }
+
+    [Fact]
+    public void LanguagePersistence_ShouldLoadAndSaveViaHooks()
+    {
+        // Arrange simulated Preferences storage
+        string storedLanguage = "es";
+        LocalizationService.LanguageGetter = d => storedLanguage;
+        LocalizationService.LanguageSetter = l => storedLanguage = l;
+
+        try
+        {
+            // Act 1: Initializing service should load "es" from getter
+            var service = new LocalizationService();
+            Assert.Equal("es", service.CurrentLanguage);
+
+            // Act 2: Setting language should persist to setter
+            bool eventFired = false;
+            service.LanguageChanged += () => eventFired = true;
+            service.SetLanguage("en");
+
+            // Assert
+            Assert.Equal("en", service.CurrentLanguage);
+            Assert.Equal("en", storedLanguage);
+            Assert.True(eventFired);
+        }
+        finally
+        {
+            // Reset hooks
+            LocalizationService.LanguageGetter = null;
+            LocalizationService.LanguageSetter = null;
+        }
+    }
+
+    [Fact]
+    public void MapService_Coordinates_MustUseInvariantCultureDotSeparators()
+    {
+        // Arrange
+        var mobileMap = new TomerGroup.Mobile.Services.MobileMapService();
+        var infraMap = new TomerGroup.Infrastructure.Services.MapService();
+
+        // Act
+        var mobileUrl = mobileMap.GetMapNavigationUrl(-13.5168, -71.9789, "Cusco");
+        var infraUrl = infraMap.GetMapNavigationUrl(-13.5168, -71.9789, "Cusco");
+
+        // Assert: URLs must contain dot decimals, NEVER comma decimals
+        Assert.Contains("-13.516800,-71.978900", mobileUrl);
+        Assert.DoesNotContain("-13,5168", mobileUrl);
+
+        Assert.Contains("-13.516800,-71.978900", infraUrl);
+        Assert.DoesNotContain("-13,5168", infraUrl);
+    }
+
+    [Fact]
+    public void MapService_HebrewAliases_ShouldResolveCoordinates()
+    {
+        // Arrange
+        var mobileMap = new TomerGroup.Mobile.Services.MobileMapService();
+
+        // Act
+        var cusco = mobileMap.GetCoordinates("קוסקו");
+        var machu = mobileMap.GetCoordinates("מאצ'ו פיצ'ו");
+        var rainbow = mobileMap.GetCoordinates("הר הצבעים");
+
+        // Assert
+        Assert.Equal(-13.5168, cusco.Lat, 4);
+        Assert.Equal(-71.9789, cusco.Lng, 4);
+
+        Assert.Equal(-13.1631, machu.Lat, 4);
+        Assert.Equal(-72.5450, machu.Lng, 4);
+
+        Assert.Equal(-13.8694, rainbow.Lat, 4);
+        Assert.Equal(-71.3031, rainbow.Lng, 4);
+    }
 }
 

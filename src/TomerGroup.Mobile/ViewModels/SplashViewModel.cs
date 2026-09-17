@@ -35,9 +35,38 @@ public abstract partial class BaseViewModel : ObservableObject
         Localization = localization;
         Navigation = navigation;
         _isRtl = Localization.IsRightToLeft;
+        Localization.LanguageChanged += OnLocalizationLanguageChanged;
+    }
+
+    private void OnLocalizationLanguageChanged()
+    {
+        RefreshDirection();
+        OnLanguageChanged();
+        OnPropertyChanged(string.Empty);
+    }
+
+    protected virtual void OnLanguageChanged()
+    {
     }
 
     public string Localize(string key) => Localization.GetString(key);
+
+    public string CurrentLanguage => Localization.CurrentLanguage;
+    public bool IsHebrewSelected => Localization.CurrentLanguage.Equals("he", StringComparison.OrdinalIgnoreCase);
+    public bool IsEnglishSelected => Localization.CurrentLanguage.Equals("en", StringComparison.OrdinalIgnoreCase);
+    public bool IsSpanishSelected => Localization.CurrentLanguage.Equals("es", StringComparison.OrdinalIgnoreCase);
+
+    public string HebrewButtonBg => IsHebrewSelected ? "#BC225E" : "#F1F5F9";
+    public string HebrewButtonText => IsHebrewSelected ? "#FFFFFF" : "#0F172A";
+    public string HebrewFontWeight => IsHebrewSelected ? "Bold" : "None";
+
+    public string EnglishButtonBg => IsEnglishSelected ? "#BC225E" : "#F1F5F9";
+    public string EnglishButtonText => IsEnglishSelected ? "#FFFFFF" : "#0F172A";
+    public string EnglishFontWeight => IsEnglishSelected ? "Bold" : "None";
+
+    public string SpanishButtonBg => IsSpanishSelected ? "#BC225E" : "#F1F5F9";
+    public string SpanishButtonText => IsSpanishSelected ? "#FFFFFF" : "#0F172A";
+    public string SpanishFontWeight => IsSpanishSelected ? "Bold" : "None";
 
     public void RefreshDirection()
     {

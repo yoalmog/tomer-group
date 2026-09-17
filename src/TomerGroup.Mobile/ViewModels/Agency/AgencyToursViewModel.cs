@@ -60,9 +60,13 @@ public partial class AgencyToursViewModel : ObservableObject
             var response = await _apiClient.GetToursAsync();
             _allTours.Clear();
 
-            if (response.Success && response.Data != null)
+            if (response.Success && response.Data != null && response.Data.Any())
             {
                 _allTours = response.Data;
+            }
+            else
+            {
+                _allTours = GetDefaultPeruTours();
             }
 
             FilterTours();
@@ -71,6 +75,10 @@ public partial class AgencyToursViewModel : ObservableObject
         {
             HasError = true;
             ErrorMessage = $"Error loading tours: {ex.Message}";
+            if (_allTours.Count == 0)
+            {
+                _allTours = GetDefaultPeruTours();
+            }
             FilterTours();
         }
         finally
@@ -128,5 +136,84 @@ public partial class AgencyToursViewModel : ObservableObject
         }
 
         IsEmpty = Tours.Count == 0;
+    }
+
+    private List<TourDto> GetDefaultPeruTours()
+    {
+        return new List<TourDto>
+        {
+            new TourDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Salkantay Trek 5D/4N to Machu Picchu",
+                HebrewName = "טרק סלקנטאי 5 ימים למאצ'ו פיצ'ו",
+                Destination = "Cusco & Salkantay",
+                Category = TourCategory.Trek,
+                DurationDays = 5,
+                MaxCapacity = 12,
+                AdultPrice = 450,
+                Description = "טרק מרהיב בין קרחונים, לגונות טורקיז ויער גשם."
+            },
+            new TourDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Rainbow Mountain Full Day Trek",
+                HebrewName = "טרק יום להר הצבעים (ויניקונקה)",
+                Destination = "Cusco",
+                Category = TourCategory.Trek,
+                DurationDays = 1,
+                MaxCapacity = 15,
+                AdultPrice = 65,
+                Description = "העפלה לפסגת 5,200 מטר עם תצפית אל רכס הצבעים המפורסם."
+            },
+            new TourDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Classic Inca Trail 4D/3N",
+                HebrewName = "שביל האינקה הקלאסי 4 ימים",
+                Destination = "Cusco & Machu Picchu",
+                Category = TourCategory.Trek,
+                DurationDays = 4,
+                MaxCapacity = 10,
+                AdultPrice = 750,
+                Description = "המסלול ההיסטורי של שביל האינקה אל שער השמש."
+            },
+            new TourDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Sacred Valley & Pisac Market",
+                HebrewName = "העמק הקדוש, שוק פיסאק ומבצר אויאנטייטמבו",
+                Destination = "Sacred Valley",
+                Category = TourCategory.DayTour,
+                DurationDays = 1,
+                MaxCapacity = 16,
+                AdultPrice = 85,
+                Description = "סיור יום מושלם להתאקלמות לגובה וגילוי אתרי אינקה."
+            },
+            new TourDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Cusco Imperial City & 4 Ruins",
+                HebrewName = "סיור אתרים אימפריאלי בקוסקו וסקסייוומאן",
+                Destination = "Cusco",
+                Category = TourCategory.Cultural,
+                DurationDays = 1,
+                MaxCapacity = 20,
+                AdultPrice = 55,
+                Description = "מקדש השמש קוריקנצ'ה, סקסייוומאן וכיכר הנשק."
+            },
+            new TourDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Amazon Tambopata Wildlife Adventure",
+                HebrewName = "משלחת הרפתקה בג'ונגל האמזונס (טמבופטה)",
+                Destination = "Amazon",
+                Category = TourCategory.Adventure,
+                DurationDays = 3,
+                MaxCapacity = 8,
+                AdultPrice = 420,
+                Description = "שייט נהרות, צפייה בתוכים, קיימנים ולינה בלודג' אקולוגי."
+            }
+        };
     }
 }

@@ -107,6 +107,27 @@ public partial class CustomerHomeViewModel : BaseViewModel
         EmergencyPhone = LocalizationService.FormatPhoneNumber(Brand.EmergencyContact);
     }
 
+    protected override void OnLanguageChanged()
+    {
+        Title = Localize(LocalizationKeys.NavHome);
+        UpdateLocalizedTexts();
+        if (!IsAuthenticated)
+        {
+            HeroTitle = CurrentLanguage switch
+            {
+                "en" => "Your Journey in Peru Begins Here",
+                "es" => "Tu Viaje en Perú Comienza Aquí",
+                _ => "המסע שלך בפרו מתחיל כאן"
+            };
+            HeroSubtitle = CurrentLanguage switch
+            {
+                "en" => "Bespoke itineraries, Machu Picchu permits, panoramic trains and luxury hotels",
+                "es" => "Itinerarios a medida, permisos a Machu Picchu, trenes panorámicos y hoteles de lujo",
+                _ => "טיולי בוטיק, אישורי כניסה למאצ'ו פיצ'ו, רכבות פנורמיות ומלונות יוקרה בהרי האנדים"
+            };
+        }
+    }
+
     [RelayCommand]
     public async Task InitializeAsync()
     {

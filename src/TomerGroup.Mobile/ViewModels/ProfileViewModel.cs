@@ -7,12 +7,10 @@ using TomerGroup.Mobile.Services;
 
 namespace TomerGroup.Mobile.ViewModels;
 
-public partial class ProfileViewModel : ObservableObject
+public partial class ProfileViewModel : BaseViewModel
 {
     private readonly IApiClient _apiClient;
     private readonly ISecureStorageService _secureStorage;
-    private readonly ILocalizationService _localizationService;
-    private readonly INavigationService _navigationService;
     private Guid _customerId = Guid.Empty;
 
     public ProfileViewModel(
@@ -20,11 +18,11 @@ public partial class ProfileViewModel : ObservableObject
         ISecureStorageService secureStorage,
         ILocalizationService localizationService,
         INavigationService navigationService)
+        : base(localizationService, navigationService)
     {
         _apiClient = apiClient;
         _secureStorage = secureStorage;
-        _localizationService = localizationService;
-        _navigationService = navigationService;
+        Title = Localize(LocalizationKeys.NavProfile);
         DietaryOptions = new List<string>
         {
             "כשר למהדרין (Kosher Mehudar)",
@@ -270,7 +268,7 @@ public partial class ProfileViewModel : ObservableObject
             if (result.Success)
             {
                 IsSuccessMessage = true;
-                StatusMessage = _localizationService.GetString(LocalizationKeys.ProfileUpdatedSuccess);
+                StatusMessage = Localize(LocalizationKeys.ProfileUpdatedSuccess);
                 IsEditing = false;
             }
             else
@@ -290,6 +288,103 @@ public partial class ProfileViewModel : ObservableObject
         }
     }
 
+    protected override void OnLanguageChanged()
+    {
+        Title = Localize(LocalizationKeys.NavProfile);
+    }
+
+    // Localized dynamic UI labels for ProfilePage
+    public string GatewayTitle => CurrentLanguage switch
+    {
+        "en" => "Your Journey Starts Here",
+        "es" => "Tu Viaje Comienza Aquí",
+        _ => "המסע שלך מתחיל כאן"
+    };
+
+    public string GatewayDescription => CurrentLanguage switch
+    {
+        "en" => "Log in to your Tomer Group account to manage your itinerary, view vouchers, and update personal and Kosher preferences.",
+        "es" => "Inicie sesión en su cuenta de Tomer Group para gestionar su itinerario, ver vouchers y actualizar preferencias personales y Kosher.",
+        _ => "התחבר לחשבונך ב-Tomer Group כדי לנהל את מסלול הטיול, לצפות בשוברים, ולעדכן העדפות אישיות וכשרות."
+    };
+
+    public string BenefitItinerary => CurrentLanguage switch
+    {
+        "en" => "Personalized day-by-day itinerary",
+        "es" => "Itinerario personalizado día por día",
+        _ => "מסלול טיול אישי ומפורט לפי ימים"
+    };
+
+    public string BenefitVouchers => CurrentLanguage switch
+    {
+        "en" => "Vouchers, Machu Picchu permits & train tickets",
+        "es" => "Vouchers, permisos a Machu Picchu y boletos de tren",
+        _ => "שוברים, אישורי מאצ'ו פיצ'ו וכרטיסי רכבת"
+    };
+
+    public string BenefitWallet => CurrentLanguage switch
+    {
+        "en" => "Offline travel wallet accessible anytime",
+        "es" => "Billetera de documentos disponible sin internet",
+        _ => "ארנק מסמכים זמין ללא צורך באינטרנט"
+    };
+
+    public string BenefitPreferences => CurrentLanguage switch
+    {
+        "en" => "Kosher, Shabbat & Andean oxygen room preferences",
+        "es" => "Preferencias de Kosher, Shabat y oxígeno en los Andes",
+        _ => "העדפות כשרות, שבת וחדרי חמצן באנדים"
+    };
+
+    public string LoginButtonText => CurrentLanguage switch
+    {
+        "en" => "Log In to Your Account",
+        "es" => "Iniciar Sesión",
+        _ => "התחבר לחשבונך"
+    };
+
+    public string DietarySectionTitle => CurrentLanguage switch
+    {
+        "en" => "🍽️ Dietary & Kosher Preferences",
+        "es" => "🍽️ Preferencias Culinarias y Kosher",
+        _ => "🍽️ העדפות קולינריה וכשרות"
+    };
+
+    public string EmergencySectionTitle => CurrentLanguage switch
+    {
+        "en" => "🚨 Emergency Contact",
+        "es" => "🚨 Contacto de Emergencia",
+        _ => "🚨 איש קשר לשעת חירום"
+    };
+
+    public string LanguageSectionTitle => CurrentLanguage switch
+    {
+        "en" => "🌐 App Language",
+        "es" => "🌐 Idioma de la Aplicación",
+        _ => "🌐 שפת האפליקציה (Language)"
+    };
+
+    public string SupportTitle => CurrentLanguage switch
+    {
+        "en" => "Tomer Group Concierge at Your Service",
+        "es" => "Equipo Tomer Group a su Servicio",
+        _ => "צוות Tomer Group לשירותכם"
+    };
+
+    public string SupportSubtitle => CurrentLanguage switch
+    {
+        "en" => "Available on WhatsApp for questions, arrangements and custom requests",
+        "es" => "Disponibles por WhatsApp para cualquier consulta o coordinación",
+        _ => "זמינים בוואטסאפ לכל שאלה, תיאום או בקשה מיוחדת במסלול"
+    };
+
+    public string LogoutButtonText => CurrentLanguage switch
+    {
+        "en" => "Log Out",
+        "es" => "Cerrar Sesión",
+        _ => "התנתק מהחשבון"
+    };
+
     [RelayCommand]
     public async Task LogoutAsync()
     {
@@ -298,18 +393,18 @@ public partial class ProfileViewModel : ObservableObject
         await _secureStorage.RemoveAsync("refresh_token");
         IsAuthenticated = false;
         // LOGOUT -> PUBLIC HOME (Never force user to login screen)
-        await _navigationService.NavigateToCustomerShellAsync();
+        await Navigation.NavigateToCustomerShellAsync();
     }
 
     [RelayCommand]
     public async Task OpenSignInAsync()
     {
-        await _navigationService.NavigateToLoginAsync();
+        await Navigation.NavigateToLoginAsync();
     }
 
     [RelayCommand]
     public void ChangeLanguage(string lang)
     {
-        _localizationService.SetLanguage(lang);
+        Localization.SetLanguage(lang);
     }
 }

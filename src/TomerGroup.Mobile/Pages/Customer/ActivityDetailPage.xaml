@@ -51,8 +51,14 @@
                     </Border>
 
                     <Border Grid.Column="1" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenMapCommand}" />
+                        </Border.GestureRecognizers>
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="📍 מיקום" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Grid.Column="0" Text="📍 מיקום" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="נווט במפה 🗺️" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                            </Grid>
                             <Label Text="{Binding Location}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" MaxLines="2" LineBreakMode="TailTruncation" />
                         </VerticalStackLayout>
                     </Border>

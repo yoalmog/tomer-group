@@ -283,7 +283,17 @@ public class LocalizationService : ILocalizationService
         }
     };
 
-    private string _currentLanguage = "he"; // Default Hebrew
+    public static Func<string, string>? LanguageGetter { get; set; }
+    public static Action<string>? LanguageSetter { get; set; }
+
+    private string _currentLanguage;
+
+    public LocalizationService()
+    {
+        var initial = LanguageGetter?.Invoke("he") ?? "he";
+        var normalized = initial.ToLowerInvariant();
+        _currentLanguage = (normalized is "he" or "en" or "es") ? normalized : "he";
+    }
 
     public event Action? LanguageChanged;
 
@@ -293,11 +303,13 @@ public class LocalizationService : ILocalizationService
 
     public void SetLanguage(string language)
     {
-        var normalized = language.ToLowerInvariant();
+        var normalized = language?.ToLowerInvariant() ?? "he";
         if (normalized != "he" && normalized != "en" && normalized != "es")
         {
             normalized = "he";
         }
+
+        LanguageSetter?.Invoke(normalized);
 
         if (_currentLanguage != normalized)
         {

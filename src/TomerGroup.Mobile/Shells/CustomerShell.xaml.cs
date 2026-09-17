@@ -1,5 +1,8 @@
 #if ANDROID || IOS || MACCATALYST || WINDOWS || USE_MAUI
+using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
+using TomerGroup.Core.Interfaces;
+using TomerGroup.Core.Localization;
 using TomerGroup.Mobile.Pages;
 using TomerGroup.Mobile.Pages.Customer;
 
@@ -7,8 +10,15 @@ namespace TomerGroup.Mobile.Shells;
 
 public partial class CustomerShell : Microsoft.Maui.Controls.Shell
 {
-    public CustomerShell()
+    private readonly ILocalizationService? _localization;
+
+    public CustomerShell() : this(null)
     {
+    }
+
+    public CustomerShell(ILocalizationService? localization = null)
+    {
+        _localization = localization;
         InitializeComponent();
 
         Routing.RegisterRoute("ActivityDetail", typeof(ActivityDetailPage));
@@ -34,6 +44,33 @@ public partial class CustomerShell : Microsoft.Maui.Controls.Shell
         Routing.RegisterRoute("TransferDetails", typeof(TransferDetailsPage));
         Routing.RegisterRoute("BookingDashboard", typeof(BookingDashboardPage));
         Routing.RegisterRoute("LuxuryBranding", typeof(LuxuryBrandingPage));
+
+        if (_localization != null)
+        {
+            UpdateTabs();
+            _localization.LanguageChanged += OnLanguageChanged;
+        }
+    }
+
+    private void OnLanguageChanged()
+    {
+        MainThread.BeginInvokeOnMainThread(UpdateTabs);
+    }
+
+    private void UpdateTabs()
+    {
+        if (_localization == null) return;
+        TabHome.Title = _localization.GetString(LocalizationKeys.NavHome);
+        TabExplore.Title = _localization.CurrentLanguage switch
+        {
+            "en" => "Explore",
+            "es" => "Explorar",
+            _ => "גלה"
+        };
+        TabMyTrip.Title = _localization.GetString(LocalizationKeys.NavMyTrip);
+        TabBookings.Title = _localization.GetString(LocalizationKeys.NavBookings);
+        TabProfile.Title = _localization.GetString(LocalizationKeys.NavProfile);
+        FlowDirection = _localization.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
     }
 }
 #endif

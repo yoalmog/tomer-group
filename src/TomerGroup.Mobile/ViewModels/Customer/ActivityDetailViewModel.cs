@@ -17,6 +17,7 @@ public partial class ActivityDetailViewModel : BaseViewModel
 #endif
 {
     private readonly IDestinationImageService _imageService;
+    private readonly IMobileMapService _mapService;
 
     [ObservableProperty]
     private string _activityTitle = "פרטי פעילות";
@@ -57,10 +58,12 @@ public partial class ActivityDetailViewModel : BaseViewModel
     public ActivityDetailViewModel(
         ILocalizationService localization,
         INavigationService navigation,
-        IDestinationImageService imageService)
+        IDestinationImageService imageService,
+        IMobileMapService? mapService = null)
         : base(localization, navigation)
     {
         _imageService = imageService;
+        _mapService = mapService ?? new MobileMapService();
         Title = "פרטי פעילות";
         HeaderImage = _imageService.GetMachuPicchuImage();
     }
@@ -98,6 +101,13 @@ public partial class ActivityDetailViewModel : BaseViewModel
     public async Task GoBackAsync()
     {
         await Navigation.GoBackAsync();
+    }
+
+    [RelayCommand]
+    public async Task OpenMapAsync()
+    {
+        var target = !string.IsNullOrWhiteSpace(Location) ? Location : Destination;
+        await _mapService.OpenDestinationAsync(target);
     }
 
     [RelayCommand]

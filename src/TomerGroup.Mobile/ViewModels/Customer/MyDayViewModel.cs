@@ -157,9 +157,18 @@ public partial class MyDayViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    public async Task OpenMapAsync()
+    public async Task OpenMapAsync(string? specificLocation = null)
     {
-        await _mapService.OpenDestinationAsync(TodayDestination);
+        var target = !string.IsNullOrWhiteSpace(specificLocation)
+            ? specificLocation
+            : (!string.IsNullOrWhiteSpace(NextUpLocation) ? NextUpLocation : TodayDestination);
+
+        if (string.IsNullOrWhiteSpace(target))
+        {
+            target = "Cusco, Peru";
+        }
+
+        await _mapService.OpenDestinationAsync(target);
     }
 
     [RelayCommand]

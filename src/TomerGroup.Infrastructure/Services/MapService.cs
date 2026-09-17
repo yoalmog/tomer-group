@@ -30,7 +30,7 @@ public class MapService : IMapService
     public string GetMapNavigationUrl(double latitude, double longitude, string label)
     {
         var encodedLabel = HttpUtility.UrlEncode(label ?? "Destination");
-        return $"https://www.google.com/maps/search/?api=1&query={latitude:F6},{longitude:F6}";
+        return string.Create(System.Globalization.CultureInfo.InvariantCulture, $"https://www.google.com/maps/search/?api=1&query={latitude:F6},{longitude:F6}");
     }
 
     public (double Lat, double Lng) GetCoordinatesForDestination(string destinationName)
@@ -53,7 +53,7 @@ public class MapService : IMapService
 
     public string GetDirectionsUrl(double originLat, double originLng, double destLat, double destLng)
     {
-        return $"https://www.google.com/maps/dir/?api=1&origin={originLat:F6},{originLng:F6}&destination={destLat:F6},{destLng:F6}";
+        return string.Create(System.Globalization.CultureInfo.InvariantCulture, $"https://www.google.com/maps/dir/?api=1&origin={originLat:F6},{originLng:F6}&destination={destLat:F6},{destLng:F6}");
     }
 }
 

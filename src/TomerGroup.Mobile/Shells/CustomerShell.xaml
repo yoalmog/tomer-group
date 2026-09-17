@@ -14,20 +14,20 @@
     Shell.TabBarUnselectedColor="#71717A"
     Shell.NavBarHasShadow="False">
 
-    <TabBar>
-        <Tab Title="בית" Icon="home_icon.png">
+    <TabBar x:Name="CustomerTabBar">
+        <Tab x:Name="TabHome" Title="בית" Icon="home_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:CustomerHomePage}" Route="Home" />
         </Tab>
-        <Tab Title="גלה" Icon="trip_icon.png">
+        <Tab x:Name="TabExplore" Title="גלה" Icon="trip_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:ExplorePage}" Route="Explore" />
         </Tab>
-        <Tab Title="הטיול שלי" Icon="trip_icon.png">
+        <Tab x:Name="TabMyTrip" Title="הטיול שלי" Icon="trip_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:MyTripPage}" Route="MyTrip" />
         </Tab>
-        <Tab Title="הזמנות" Icon="booking_icon.png">
+        <Tab x:Name="TabBookings" Title="הזמנות" Icon="booking_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:BookingsPage}" Route="Bookings" />
         </Tab>
-        <Tab Title="פרופיל" Icon="profile_icon.png">
+        <Tab x:Name="TabProfile" Title="פרופיל" Icon="profile_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:ProfilePage}" Route="Profile" />
         </Tab>
     </TabBar>

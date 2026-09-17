@@ -28,6 +28,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
 
+        // Wire Persistent Language Caching
+        LocalizationService.LanguageGetter = d => Microsoft.Maui.Storage.Preferences.Default.Get("app_language", d);
+        LocalizationService.LanguageSetter = l => Microsoft.Maui.Storage.Preferences.Default.Set("app_language", l);
+
         // Register Core Services
         builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
         builder.Services.AddSingleton<ISecureStorageService, SecureStorageService>();
