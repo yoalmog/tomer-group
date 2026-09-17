@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
-             x:Class="TomerGroup.Mobile.Pages.Customer.DocumentsPage"
-             Title="המסמכים והאישורים שלי"
-             BackgroundColor="{StaticResource BackgroundColor}">
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+              x:Class="TomerGroup.Mobile.Pages.Customer.DocumentsPage"
+              Title="המסמכים והאישורים שלי">
 
     <ScrollView>
         <VerticalStackLayout Spacing="16" Padding="16">
 
-            <!-- Hero Banner -->
+            <!-- Digital Wallet Hero Banner -->
             <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
                 <VerticalStackLayout Spacing="8">
                     <HorizontalStackLayout Spacing="8">
-                        <Label Text="🎫" FontSize="24" VerticalOptions="Center" />
-                        <Label Text="אישורי כניסה ושוברים אישיים" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Label Text="🎫" FontSize="22" VerticalOptions="Center" />
+                        <Label Text="ארנק מסמכים ואישורים דיגיטלי" TextColor="White" FontSize="17" FontAttributes="Bold" VerticalOptions="Center" />
                     </HorizontalStackLayout>
-                    <Label Text="כרטיסי מאצ'ו פיצ'ו, אישורי טרקים, רכבות ומלונות זמינים במכשירכם גם ללא חיבור לאינטרנט בהרי האנדים."
-                           TextColor="#B0C4DE" FontSize="13" LineBreakMode="WordWrap" />
+                    <Label Text="אישורי מאצ'ו פיצ'ו, שוברי רכבות, מלונות ופוליסות ביטוח זמינים במכשירך גם ללא חיבור לאינטרנט בהרי האנדים."
+                           TextColor="#CBD5E1" FontSize="12" LineBreakMode="WordWrap" />
                     <Border BackgroundColor="#10B981" StrokeShape="RoundRectangle 6" Padding="8,4" HorizontalOptions="Start" Margin="0,4,0,0">
                         <Label Text="✓ זמין לצפייה אופליין במסלול" TextColor="White" FontSize="11" FontAttributes="Bold" />
                     </Border>
@@ -31,32 +30,48 @@
             </Border>
 
             <!-- Category Filter Tabs -->
-            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
-                <HorizontalStackLayout Spacing="10">
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never" IsVisible="{Binding HasDocuments}">
+                <HorizontalStackLayout Spacing="8">
                     <Button Text="הכל" Command="{Binding FilterByCategoryCommand}" CommandParameter="הכל"
-                            Style="{StaticResource PrimaryButtonStyle}" CornerRadius="20" HeightRequest="38" FontSize="13" />
+                            Style="{StaticResource PrimaryButtonStyle}" CornerRadius="18" HeightRequest="36" FontSize="12" Padding="14,0" />
                     <Button Text="אישורי כניסה וטרקים" Command="{Binding FilterByCategoryCommand}" CommandParameter="אישורים"
-                            BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" CornerRadius="20" HeightRequest="38" FontSize="13" />
+                            BackgroundColor="#E2E8F0" TextColor="{StaticResource PrimaryDark}" CornerRadius="18" HeightRequest="36" FontSize="12" Padding="14,0" />
                     <Button Text="שוברי שירות ומלונות" Command="{Binding FilterByCategoryCommand}" CommandParameter="שוברים"
-                            BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" CornerRadius="20" HeightRequest="38" FontSize="13" />
+                            BackgroundColor="#E2E8F0" TextColor="{StaticResource PrimaryDark}" CornerRadius="18" HeightRequest="36" FontSize="12" Padding="14,0" />
                     <Button Text="מסמכים אישיים וביטוח" Command="{Binding FilterByCategoryCommand}" CommandParameter="אישי"
-                            BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" CornerRadius="20" HeightRequest="38" FontSize="13" />
+                            BackgroundColor="#E2E8F0" TextColor="{StaticResource PrimaryDark}" CornerRadius="18" HeightRequest="36" FontSize="12" Padding="14,0" />
                 </HorizontalStackLayout>
             </ScrollView>
 
-            <!-- Document List -->
-            <CollectionView ItemsSource="{Binding FilteredDocuments}">
+            <!-- Professional Empty State (Visible when HasDocuments is False) -->
+            <Border Style="{StaticResource EmptyStateCardStyle}" IsVisible="{Binding HasDocuments, Converter={StaticResource InvertedBoolConverter}}">
+                <VerticalStackLayout Spacing="14" HorizontalOptions="Center">
+                    <Border BackgroundColor="#F1F5F9" StrokeShape="RoundRectangle 32" WidthRequest="64" HeightRequest="64" HorizontalOptions="Center">
+                        <Label Text="📄" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="{Binding EmptyTitle}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                    <Label Text="{Binding EmptyDescription}" FontSize="13" TextColor="{StaticResource TextSecondaryLight}" HorizontalOptions="Center" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" />
+                    <Button Text="צור קשר עם הסוכנות 💬"
+                            Command="{Binding ContactAgencyCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"
+                            HorizontalOptions="Center"
+                            Padding="20,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Document List (Visible when HasDocuments is True) -->
+            <CollectionView ItemsSource="{Binding FilteredDocuments}" IsVisible="{Binding HasDocuments}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
                             <VerticalStackLayout Spacing="10">
                                 <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
                                     <Border BackgroundColor="{StaticResource PrimaryLight}" StrokeShape="RoundRectangle 8" WidthRequest="44" HeightRequest="44" VerticalOptions="Center">
-                                        <Label Text="📄" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        <Label Text="📄" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
                                     </Border>
                                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                                        <Label Text="{Binding HebrewName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
-                                        <Label Text="{Binding Name}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                        <Label Text="{Binding HebrewName}" FontSize="15" FontAttributes="Bold" TextColor="{AppThemeBinding Light={StaticResource PrimaryDark}, Dark=White}" />
+                                        <Label Text="{Binding Name}" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
                                         <Label Text="{Binding Circuit, StringFormat='מסלול: {0}'}" FontSize="12" TextColor="{StaticResource Secondary}"
                                                IsVisible="{Binding Circuit, Converter={StaticResource StringNotEmptyConverter}}" FontAttributes="Bold" />
                                     </VerticalStackLayout>
@@ -80,11 +95,11 @@
                                     <Button Grid.Column="0" Text="הורד / פתח ⬇️"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DocumentsViewModel}}, Path=DownloadDocumentCommand}"
                                             CommandParameter="{Binding .}"
-                                            BackgroundColor="{StaticResource Primary}" TextColor="White" HeightRequest="36" FontSize="12" CornerRadius="6" />
+                                            BackgroundColor="{StaticResource Primary}" TextColor="White" HeightRequest="38" FontSize="12" CornerRadius="8" />
                                     <Button Grid.Column="1" Text="שתף בווטסאפ 📲"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:DocumentsViewModel}}, Path=ShareDocumentCommand}"
                                             CommandParameter="{Binding .}"
-                                            BackgroundColor="#25D366" TextColor="White" HeightRequest="36" FontSize="12" CornerRadius="6" />
+                                            BackgroundColor="#25D366" TextColor="White" HeightRequest="38" FontSize="12" CornerRadius="8" />
                                 </Grid>
                             </VerticalStackLayout>
                         </Border>

@@ -33,6 +33,15 @@ public partial class BookingsViewModel : ObservableObject
     [ObservableProperty]
     private decimal _totalOutstanding;
 
+    [ObservableProperty]
+    private bool _hasBookings = false;
+
+    [ObservableProperty]
+    private string _emptyTitle = "אין עדיין הזמנות";
+
+    [ObservableProperty]
+    private string _emptyDescription = "הזמנות חדשות שייווצרו במערכת עבור הטיול שלך יופיעו כאן עם כל פרטי המלונות וההסעות.";
+
     [RelayCommand]
     public async Task InitializeAsync()
     {
@@ -59,25 +68,12 @@ public partial class BookingsViewModel : ObservableObject
                     Bookings.Add(b);
                 }
                 TotalOutstanding = Bookings.Sum(b => b.OutstandingAmount);
+                HasBookings = true;
             }
             else
             {
-                // Default booking for Danny Cohen
-                var defaultBooking = new BookingDto
-                {
-                    Id = Guid.NewGuid(),
-                    BookingCode = "TG-2026-00482",
-                    CustomerName = "Danny Cohen",
-                    StartDate = DateTime.UtcNow.AddDays(2),
-                    EndDate = DateTime.UtcNow.AddDays(12),
-                    TotalAmount = 2500,
-                    PaidAmount = 2500,
-                    Currency = Core.Enums.Currency.USD,
-                    Status = Core.Enums.BookingStatus.Confirmed,
-                    PaymentStatus = Core.Enums.PaymentStatus.Paid
-                };
-                Bookings.Add(defaultBooking);
                 TotalOutstanding = 0;
+                HasBookings = false;
             }
 
             var hotelsResponse = await _apiClient.GetCustomerHotelBookingsAsync(Guid.Empty);
@@ -88,24 +84,6 @@ public partial class BookingsViewModel : ObservableObject
                     HotelBookings.Add(h);
                 }
             }
-            else
-            {
-                // Default hotel booking
-                HotelBookings.Add(new HotelBookingDto
-                {
-                    Id = Guid.NewGuid(),
-                    HotelName = "Palacio del Inka, Luxury Collection",
-                    Destination = "Cusco",
-                    RoomType = "Deluxe Oxygen-Enriched",
-                    ConfirmationNumber = "HTL-2026-00102",
-                    CheckInDate = DateTime.UtcNow.AddDays(2),
-                    CheckOutDate = DateTime.UtcNow.AddDays(5),
-                    NumberOfGuests = 2,
-                    OxygenRoomRequested = true,
-                    Status = "Confirmed",
-                    SpecialRequests = "Shabbat mechanical key, upper floor oxygen room"
-                });
-            }
 
             var transfersResponse = await _apiClient.GetCustomerTransfersAsync(Guid.Empty);
             if (transfersResponse.Success && transfersResponse.Data != null && transfersResponse.Data.Count > 0)
@@ -115,34 +93,21 @@ public partial class BookingsViewModel : ObservableObject
                     Transfers.Add(t);
                 }
             }
-            else
-            {
-                // Default transfer
-                Transfers.Add(new TransportationDto
-                {
-                    Id = Guid.NewGuid(),
-                    ServiceType = "Airport Transfer",
-                    HebrewServiceType = "איסוף משדה התעופה קוסקו",
-                    PickupLocation = "Alejandro Velasco Astete Airport (CUZ)",
-                    DropoffLocation = "Palacio del Inka Hotel, Cusco",
-                    ScheduledPickupTime = DateTime.UtcNow.AddDays(2).Date.AddHours(10).AddMinutes(30),
-                    DriverName = "Carlos Quispe Mendoza",
-                    DriverPhone = "+51 984 555 666",
-                    DriverWhatsApp = "+51984555666",
-                    VehicleModel = "Mercedes-Benz Sprinter 2024",
-                    VehiclePlate = "X4T-892",
-                    Status = Core.Enums.TransportationStatus.Assigned
-                });
-            }
         }
         catch (Exception ex)
         {
-            ErrorMessage = $"Error loading bookings: {ex.Message}";
+            ErrorMessage = $"שגיאה בטעינת ההזמנות: {ex.Message}";
+            HasBookings = false;
         }
         finally
         {
             IsBusy = false;
         }
     }
-}
 
+    [RelayCommand]
+    public async Task ContactAgencyAsync()
+    {
+        await _navigationService.NavigateToAsync("//More");
+    }
+}

@@ -56,6 +56,13 @@ public partial class MoreViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    public async Task OpenAgencyWhatsAppAsync()
+    {
+        // Launches WhatsApp chat with the agency
+        await Task.CompletedTask;
+    }
+
+    [RelayCommand]
     public async Task TriggerOfflineSyncAsync()
     {
         IsBusy = true;

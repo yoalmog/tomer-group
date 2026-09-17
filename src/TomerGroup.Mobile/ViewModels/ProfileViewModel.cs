@@ -12,16 +12,19 @@ public partial class ProfileViewModel : ObservableObject
     private readonly IApiClient _apiClient;
     private readonly ISecureStorageService _secureStorage;
     private readonly ILocalizationService _localizationService;
+    private readonly INavigationService _navigationService;
     private Guid _customerId = Guid.Empty;
 
     public ProfileViewModel(
         IApiClient apiClient,
         ISecureStorageService secureStorage,
-        ILocalizationService localizationService)
+        ILocalizationService localizationService,
+        INavigationService navigationService)
     {
         _apiClient = apiClient;
         _secureStorage = secureStorage;
         _localizationService = localizationService;
+        _navigationService = navigationService;
         DietaryOptions = new List<string>
         {
             "כשר למהדרין (Kosher Mehudar)",
@@ -36,31 +39,31 @@ public partial class ProfileViewModel : ObservableObject
     public List<string> DietaryOptions { get; }
 
     [ObservableProperty]
-    private string _firstName = "Danny";
+    private string _firstName = string.Empty;
 
     [ObservableProperty]
-    private string _lastName = "Cohen";
+    private string _lastName = string.Empty;
 
     [ObservableProperty]
-    private string _hebrewName = "דני כהן";
+    private string _hebrewName = string.Empty;
 
     [ObservableProperty]
-    private string _passportName = "DANNY COHEN";
+    private string _passportName = string.Empty;
 
     [ObservableProperty]
-    private string _phone = "+972 54 123 4567";
+    private string _phone = string.Empty;
 
     [ObservableProperty]
-    private string _whatsApp = "+972 54 123 4567";
+    private string _whatsApp = string.Empty;
 
     [ObservableProperty]
-    private string _email = "danny@israel.com";
+    private string _email = string.Empty;
 
     [ObservableProperty]
     private string _country = "Israel";
 
     [ObservableProperty]
-    private string _maskedPassportNumber = "IL-****2711";
+    private string _maskedPassportNumber = string.Empty;
 
     [ObservableProperty]
     private string _unmaskedPassportNumber = string.Empty;
@@ -69,40 +72,40 @@ public partial class ProfileViewModel : ObservableObject
     private bool _isPassportRevealed = false;
 
     [ObservableProperty]
-    private DateTime? _passportExpiration = DateTime.UtcNow.AddYears(3);
+    private DateTime? _passportExpiration;
 
     [ObservableProperty]
     private bool _isPassportExpiringSoon = false;
 
     [ObservableProperty]
-    private DateTime? _dateOfBirth = new DateTime(1992, 5, 14);
+    private DateTime? _dateOfBirth;
 
     [ObservableProperty]
-    private string _israelIdNumber = "038291048";
+    private string _israelIdNumber = string.Empty;
 
     [ObservableProperty]
-    private string _emergencyContactName = "Sarah Cohen";
+    private string _emergencyContactName = string.Empty;
 
     [ObservableProperty]
-    private string _emergencyContactPhone = "+972 54 999 1122";
+    private string _emergencyContactPhone = string.Empty;
 
     [ObservableProperty]
-    private string _specialRequests = "High altitude acclimatization support, window seats on PeruRail train";
+    private string _specialRequests = string.Empty;
 
     [ObservableProperty]
-    private string _dietaryPreferences = "כשר למהדרין (Kosher Mehudar)";
+    private string _dietaryPreferences = string.Empty;
 
     [ObservableProperty]
-    private string _selectedDietaryOption = "כשר למהדרין (Kosher Mehudar)";
+    private string _selectedDietaryOption = string.Empty;
 
     [ObservableProperty]
-    private string _medicalNotes = "Mild altitude sickness on day 1 in Cusco, taking Sorojchi pills, drinking coca tea";
+    private string _medicalNotes = string.Empty;
 
     [ObservableProperty]
-    private string _insuranceCompany = "Harel Travel Insurance (PassportCard Rescue)";
+    private string _insuranceCompany = string.Empty;
 
     [ObservableProperty]
-    private string _insurancePolicyNumber = "HR-2026-98104";
+    private string _insurancePolicyNumber = string.Empty;
 
     [ObservableProperty]
     private bool _isActiveInPeru = true;
@@ -123,7 +126,15 @@ public partial class ProfileViewModel : ObservableObject
         ? UnmaskedPassportNumber
         : MaskedPassportNumber;
 
-    public string Initials => $"{FirstName.FirstOrDefault()}{LastName.FirstOrDefault()}".ToUpper();
+    public string Initials
+    {
+        get
+        {
+            var first = !string.IsNullOrEmpty(FirstName) ? FirstName[0] : 'T';
+            var last = !string.IsNullOrEmpty(LastName) ? LastName[0] : 'G';
+            return $"{first}{last}".ToUpper();
+        }
+    }
 
     [RelayCommand]
     public async Task InitializeAsync()
@@ -163,7 +174,7 @@ public partial class ProfileViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            StatusMessage = $"Offline fallback profile: {ex.Message}";
+            StatusMessage = $"שגיאה בטעינת הפרופיל: {ex.Message}";
         }
         finally
         {
@@ -203,17 +214,9 @@ public partial class ProfileViewModel : ObservableObject
                     return;
                 }
             }
-
-            // Fallback unmasking demo
-            UnmaskedPassportNumber = "IL-39482711";
-            IsPassportRevealed = true;
-            OnPropertyChanged(nameof(DisplayPassportNumber));
         }
         catch
         {
-            UnmaskedPassportNumber = "IL-39482711";
-            IsPassportRevealed = true;
-            OnPropertyChanged(nameof(DisplayPassportNumber));
         }
         finally
         {
@@ -277,5 +280,11 @@ public partial class ProfileViewModel : ObservableObject
             IsBusy = false;
         }
     }
-}
 
+    [RelayCommand]
+    public async Task LogoutAsync()
+    {
+        _apiClient.SetAuthToken(null);
+        await _navigationService.NavigateToLoginAsync();
+    }
+}

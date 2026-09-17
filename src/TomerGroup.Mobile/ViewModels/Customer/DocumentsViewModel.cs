@@ -35,6 +35,15 @@ public partial class DocumentsViewModel : ObservableObject
     [ObservableProperty]
     private string _statusMessage = string.Empty;
 
+    [ObservableProperty]
+    private bool _hasDocuments = false;
+
+    [ObservableProperty]
+    private string _emptyTitle = "אין עדיין מסמכים";
+
+    [ObservableProperty]
+    private string _emptyDescription = "מסמכי הטיול שלך, כרטיסי כניסה ושוברים יופיעו כאן ויהיו זמינים לצפייה גם ללא חיבור לאינטרנט.";
+
     [RelayCommand]
     public async Task InitializeAsync()
     {
@@ -62,87 +71,11 @@ public partial class DocumentsViewModel : ObservableObject
                 {
                     Documents.Add(doc);
                 }
+                HasDocuments = true;
             }
             else
             {
-                // Seed realistic default documents for Israeli traveler Danny Cohen
-                var sampleDocs = new List<DocumentDto>
-                {
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Machu Picchu Circuit 2 - Permit",
-                        HebrewName = "כרטיס כניסה למאצ'ו פיצ'ו - מסלול 2",
-                        Type = DocumentType.MachuPicchuPermit,
-                        FileExtension = "pdf",
-                        MimeType = "application/pdf",
-                        FileSizeBytes = 1024 * 450,
-                        Circuit = "Circuit 2 Classic",
-                        PermitPassportNumber = "24891024",
-                        CustomerName = "Danny Cohen",
-                        UploadDate = DateTime.UtcNow.AddDays(-2),
-                        IsCustomerVisible = true
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Inca Trail Trek Permit - SERNANP",
-                        HebrewName = "אישור טרק שביל האינקה - רשות השמורות",
-                        Type = DocumentType.IncaTrailPermit,
-                        FileExtension = "pdf",
-                        MimeType = "application/pdf",
-                        FileSizeBytes = 1024 * 780,
-                        Circuit = "Classic 4D/3N",
-                        PermitPassportNumber = "24891024",
-                        CustomerName = "Danny Cohen",
-                        UploadDate = DateTime.UtcNow.AddDays(-5),
-                        IsCustomerVisible = true
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "PeruRail Vistadome Train Ticket",
-                        HebrewName = "שובר כרטיס רכבת ויסטדום",
-                        Type = DocumentType.TrainTicket,
-                        FileExtension = "pdf",
-                        MimeType = "application/pdf",
-                        FileSizeBytes = 1024 * 320,
-                        CustomerName = "Danny Cohen",
-                        UploadDate = DateTime.UtcNow.AddDays(-3),
-                        IsCustomerVisible = true
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Palacio del Inka Cusco - Hotel Voucher",
-                        HebrewName = "שובר אירוח מלון פלאסיו דל אינקה",
-                        Type = DocumentType.HotelVoucher,
-                        FileExtension = "pdf",
-                        MimeType = "application/pdf",
-                        FileSizeBytes = 1024 * 210,
-                        CustomerName = "Danny Cohen",
-                        UploadDate = DateTime.UtcNow.AddDays(-1),
-                        IsCustomerVisible = true
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Travel Insurance & Altitude Medical Rider",
-                        HebrewName = "פוליסת ביטוח נסיעות והרחבת גבהים",
-                        Type = DocumentType.InsurancePolicy,
-                        FileExtension = "pdf",
-                        MimeType = "application/pdf",
-                        FileSizeBytes = 1024 * 1250,
-                        CustomerName = "Danny Cohen",
-                        UploadDate = DateTime.UtcNow.AddDays(-10),
-                        IsCustomerVisible = true
-                    }
-                };
-
-                foreach (var d in sampleDocs)
-                {
-                    Documents.Add(d);
-                }
+                HasDocuments = false;
             }
 
             ApplyFilter();
@@ -150,6 +83,7 @@ public partial class DocumentsViewModel : ObservableObject
         catch (Exception ex)
         {
             ErrorMessage = $"שגיאה בטעינת המסמכים: {ex.Message}";
+            HasDocuments = false;
         }
         finally
         {
@@ -193,7 +127,7 @@ public partial class DocumentsViewModel : ObservableObject
     {
         if (doc == null) return;
         StatusMessage = $"מוריד מסמך: {doc.HebrewName ?? doc.Name}...";
-        await Task.Delay(300);
+        await Task.Delay(200);
         StatusMessage = $"המסמך {doc.Name} נשמר במכשיר וזמין לצפייה אופליין.";
     }
 
@@ -204,5 +138,10 @@ public partial class DocumentsViewModel : ObservableObject
         StatusMessage = $"שיתוף מסמך {doc.Name} בווטסאפ...";
         await Task.CompletedTask;
     }
-}
 
+    [RelayCommand]
+    public async Task ContactAgencyAsync()
+    {
+        await _navigationService.NavigateToAsync("//More");
+    }
+}

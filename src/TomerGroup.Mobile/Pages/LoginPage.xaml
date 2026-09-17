@@ -1,64 +1,57 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
-             x:Class="TomerGroup.Mobile.Pages.LoginPage"
-             Title="{Binding Title}">
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+              x:Class="TomerGroup.Mobile.Pages.LoginPage"
+              Title="{Binding Title}">
 
     <ScrollView>
-        <VerticalStackLayout Spacing="16" Padding="20" VerticalOptions="Center">
+        <VerticalStackLayout Spacing="20" Padding="24" VerticalOptions="Center">
 
-            <!-- Brand Header -->
-            <VerticalStackLayout Spacing="6" HorizontalOptions="Center">
-                <Image Source="splash.png" WidthRequest="75" HeightRequest="75" HorizontalOptions="Center" />
-                <Label Text="{Binding Brand.AgencyName}"
-                       FontSize="26"
+            <!-- Official Tomer Group Logo & Brand Header -->
+            <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                <Border StrokeThickness="0" WidthRequest="110" HeightRequest="110" HorizontalOptions="Center" BackgroundColor="Transparent">
+                    <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="110" HeightRequest="110" HorizontalOptions="Center" />
+                </Border>
+                <Label Text="TOMER GROUP"
+                       FontSize="24"
                        FontAttributes="Bold"
-                       TextColor="{StaticResource Primary}"
+                       CharacterSpacing="1.2"
+                       TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}"
                        HorizontalOptions="Center" />
-                <Label Text="{Binding Brand.Tagline}"
-                       FontSize="15"
+                <Label Text="PERU TRAVEL EXPERIENCE"
+                       FontSize="13"
                        TextColor="{StaticResource Secondary}"
                        FontAttributes="Bold"
+                       CharacterSpacing="1.5"
                        HorizontalOptions="Center" />
             </VerticalStackLayout>
 
-            <!-- Language Switcher -->
+            <!-- Language Switcher Pills -->
             <HorizontalStackLayout Spacing="8" HorizontalOptions="Center">
-                <Button Text="עברית (RTL)" Command="{Binding ChangeLanguageCommand}" CommandParameter="he" HeightRequest="32" FontSize="12" BackgroundColor="{StaticResource PrimaryLight}" TextColor="White" CornerRadius="6" />
-                <Button Text="English" Command="{Binding ChangeLanguageCommand}" CommandParameter="en" HeightRequest="32" FontSize="12" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                <Button Text="Español" Command="{Binding ChangeLanguageCommand}" CommandParameter="es" HeightRequest="32" FontSize="12" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
+                <Button Text="עברית" Command="{Binding ChangeLanguageCommand}" CommandParameter="he" HeightRequest="36" FontSize="13" BackgroundColor="{StaticResource Primary}" TextColor="White" CornerRadius="18" Padding="14,0" />
+                <Button Text="English" Command="{Binding ChangeLanguageCommand}" CommandParameter="en" HeightRequest="36" FontSize="13" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="18" Padding="14,0" />
+                <Button Text="Español" Command="{Binding ChangeLanguageCommand}" CommandParameter="es" HeightRequest="36" FontSize="13" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="18" Padding="14,0" />
             </HorizontalStackLayout>
 
-            <!-- Login Method Selector: Email vs Phone SMS -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
-                <Button Text="דואר אלקטרוני / Email"
-                        Command="{Binding ToggleLoginMethodCommand}"
-                        CommandParameter="Email"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="White"
-                        HeightRequest="38"
-                        CornerRadius="8"
-                        FontSize="13" />
-                <Button Grid.Column="1"
-                        Text="אימות SMS / Phone"
-                        Command="{Binding ToggleLoginMethodCommand}"
-                        CommandParameter="Phone"
-                        BackgroundColor="{StaticResource Secondary}"
-                        TextColor="White"
-                        HeightRequest="38"
-                        CornerRadius="8"
-                        FontSize="13" />
-            </Grid>
+            <!-- Email / Password Login Card -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="כניסה לחשבון / Sign In" Style="{StaticResource SectionTitleStyle}" />
 
-            <!-- Email / Password Login Form -->
-            <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding IsPhoneLoginMode, Converter={x:Null}}">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="דואר אלקטרוני / Email:" FontSize="13" FontAttributes="Bold" />
-                    <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="name@example.com" />
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="דואר אלקטרוני / Email:" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource TextSecondaryLight}" />
+                        <Border Stroke="{StaticResource CardBorder}" StrokeShape="RoundRectangle 8" Padding="10,2">
+                            <Entry Text="{Binding Email}" Keyboard="Email" Placeholder="traveler@example.com" FontSize="14" />
+                        </Border>
+                    </VerticalStackLayout>
 
-                    <Label Text="סיסמה / Password:" FontSize="13" FontAttributes="Bold" />
-                    <Entry Text="{Binding Password}" IsPassword="True" Placeholder="••••••••" />
+                    <VerticalStackLayout Spacing="6">
+                        <Label Text="סיסמה / Password:" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource TextSecondaryLight}" />
+                        <Border Stroke="{StaticResource CardBorder}" StrokeShape="RoundRectangle 8" Padding="10,2">
+                            <Entry Text="{Binding Password}" IsPassword="True" Placeholder="••••••••" FontSize="14" />
+                        </Border>
+                    </VerticalStackLayout>
 
                     <!-- Forgot Password Link -->
                     <Button Text="שכחת סיסמה? / Forgot Password?"
@@ -69,50 +62,28 @@
                             HorizontalOptions="End"
                             Padding="0" />
 
+                    <!-- Primary Login Action -->
                     <Button Text="התחברות למערכת"
                             Command="{Binding LoginCommand}"
                             Style="{StaticResource PrimaryButtonStyle}" />
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Phone SMS OTP Login Form -->
-            <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding IsPhoneLoginMode}">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="מספר טלפון נייד (WhatsApp/SMS):" FontSize="13" FontAttributes="Bold" />
-                    <Entry Text="{Binding PhoneNumber}" Keyboard="Telephone" Placeholder="+972 54 123 4567" />
-
-                    <Button Text="שלח קוד אימות"
-                            Command="{Binding SendPhoneCodeCommand}"
-                            Style="{StaticResource SecondaryButtonStyle}" />
-
-                    <VerticalStackLayout Spacing="8" IsVisible="{Binding IsCodeSent}">
-                        <Label Text="קוד אימות בן 6 ספרות:" FontSize="13" FontAttributes="Bold" />
-                        <Entry Text="{Binding VerificationCode}" Keyboard="Numeric" Placeholder="123456" MaxLength="6" />
-
-                        <Button Text="אמת והתחבר"
-                                Command="{Binding VerifyPhoneCodeCommand}"
-                                Style="{StaticResource PrimaryButtonStyle}" />
-                    </VerticalStackLayout>
-                </VerticalStackLayout>
+            <!-- Status & Error Feedback -->
+            <Border IsVisible="{Binding ErrorMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                    BackgroundColor="#FEF2F2" StrokeShape="RoundRectangle 8" Padding="12,8">
+                <Label Text="{Binding ErrorMessage}" TextColor="#DC2626" FontSize="13" FontAttributes="Bold" HorizontalOptions="Center" />
             </Border>
 
-            <!-- Messages -->
-            <Label Text="{Binding StatusInfo}" TextColor="{StaticResource StatusSuccess}" FontSize="13" IsVisible="{Binding StatusInfo, Converter={x:Null}}" HorizontalOptions="Center" />
-            <Label Text="{Binding ErrorMessage}" TextColor="{StaticResource StatusError}" FontSize="13" IsVisible="{Binding ErrorMessage, Converter={x:Null}}" HorizontalOptions="Center" />
+            <Border IsVisible="{Binding StatusInfo, Converter={StaticResource StringNotEmptyConverter}}"
+                    BackgroundColor="#ECFDF5" StrokeShape="RoundRectangle 8" Padding="12,8">
+                <Label Text="{Binding StatusInfo}" TextColor="#059669" FontSize="13" FontAttributes="Bold" HorizontalOptions="Center" />
+            </Border>
 
-            <!-- Quick 8-Role Selection Bar for Commercial Testing -->
-            <VerticalStackLayout Spacing="6">
-                <Label Text="בדיקת תפקידים (8 Roles Quick-Access):" FontSize="11" TextColor="{StaticResource TextSecondaryLight}" HorizontalOptions="Center" />
-                <FlexLayout Wrap="Wrap" JustifyContent="Center" AlignItems="Center">
-                    <Button Text="Customer" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Customer" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                    <Button Text="Admin" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Admin" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                    <Button Text="Manager" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Manager" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                    <Button Text="Sales" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Sales" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                    <Button Text="Ops" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Ops" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                    <Button Text="Finance" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Finance" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                    <Button Text="Guide" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Guide" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                    <Button Text="Driver" Command="{Binding SelectRoleDemoCommand}" CommandParameter="Driver" HeightRequest="28" FontSize="11" Margin="2" Padding="8,0" BackgroundColor="#E2E8F0" TextColor="#0F172A" CornerRadius="6" />
-                </FlexLayout>
+            <!-- Footer Assistance -->
+            <VerticalStackLayout Spacing="4" HorizontalOptions="Center" Margin="0,10,0,0">
+                <Label Text="זקוק לעזרה? צוות Tomer Group זמין 24/7" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" HorizontalOptions="Center" />
+                <Label Text="+51 984 999 888 🇵🇪 | Calle San Agustín 415, Cusco" FontSize="11" TextColor="{StaticResource Secondary}" FontAttributes="Bold" HorizontalOptions="Center" />
             </VerticalStackLayout>
 
         </VerticalStackLayout>

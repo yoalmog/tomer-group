@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
-             x:Class="TomerGroup.Mobile.Pages.Customer.MorePage"
-             Title="עוד ואפשרויות"
-             BackgroundColor="{StaticResource BackgroundColor}">
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+              x:Class="TomerGroup.Mobile.Pages.Customer.MorePage"
+              Title="עוד ואפשרויות">
 
     <ScrollView>
         <VerticalStackLayout Spacing="16" Padding="16">
-            <!-- Agency Contacts Card -->
+
+            <!-- Agency Contacts Hero Card -->
             <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="Tomer Group — Peru Travel Experience" FontSize="17" FontAttributes="Bold" TextColor="White" />
-                    <Label Text="משרד קוסקו: Portal de Panes 123, Plaza de Armas" FontSize="13" TextColor="#B0C4DE" />
-                    <Label Text="{Binding AgencyWhatsApp, StringFormat='וואטסאפ משרד: {0}'}" FontSize="13" TextColor="#B0C4DE" />
-                    <Border BackgroundColor="#EF4444" StrokeShape="RoundRectangle 6" Padding="8,4" HorizontalOptions="Start">
-                        <Label Text="{Binding EmergencyPhone, StringFormat='🚨 קו חירום 24/7: {0}'}" FontSize="13" TextColor="White" FontAttributes="Bold" />
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Tomer Group • Peru Travel Experience" FontSize="17" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="משרד קוסקו: Portal de Panes 123, Plaza de Armas" FontSize="12" TextColor="#CBD5E1" />
+                    <Label Text="{Binding AgencyWhatsApp, StringFormat='וואטסאפ: {0}'}" FontSize="13" TextColor="{StaticResource SecondaryLight}" FontAttributes="Bold" />
+                    
+                    <Button Text="פתח שיחת WhatsApp עם הסוכנות 💬"
+                            Command="{Binding OpenAgencyWhatsAppCommand}"
+                            BackgroundColor="#25D366"
+                            TextColor="White"
+                            FontAttributes="Bold"
+                            HeightRequest="42"
+                            CornerRadius="8"
+                            FontSize="13" />
+
+                    <Border BackgroundColor="#EF4444" StrokeShape="RoundRectangle 6" Padding="10,6" HorizontalOptions="Fill">
+                        <Label Text="{Binding EmergencyPhone, StringFormat='🚨 קו חירום 24/7: {0}'}" FontSize="13" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" />
                     </Border>
                 </VerticalStackLayout>
             </Border>
@@ -23,9 +33,9 @@
             <!-- Chabad Cusco & Shabbat Info -->
             <Border Style="{StaticResource CardFrameStyle}">
                 <VerticalStackLayout Spacing="8">
-                    <Label Text="✡️ בית חב״ד קוסקו (Chabad House Cusco)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                    <Label Text="{Binding ChabadAddress}" FontSize="13" TextColor="{StaticResource TextSecondary}" />
-                    <Label Text="{Binding ChabadPhone, StringFormat='טלפון: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="✡️ בית חב״ד קוסקו (Chabad House Cusco)" Style="{StaticResource SectionTitleStyle}" />
+                    <Label Text="{Binding ChabadAddress}" FontSize="13" TextColor="{AppThemeBinding Light={StaticResource TextPrimaryLight}, Dark=White}" />
+                    <Label Text="{Binding ChabadPhone, StringFormat='טלפון: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
                     <Label Text="סעודות שבת, תפילות, שיעורים ומסעדה כשרה למהדרין." FontSize="12" TextColor="{StaticResource Secondary}" FontAttributes="Bold" />
                 </VerticalStackLayout>
             </Border>
@@ -33,9 +43,9 @@
             <!-- Offline Sync Status & Trigger -->
             <Border Style="{StaticResource CardFrameStyle}">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="🔄 סנכרון נתונים לאופליין" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                    <Label Text="סנכרן את כל השוברים, כרטיסי הרכבת ופרטי המדריכים לפני יציאה לאזורים ללא קליטה." FontSize="12" TextColor="{StaticResource TextSecondary}" />
-                    <Button Text="סנכרן נתונים עכשיו" Command="{Binding TriggerOfflineSyncCommand}" Style="{StaticResource SecondaryButtonStyle}" HeightRequest="40" />
+                    <Label Text="🔄 סנכרון נתונים לאופליין" Style="{StaticResource SectionTitleStyle}" />
+                    <Label Text="סנכרן את כל השוברים, כרטיסי הרכבת ופרטי המדריכים לפני יציאה לאזורים ללא קליטה בהרי האנדים." FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+                    <Button Text="סנכרן נתונים עכשיו" Command="{Binding TriggerOfflineSyncCommand}" Style="{StaticResource SecondaryButtonStyle}" HeightRequest="42" />
                     <Label Text="{Binding SyncStatusMessage}" TextColor="{StaticResource StatusSuccess}" FontSize="12" FontAttributes="Bold"
                            IsVisible="{Binding SyncStatusMessage, Converter={StaticResource StringNotEmptyConverter}}" />
                 </VerticalStackLayout>
@@ -44,14 +54,14 @@
             <!-- Language Switching -->
             <Border Style="{StaticResource CardFrameStyle}">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="🌐 שפת הממשק (Language)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    <Label Text="🌐 שפת הממשק (Language)" Style="{StaticResource SectionTitleStyle}" />
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
-                        <Button Grid.Column="0" Text="עברית (RTL)" Command="{Binding ChangeLanguageCommand}" CommandParameter="he"
-                                Style="{StaticResource PrimaryButtonStyle}" HeightRequest="36" FontSize="12" />
+                        <Button Grid.Column="0" Text="עברית" Command="{Binding ChangeLanguageCommand}" CommandParameter="he"
+                                Style="{StaticResource PrimaryButtonStyle}" HeightRequest="38" FontSize="12" />
                         <Button Grid.Column="1" Text="English" Command="{Binding ChangeLanguageCommand}" CommandParameter="en"
-                                BackgroundColor="{StaticResource PrimaryLight}" TextColor="White" HeightRequest="36" FontSize="12" CornerRadius="8" />
+                                BackgroundColor="#E2E8F0" TextColor="#0F172A" HeightRequest="38" FontSize="12" CornerRadius="10" />
                         <Button Grid.Column="2" Text="Español" Command="{Binding ChangeLanguageCommand}" CommandParameter="es"
-                                BackgroundColor="{StaticResource PrimaryLight}" TextColor="White" HeightRequest="36" FontSize="12" CornerRadius="8" />
+                                BackgroundColor="#E2E8F0" TextColor="#0F172A" HeightRequest="38" FontSize="12" CornerRadius="10" />
                     </Grid>
                 </VerticalStackLayout>
             </Border>
