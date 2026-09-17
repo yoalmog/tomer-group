@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks Condition="'$(EnableMaui)' == 'true'">net8.0-android;net8.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition="'$(EnableMaui)' == 'true' and '$(TargetPlatform)' == 'ios'">net8.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition="'$(EnableMaui)' == 'true' and '$(TargetPlatform)' != 'ios'">net8.0-android</TargetFrameworks>
     <TargetFrameworks Condition="'$(EnableMaui)' != 'true'">net8.0</TargetFrameworks>
     <OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
     <OutputType Condition="'$(TargetFramework)' == 'net8.0'">Library</OutputType>
@@ -11,7 +12,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
-    <NoWarn>$(NoWarn);NETSDK1202</NoWarn>
+    <SkipValidateMauiImplicitPackageReferences>true</SkipValidateMauiImplicitPackageReferences>
+    <NoWarn>$(NoWarn);NETSDK1202;MA002</NoWarn>
 
     <!-- Display name -->
     <ApplicationTitle>Tomer Group</ApplicationTitle>
@@ -47,6 +49,8 @@
   </ItemGroup>
 
   <ItemGroup Condition="'$(UseMaui)' == 'true'">
+    <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
+    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
     <PackageReference Include="CommunityToolkit.Maui" Version="8.0.0" />
   </ItemGroup>
 
