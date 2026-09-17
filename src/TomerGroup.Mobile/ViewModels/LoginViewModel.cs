@@ -11,10 +11,10 @@ public partial class LoginViewModel : BaseViewModel
     private readonly IApiClient _apiClient;
 
     [ObservableProperty]
-    private string _email = string.Empty;
+    private string _email = "danny@israel.com";
 
     [ObservableProperty]
-    private string _password = string.Empty;
+    private string _password = "Traveler2026!";
 
     [ObservableProperty]
     private bool _isAgencyMode = false;
@@ -23,10 +23,10 @@ public partial class LoginViewModel : BaseViewModel
     private bool _isPhoneLoginMode = false;
 
     [ObservableProperty]
-    private string _phoneNumber = string.Empty;
+    private string _phoneNumber = "+972 54 123 4567";
 
     [ObservableProperty]
-    private string _verificationCode = string.Empty;
+    private string _verificationCode = "123456";
 
     [ObservableProperty]
     private bool _isCodeSent = false;
@@ -52,6 +52,58 @@ public partial class LoginViewModel : BaseViewModel
         IsPhoneLoginMode = method.Equals("Phone", StringComparison.OrdinalIgnoreCase);
         ErrorMessage = null;
         StatusInfo = null;
+    }
+
+    [RelayCommand]
+    public void SelectRoleDemo(string role)
+    {
+        ErrorMessage = null;
+        StatusInfo = null;
+        switch (role.ToLower())
+        {
+            case "admin":
+                IsAgencyMode = true;
+                Email = "admin@tomergroup.com";
+                Password = "TomerAdmin2026!";
+                break;
+            case "manager":
+                IsAgencyMode = true;
+                Email = "manager@tomergroup.com";
+                Password = "TomerManager2026!";
+                break;
+            case "sales":
+                IsAgencyMode = true;
+                Email = "sales@tomergroup.com";
+                Password = "TomerSales2026!";
+                break;
+            case "operations":
+            case "ops":
+                IsAgencyMode = true;
+                Email = "ops@tomergroup.com";
+                Password = "TomerOps2026!";
+                break;
+            case "finance":
+                IsAgencyMode = true;
+                Email = "finance@tomergroup.com";
+                Password = "TomerFinance2026!";
+                break;
+            case "guide":
+                IsAgencyMode = true;
+                Email = "guide@tomergroup.com";
+                Password = "TomerGuide2026!";
+                break;
+            case "driver":
+                IsAgencyMode = true;
+                Email = "driver@tomergroup.com";
+                Password = "TomerDriver2026!";
+                break;
+            default: // customer
+                IsAgencyMode = false;
+                Email = "danny@israel.com";
+                Password = "Traveler2026!";
+                PhoneNumber = "+972 54 123 4567";
+                break;
+        }
     }
 
     [RelayCommand]
