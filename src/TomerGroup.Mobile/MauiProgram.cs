@@ -32,6 +32,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
         builder.Services.AddSingleton<ISecureStorageService, SecureStorageService>();
         builder.Services.AddSingleton<IDestinationImageService, DestinationImageService>();
+        builder.Services.AddSingleton<IMobileMapService, MobileMapService>();
+        builder.Services.AddSingleton<IMapService>(sp => sp.GetRequiredService<IMobileMapService>());
         var navService = new NavigationService();
         builder.Services.AddSingleton<NavigationService>(navService);
         builder.Services.AddSingleton<INavigationService>(navService);
@@ -71,6 +73,10 @@ public static class MauiProgram
         builder.Services.AddTransient<DocumentsViewModel>();
         builder.Services.AddTransient<NotificationsViewModel>();
         builder.Services.AddTransient<MoreViewModel>();
+        builder.Services.AddTransient<MyDayViewModel>();
+        builder.Services.AddTransient<CustomerAIAssistantViewModel>();
+        builder.Services.AddTransient<PackingListViewModel>();
+        builder.Services.AddTransient<TripMemoriesViewModel>();
         builder.Services.AddTransient<AgencyDashboardViewModel>();
         builder.Services.AddTransient<AgencySettingsViewModel>();
         builder.Services.AddTransient<AgencyCustomersViewModel>();
@@ -93,7 +99,11 @@ public static class MauiProgram
         builder.Services.AddTransient<CustomerHomePage>();
         builder.Services.AddTransient<ExplorePage>();
         builder.Services.AddTransient<MyTripPage>();
+        builder.Services.AddTransient<MyDayPage>();
         builder.Services.AddTransient<ActivityDetailPage>();
+        builder.Services.AddTransient<CustomerAIAssistantPage>();
+        builder.Services.AddTransient<PackingListPage>();
+        builder.Services.AddTransient<TripMemoriesPage>();
         builder.Services.AddTransient<PlanTripPage>();
         builder.Services.AddTransient<BookingConfirmationPage>();
         builder.Services.AddTransient<AddOnsPage>();

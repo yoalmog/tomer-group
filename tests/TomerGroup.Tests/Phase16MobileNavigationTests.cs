@@ -32,6 +32,8 @@ public class Phase16MobileNavigationTests
         var mockSyncManager = new Mock<IOfflineSyncManager>();
         services.AddSingleton(mockSyncManager.Object);
         services.AddSingleton<IDestinationImageService, DestinationImageService>();
+        services.AddSingleton<IMobileMapService, MobileMapService>();
+        services.AddSingleton<IMapService>(sp => sp.GetRequiredService<IMobileMapService>());
 
         // 2. Register all ViewModels (same as MauiProgram.cs)
         services.AddTransient<SplashViewModel>();
@@ -40,6 +42,10 @@ public class Phase16MobileNavigationTests
         services.AddTransient<CustomerHomeViewModel>();
         services.AddTransient<ExploreViewModel>();
         services.AddTransient<MyTripViewModel>();
+        services.AddTransient<MyDayViewModel>();
+        services.AddTransient<CustomerAIAssistantViewModel>();
+        services.AddTransient<PackingListViewModel>();
+        services.AddTransient<TripMemoriesViewModel>();
         services.AddTransient<ActivityDetailViewModel>();
         services.AddTransient<ProfileViewModel>();
         services.AddTransient<BookingsViewModel>();
@@ -104,6 +110,10 @@ public class Phase16MobileNavigationTests
         Assert.NotNull(provider.GetRequiredService<CustomerHomeViewModel>());
         Assert.NotNull(provider.GetRequiredService<ExploreViewModel>());
         Assert.NotNull(provider.GetRequiredService<MyTripViewModel>());
+        Assert.NotNull(provider.GetRequiredService<MyDayViewModel>());
+        Assert.NotNull(provider.GetRequiredService<CustomerAIAssistantViewModel>());
+        Assert.NotNull(provider.GetRequiredService<PackingListViewModel>());
+        Assert.NotNull(provider.GetRequiredService<TripMemoriesViewModel>());
         Assert.NotNull(provider.GetRequiredService<ActivityDetailViewModel>());
         Assert.NotNull(provider.GetRequiredService<ProfileViewModel>());
         Assert.NotNull(provider.GetRequiredService<BookingsViewModel>());
@@ -179,9 +189,9 @@ public class Phase16MobileNavigationTests
         await vm.TriggerOfflineSyncAsync();
         Assert.False(string.IsNullOrWhiteSpace(vm.SyncStatusMessage));
 
-        // Sign out
+        // Sign out returns to Public Home (CustomerShell)
         await vm.SignOutAsync();
-        Assert.Equal("Login", nav.CurrentShell);
+        Assert.Equal("CustomerShell", nav.CurrentShell);
     }
 }
 

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             x:Class="TomerGroup.Mobile.Pages.Customer.CustomerAIAssistantPage"
+             x:DataType="vm:CustomerAIAssistantViewModel"
+             BackgroundColor="#F8FAFC"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto, Auto, *, Auto">
+        <!-- Top Bar -->
+        <Border Grid.Row="0" BackgroundColor="#FFFFFF" StrokeThickness="0" Padding="16, 12">
+            <Border.Shadow>
+                <Shadow Brush="#0F172A" Offset="0,2" Radius="6" Opacity="0.05" />
+            </Border.Shadow>
+            <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                <Button Grid.Column="0"
+                        Text="← Back"
+                        Command="{Binding GoBackCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#0F172A"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HeightRequest="36"
+                        Padding="0" />
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
+                    <Label Text="TOMER AI CONCIERGE"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="#0F172A"
+                           HorizontalOptions="Center" />
+                    <Label Text="Verified Peru Travel Assistant"
+                           FontSize="10"
+                           TextColor="#10B981"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <Image Grid.Column="2"
+                       Source="tomer_group_logo.png"
+                       HeightRequest="28"
+                       WidthRequest="28"
+                       Aspect="AspectFit" />
+            </Grid>
+        </Border>
+
+        <!-- Quick Prompt Chips Carousel -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Padding="12, 10">
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="🎒 What to pack?"
+                        Command="{Binding SendPredefinedPromptCommand}"
+                        CommandParameter="What should I pack for tomorrow's tour?"
+                        BackgroundColor="#FFFFFF"
+                        TextColor="#0F172A"
+                        CornerRadius="16"
+                        FontSize="11"
+                        HeightRequest="32"
+                        BorderColor="#E2E8F0"
+                        BorderWidth="1"
+                        Padding="12, 0" />
+
+                <Button Text="🗣️ Spanish phrases"
+                        Command="{Binding SendPredefinedPromptCommand}"
+                        CommandParameter="Translate essential travel phrases to Spanish"
+                        BackgroundColor="#FFFFFF"
+                        TextColor="#0F172A"
+                        CornerRadius="16"
+                        FontSize="11"
+                        HeightRequest="32"
+                        BorderColor="#E2E8F0"
+                        BorderWidth="1"
+                        Padding="12, 0" />
+
+                <Button Text="⛰️ Altitude advice"
+                        Command="{Binding SendPredefinedPromptCommand}"
+                        CommandParameter="How do I prepare for Cusco altitude?"
+                        BackgroundColor="#FFFFFF"
+                        TextColor="#0F172A"
+                        CornerRadius="16"
+                        FontSize="11"
+                        HeightRequest="32"
+                        BorderColor="#E2E8F0"
+                        BorderWidth="1"
+                        Padding="12, 0" />
+
+                <Button Text="🏛️ Machu Picchu rules"
+                        Command="{Binding SendPredefinedPromptCommand}"
+                        CommandParameter="Tell me about Machu Picchu rules and guidelines"
+                        BackgroundColor="#FFFFFF"
+                        TextColor="#0F172A"
+                        CornerRadius="16"
+                        FontSize="11"
+                        HeightRequest="32"
+                        BorderColor="#E2E8F0"
+                        BorderWidth="1"
+                        Padding="12, 0" />
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Chat Messages -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Messages}" Margin="16, 0">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:ChatMessageItem">
+                    <Grid Padding="0, 4">
+                        <!-- User Message Bubble (Right-aligned, Magenta) -->
+                        <Border IsVisible="{Binding IsUser}"
+                                HorizontalOptions="End"
+                                MaximumWidthRequest="280"
+                                BackgroundColor="#E11D48"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 16, 16, 2, 16"
+                                Padding="12, 8">
+                            <Label Text="{Binding Message}"
+                                   TextColor="#FFFFFF"
+                                   FontSize="13"
+                                   LineBreakMode="WordWrap" />
+                        </Border>
+
+                        <!-- AI Message Bubble (Left-aligned, White) -->
+                        <Border IsVisible="{Binding IsAI}"
+                                HorizontalOptions="Start"
+                                MaximumWidthRequest="300"
+                                BackgroundColor="#FFFFFF"
+                                StrokeThickness="1"
+                                Stroke="#E2E8F0"
+                                StrokeShape="RoundRectangle 16, 16, 16, 2"
+                                Padding="12, 8">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Tomer AI"
+                                       FontSize="10"
+                                       FontAttributes="Bold"
+                                       TextColor="#E11D48" />
+                                <Label Text="{Binding Message}"
+                                       TextColor="#0F172A"
+                                       FontSize="13"
+                                       LineBreakMode="WordWrap" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Input Box & Send Button -->
+        <Border Grid.Row="3" BackgroundColor="#FFFFFF" StrokeThickness="1" Stroke="#E2E8F0" Padding="12, 8">
+            <Grid ColumnDefinitions="*, Auto">
+                <Entry Grid.Column="0"
+                       Text="{Binding UserInput, Mode=TwoWay}"
+                       Placeholder="Ask about tours, altitude, packing, phrases..."
+                       FontSize="13"
+                       TextColor="#0F172A"
+                       PlaceholderColor="#94A3B8"
+                       VerticalOptions="Center"
+                       ReturnCommand="{Binding SendMessageCommand}" />
+
+                <Button Grid.Column="1"
+                        Text="Send"
+                        Command="{Binding SendMessageCommand}"
+                        BackgroundColor="#E11D48"
+                        TextColor="#FFFFFF"
+                        FontAttributes="Bold"
+                        FontSize="13"
+                        CornerRadius="14"
+                        HeightRequest="38"
+                        WidthRequest="70"
+                        Margin="8, 0, 0, 0" />
+            </Grid>
+        </Border>
+    </Grid>
+</ContentPage>
+

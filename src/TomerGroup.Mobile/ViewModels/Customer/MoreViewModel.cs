@@ -14,13 +14,13 @@ public partial class MoreViewModel : BaseViewModel
     private readonly IOfflineSyncManager _syncManager;
 
     [ObservableProperty]
-    private string _agencyPhone = "+51 84 223 456";
+    private string _agencyPhone = "+51 84 231961";
 
     [ObservableProperty]
-    private string _agencyWhatsApp = "+51 984 123 456";
+    private string _agencyWhatsApp = "+51 984 231961";
 
     [ObservableProperty]
-    private string _emergencyPhone = "+51 984 999 888";
+    private string _emergencyPhone = "+51 984 231961";
 
     [ObservableProperty]
     private string _chabadAddress = "Calle San Agustín 415, Cusco (2 min from Plaza de Armas)";
@@ -88,6 +88,6 @@ public partial class MoreViewModel : BaseViewModel
     {
         await _secureStorage.RemoveAsync("auth_token");
         await _secureStorage.RemoveAsync("refresh_token");
-        await Navigation.NavigateToLoginAsync();
+        await Navigation.NavigateToCustomerShellAsync();
     }
 }

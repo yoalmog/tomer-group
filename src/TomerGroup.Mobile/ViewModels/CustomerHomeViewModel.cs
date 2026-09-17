@@ -76,10 +76,10 @@ public partial class CustomerHomeViewModel : BaseViewModel
     private string _lakeTiticacaImage = string.Empty;
 
     [ObservableProperty]
-    private string _agencyContactPhone = "+51 84 223 456";
+    private string _agencyContactPhone = "+51 984 231961";
 
     [ObservableProperty]
-    private string _emergencyPhone = "+51 984 999 888";
+    private string _emergencyPhone = "+51 984 231961";
 
     public CustomerHomeViewModel(
         ILocalizationService localization,
@@ -232,6 +232,30 @@ public partial class CustomerHomeViewModel : BaseViewModel
     public async Task OpenProfileAsync()
     {
         await Navigation.NavigateToAsync("//Profile");
+    }
+
+    [RelayCommand]
+    public async Task OpenMyDayAsync()
+    {
+        await Navigation.NavigateToAsync("MyDay");
+    }
+
+    [RelayCommand]
+    public async Task OpenCustomerAIAssistantAsync()
+    {
+        await Navigation.NavigateToAsync("CustomerAIAssistant");
+    }
+
+    [RelayCommand]
+    public async Task OpenPackingListAsync()
+    {
+        await Navigation.NavigateToAsync("PackingList");
+    }
+
+    [RelayCommand]
+    public async Task OpenTripMemoriesAsync()
+    {
+        await Navigation.NavigateToAsync("TripMemories");
     }
 
     [RelayCommand]

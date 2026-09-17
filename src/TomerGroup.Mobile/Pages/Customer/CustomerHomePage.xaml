@@ -203,11 +203,58 @@
                         </Border>
                         <Label Text="גלה עוד" FontSize="12" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
                     </VerticalStackLayout>
-                    <Border.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenExploreCommand}" />
-                    </Border.GestureRecognizers>
-                </Border>
             </Grid>
+
+            <!-- ============================================================ -->
+            <!-- TRAVEL COMPANION SUITE (My Day, AI, Packing, Memories)        -->
+            <!-- ============================================================ -->
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="8">
+                    <!-- My Day -->
+                    <Border BackgroundColor="#FFF1F2" Stroke="#FEE2E2" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
+                        <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <Label Text="☀️" FontSize="14" VerticalOptions="Center" />
+                            <Label Text="היום שלי" FontSize="12" FontAttributes="Bold" TextColor="#BE123C" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenMyDayCommand}" />
+                        </Border.GestureRecognizers>
+                    </Border>
+
+                    <!-- AI Concierge -->
+                    <Border BackgroundColor="#F0FDF4" Stroke="#DCFCE7" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
+                        <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <Label Text="🤖" FontSize="14" VerticalOptions="Center" />
+                            <Label Text="עוזר טיולים AI" FontSize="12" FontAttributes="Bold" TextColor="#166534" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenCustomerAIAssistantCommand}" />
+                        </Border.GestureRecognizers>
+                    </Border>
+
+                    <!-- Packing List -->
+                    <Border BackgroundColor="#EFF6FF" Stroke="#DBEAFE" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
+                        <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <Label Text="🎒" FontSize="14" VerticalOptions="Center" />
+                            <Label Text="רשימת ציוד" FontSize="12" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenPackingListCommand}" />
+                        </Border.GestureRecognizers>
+                    </Border>
+
+                    <!-- Trip Memories -->
+                    <Border BackgroundColor="#FAF5FF" Stroke="#F3E8FF" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
+                        <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
+                            <Label Text="✨" FontSize="14" VerticalOptions="Center" />
+                            <Label Text="יומן חוויות" FontSize="12" FontAttributes="Bold" TextColor="#6B21A8" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenTripMemoriesCommand}" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </HorizontalStackLayout>
+            </ScrollView>
 
             <!-- ============================================================ -->
             <!-- DISCOVER PERU: DESTINATIONS CAROUSEL                         -->

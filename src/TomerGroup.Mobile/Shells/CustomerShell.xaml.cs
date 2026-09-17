@@ -18,6 +18,10 @@ public partial class CustomerShell : Microsoft.Maui.Controls.Shell
         Routing.RegisterRoute("Login", typeof(LoginPage));
         Routing.RegisterRoute("ForgotPassword", typeof(ForgotPasswordPage));
         Routing.RegisterRoute("More", typeof(MorePage));
+        Routing.RegisterRoute("MyDay", typeof(MyDayPage));
+        Routing.RegisterRoute("CustomerAIAssistant", typeof(CustomerAIAssistantPage));
+        Routing.RegisterRoute("PackingList", typeof(PackingListPage));
+        Routing.RegisterRoute("TripMemories", typeof(TripMemoriesPage));
     }
 }
 #endif

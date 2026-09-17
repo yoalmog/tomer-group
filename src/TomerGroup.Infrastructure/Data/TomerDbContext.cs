@@ -38,6 +38,9 @@ public class TomerDbContext : DbContext
     public DbSet<PasswordResetToken> PasswordResetTokens => Set<PasswordResetToken>();
     public DbSet<PhoneVerificationCode> PhoneVerificationCodes => Set<PhoneVerificationCode>();
     public DbSet<Destination> Destinations => Set<Destination>();
+    public DbSet<PackingItem> PackingItems => Set<PackingItem>();
+    public DbSet<TripMemory> TripMemories => Set<TripMemory>();
+    public DbSet<Review> Reviews => Set<Review>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -272,6 +275,25 @@ public class TomerDbContext : DbContext
             entity.Property(bs => bs.SocialLinks)
                 .HasConversion(dictConverter)
                 .Metadata.SetValueComparer(dictComparer);
+        });
+
+        // Experience & Traveler Entities
+        modelBuilder.Entity<PackingItem>(entity =>
+        {
+            entity.HasQueryFilter(p => !p.IsDeleted);
+        });
+
+        modelBuilder.Entity<TripMemory>(entity =>
+        {
+            entity.HasQueryFilter(m => !m.IsDeleted);
+        });
+
+        modelBuilder.Entity<Review>(entity =>
+        {
+            entity.Property(r => r.PhotoUrls)
+                .HasConversion(stringListConverter)
+                .Metadata.SetValueComparer(stringListComparer);
+            entity.HasQueryFilter(r => !r.IsDeleted);
         });
     }
 

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             x:Class="TomerGroup.Mobile.Pages.Customer.TripMemoriesPage"
+             x:DataType="vm:TripMemoriesViewModel"
+             BackgroundColor="#F8FAFC"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Top Bar -->
+        <Border Grid.Row="0" BackgroundColor="#FFFFFF" StrokeThickness="0" Padding="16, 12">
+            <Border.Shadow>
+                <Shadow Brush="#0F172A" Offset="0,2" Radius="6" Opacity="0.05" />
+            </Border.Shadow>
+            <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                <Button Grid.Column="0"
+                        Text="← Back"
+                        Command="{Binding GoBackCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#0F172A"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HeightRequest="36"
+                        Padding="0" />
+
+                <Label Grid.Column="1"
+                       Text="PERU MEMORIES &amp; REVIEWS"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="#0F172A"
+                       HorizontalOptions="Center" />
+
+                <Image Grid.Column="2"
+                       Source="tomer_group_logo.png"
+                       HeightRequest="28"
+                       WidthRequest="28"
+                       Aspect="AspectFit" />
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16" Padding="16, 16, 16, 32">
+
+                <!-- New Memory / Review Card -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="#FFFFFF"
+                        Padding="16">
+                    <Border.Shadow>
+                        <Shadow Brush="#0F172A" Offset="0,4" Radius="10" Opacity="0.05" />
+                    </Border.Shadow>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Capture a Moment or Experience"
+                               FontSize="14"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A" />
+
+                        <!-- Title Entry -->
+                        <Border StrokeThickness="1" Stroke="#E2E8F0" StrokeShape="RoundRectangle 10" Padding="10, 2">
+                            <Entry Text="{Binding NewMemoryTitle, Mode=TwoWay}"
+                                   Placeholder="Title (e.g. Rainbow Mountain Summit)"
+                                   FontSize="13"
+                                   TextColor="#0F172A" />
+                        </Border>
+
+                        <!-- Note Editor -->
+                        <Border StrokeThickness="1" Stroke="#E2E8F0" StrokeShape="RoundRectangle 10" Padding="10, 2">
+                            <Editor Text="{Binding NewMemoryNote, Mode=TwoWay}"
+                                    Placeholder="What made this moment special? Highlights, feelings, recommendations..."
+                                    HeightRequest="75"
+                                    FontSize="13"
+                                    TextColor="#0F172A" />
+                        </Border>
+
+                        <!-- Star Rating Selector -->
+                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                            <Label Text="Rating:"
+                                   FontSize="13"
+                                   FontAttributes="Bold"
+                                   TextColor="#0F172A"
+                                   VerticalOptions="Center" />
+                            <Button Text="★ 5" Command="{Binding SetRatingCommand}" CommandParameter="{x:Int32 5}" BackgroundColor="#FFF1F2" TextColor="#E11D48" CornerRadius="8" HeightRequest="32" Padding="8, 0" />
+                            <Button Text="★ 4" Command="{Binding SetRatingCommand}" CommandParameter="{x:Int32 4}" BackgroundColor="#F1F5F9" TextColor="#475569" CornerRadius="8" HeightRequest="32" Padding="8, 0" />
+                            <Button Text="★ 3" Command="{Binding SetRatingCommand}" CommandParameter="{x:Int32 3}" BackgroundColor="#F1F5F9" TextColor="#475569" CornerRadius="8" HeightRequest="32" Padding="8, 0" />
+                        </HorizontalStackLayout>
+
+                        <!-- Save Button -->
+                        <Button Text="Save to Trip Journal ✨"
+                                Command="{Binding AddMemoryCommand}"
+                                BackgroundColor="#E11D48"
+                                TextColor="#FFFFFF"
+                                FontAttributes="Bold"
+                                FontSize="13"
+                                CornerRadius="12"
+                                HeightRequest="40" />
+
+                        <Label Text="{Binding StatusMessage}"
+                               FontSize="12"
+                               FontAttributes="Bold"
+                               TextColor="#10B981"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Saved Memories List Header -->
+                <Label Text="YOUR TRIP TIMELINE"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#0F172A"
+                       Margin="0, 8, 0, 2" />
+
+                <!-- Memories Cards -->
+                <CollectionView ItemsSource="{Binding Memories}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:MemoryCardItem">
+                            <Border StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 16"
+                                    BackgroundColor="#FFFFFF"
+                                    Padding="0"
+                                    Margin="0, 6">
+                                <Border.Shadow>
+                                    <Shadow Brush="#0F172A" Offset="0,2" Radius="8" Opacity="0.04" />
+                                </Border.Shadow>
+                                <VerticalStackLayout Spacing="0">
+                                    <Image Source="{Binding ImageUrl}"
+                                           HeightRequest="140"
+                                           Aspect="AspectFill" />
+
+                                    <VerticalStackLayout Padding="16" Spacing="6">
+                                        <Grid ColumnDefinitions="*, Auto">
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Title}"
+                                                   FontSize="15"
+                                                   FontAttributes="Bold"
+                                                   TextColor="#0F172A" />
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding RatingStars}"
+                                                   FontSize="13"
+                                                   TextColor="#E11D48" />
+                                        </Grid>
+
+                                        <Label Text="{Binding DateFormatted}"
+                                               FontSize="11"
+                                               TextColor="#94A3B8" />
+
+                                        <Label Text="{Binding Note}"
+                                               FontSize="13"
+                                               TextColor="#475569"
+                                               LineBreakMode="WordWrap" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
+

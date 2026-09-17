@@ -4,7 +4,7 @@ namespace TomerGroup.Mobile.ViewModels.Customer;
 
 public class TravelConciergeViewModel
 {
-    public string AssistantName { get; } = "Sofia Alvarez";
+    public string AssistantName { get; } = "Tomer Group Travel Concierge";
 
     public string StatusMessage { get; } = "Your dedicated travel designer is ready to help.";
 

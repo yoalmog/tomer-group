@@ -102,3 +102,4 @@ public class DestinationImageService : IDestinationImageService
         return GetDestinationHeroImage(tourTitle);
     }
 }
+

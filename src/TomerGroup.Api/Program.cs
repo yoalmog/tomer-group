@@ -61,6 +61,7 @@ builder.Services.AddSingleton<IRateLimitingService, RateLimitingService>();
 builder.Services.AddSingleton<ISecuritySanitizerService, SecuritySanitizerService>();
 builder.Services.AddScoped<ISecurityAuditService, SecurityAuditService>();
 builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
+builder.Services.AddSingleton<IMapService, MapService>();
 
 // 4. Configure JWT Authentication
 var jwtSecret = builder.Configuration["JwtSettings:Secret"] ?? "TomerGroupSuperSecretKeyForPeruTravelExperience2026!@#$998877";

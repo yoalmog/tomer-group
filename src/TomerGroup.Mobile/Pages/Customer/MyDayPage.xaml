@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             x:Class="TomerGroup.Mobile.Pages.Customer.MyDayPage"
+             x:DataType="vm:MyDayViewModel"
+             BackgroundColor="#F8FAFC"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto, *">
+        <!-- Top Navigation Header -->
+        <Border Grid.Row="0" BackgroundColor="#FFFFFF" StrokeThickness="0" Padding="16, 12">
+            <Border.Shadow>
+                <Shadow Brush="#0F172A" Offset="0,2" Radius="6" Opacity="0.05" />
+            </Border.Shadow>
+            <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
+                <Button Grid.Column="0"
+                        Text="← Back"
+                        Command="{Binding GoBackCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="#0F172A"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HeightRequest="36"
+                        Padding="0" />
+
+                <Label Grid.Column="1"
+                       Text="TODAY IN PERU"
+                       Style="{StaticResource SubHeadlineStyle}"
+                       TextColor="#0F172A"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center" />
+
+                <Image Grid.Column="2"
+                       Source="tomer_group_logo.png"
+                       HeightRequest="28"
+                       WidthRequest="28"
+                       Aspect="AspectFit" />
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Spacing="16" Padding="16, 16, 16, 32">
+                
+                <!-- Destination Hero & Greeting Card -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 20"
+                        BackgroundColor="#FFFFFF"
+                        Padding="0">
+                    <Border.Shadow>
+                        <Shadow Brush="#0F172A" Offset="0,4" Radius="12" Opacity="0.06" />
+                    </Border.Shadow>
+                    <Grid RowDefinitions="140, Auto">
+                        <Image Grid.Row="0"
+                               Source="{Binding TodayCoverImage}"
+                               Aspect="AspectFill" />
+                        <BoxView Grid.Row="0"
+                                 Color="#0F172A"
+                                 Opacity="0.35" />
+                        <VerticalStackLayout Grid.Row="0"
+                                             VerticalOptions="End"
+                                             Padding="16, 12">
+                            <Label Text="{Binding TodayDestination}"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="#FFFFFF" />
+                            <Label Text="{Binding CurrentDateText}"
+                                   FontSize="12"
+                                   TextColor="#E2E8F0" />
+                        </VerticalStackLayout>
+
+                        <!-- Greeting Row -->
+                        <VerticalStackLayout Grid.Row="1" Padding="16, 14" Spacing="4">
+                            <Label Text="GOOD MORNING 👋"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#E11D48"
+                                   CharacterSpacing="1" />
+                            <Label Text="{Binding CustomerName, StringFormat='Ready for today\'s journey, {0}?'}"
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#0F172A" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Next Up Live Card -->
+                <Border StrokeThickness="1"
+                        Stroke="#FEE2E2"
+                        StrokeShape="RoundRectangle 18"
+                        BackgroundColor="#FFF1F2"
+                        Padding="16"
+                        IsVisible="{Binding HasNextUpActivity}">
+                    <VerticalStackLayout Spacing="10">
+                        <Grid ColumnDefinitions="Auto, *, Auto">
+                            <Border Grid.Column="0"
+                                    BackgroundColor="#E11D48"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 8"
+                                    Padding="10, 4">
+                                <Label Text="NEXT UP"
+                                       TextColor="#FFFFFF"
+                                       FontSize="11"
+                                       FontAttributes="Bold" />
+                            </Border>
+
+                            <Label Grid.Column="2"
+                                   Text="{Binding NextUpTime}"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="#E11D48"
+                                   VerticalOptions="Center" />
+                        </Grid>
+
+                        <Label Text="{Binding NextUpTitle}"
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               TextColor="#0F172A" />
+
+                        <Grid ColumnDefinitions="Auto, *">
+                            <Label Grid.Column="0"
+                                   Text="📍 "
+                                   FontSize="13" />
+                            <Label Grid.Column="1"
+                                   Text="{Binding NextUpLocation}"
+                                   FontSize="13"
+                                   TextColor="#475569" />
+                        </Grid>
+
+                        <Grid ColumnDefinitions="*, Auto" Margin="0, 4, 0, 0">
+                            <Label Grid.Column="0"
+                                   Text="{Binding NextUpCountdown}"
+                                   FontSize="12"
+                                   FontAttributes="Italic"
+                                   TextColor="#BE123C"
+                                   VerticalOptions="Center" />
+
+                            <Button Grid.Column="1"
+                                    Text="View Route 🗺️"
+                                    Command="{Binding OpenMapCommand}"
+                                    BackgroundColor="#0F172A"
+                                    TextColor="#FFFFFF"
+                                    CornerRadius="10"
+                                    FontSize="12"
+                                    HeightRequest="36"
+                                    Padding="12, 0" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Altitude & Weather Brief -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="#FFFFFF"
+                        Padding="14">
+                    <Grid ColumnDefinitions="Auto, *">
+                        <Label Grid.Column="0"
+                               Text="☀️"
+                               FontSize="22"
+                               Margin="0, 0, 10, 0"
+                               VerticalOptions="Center" />
+                        <VerticalStackLayout Grid.Column="1" Spacing="2">
+                            <Label Text="Andean Climate Briefing"
+                                   FontSize="12"
+                                   FontAttributes="Bold"
+                                   TextColor="#0F172A" />
+                            <Label Text="{Binding WeatherInfo}"
+                                   FontSize="11"
+                                   TextColor="#64748B"
+                                   LineBreakMode="WordWrap" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </Border>
+
+                <!-- Today's Timeline Section Header -->
+                <Label Text="TODAY'S SCHEDULE"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="#0F172A"
+                       Margin="0, 6, 0, 2" />
+
+                <!-- Activities Timeline -->
+                <CollectionView ItemsSource="{Binding TodayActivities}">
+                    <CollectionView.EmptyView>
+                        <Border StrokeThickness="0"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="#FFFFFF"
+                                Padding="20">
+                            <Label Text="No scheduled activities for this day. Free time to explore!"
+                                   HorizontalTextAlignment="Center"
+                                   TextColor="#64748B"
+                                   FontSize="13" />
+                        </Border>
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 14"
+                                    BackgroundColor="#FFFFFF"
+                                    Padding="14"
+                                    Margin="0, 4">
+                                <Grid ColumnDefinitions="Auto, *">
+                                    <!-- Time Column -->
+                                    <VerticalStackLayout Grid.Column="0" WidthRequest="65" VerticalOptions="Center">
+                                        <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}"
+                                               FontSize="15"
+                                               FontAttributes="Bold"
+                                               TextColor="#0F172A" />
+                                        <Label Text="{Binding EndTime, StringFormat='{0:hh\\:mm}'}"
+                                               FontSize="11"
+                                               TextColor="#94A3B8" />
+                                    </VerticalStackLayout>
+
+                                    <!-- Details Column -->
+                                    <VerticalStackLayout Grid.Column="1" Spacing="3" Padding="8, 0, 0, 0">
+                                        <Label Text="{Binding Title}"
+                                               FontSize="14"
+                                               FontAttributes="Bold"
+                                               TextColor="#0F172A" />
+                                        <Label Text="{Binding Location}"
+                                               FontSize="12"
+                                               TextColor="#64748B" />
+                                        <Label Text="{Binding Description}"
+                                               FontSize="11"
+                                               TextColor="#94A3B8"
+                                               LineBreakMode="TailTruncation"
+                                               MaxLines="2" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Support Card -->
+                <Border StrokeThickness="0"
+                        StrokeShape="RoundRectangle 16"
+                        BackgroundColor="#0F172A"
+                        Padding="16"
+                        Margin="0, 10, 0, 0">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <VerticalStackLayout Grid.Column="0" Spacing="3">
+                            <Label Text="Need Assistance Today?"
+                                   TextColor="#FFFFFF"
+                                   FontSize="14"
+                                   FontAttributes="Bold" />
+                            <Label Text="24/7 Tomer Group Peru Operations on call"
+                                   TextColor="#94A3B8"
+                                   FontSize="11" />
+                        </VerticalStackLayout>
+
+                        <Button Grid.Column="1"
+                                Text="Contact Support"
+                                Command="{Binding OpenSupportCommand}"
+                                BackgroundColor="#E11D48"
+                                TextColor="#FFFFFF"
+                                CornerRadius="10"
+                                FontSize="12"
+                                HeightRequest="38"
+                                Padding="12, 0" />
+                    </Grid>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
+

@@ -188,3 +188,4 @@ public partial class ExploreViewModel : BaseViewModel
         await Navigation.NavigateToAsync("//More");
     }
 }
+

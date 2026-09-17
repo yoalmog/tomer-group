@@ -12,3 +12,4 @@ public partial class ActivityDetailPage : Microsoft.Maui.Controls.ContentPage
     }
 }
 #endif
+

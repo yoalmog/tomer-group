@@ -35,7 +35,7 @@ public class PlanTripFlowTests
     {
         var viewModel = new TravelConciergeViewModel();
 
-        Assert.Equal("Sofia Alvarez", viewModel.AssistantName);
+        Assert.Equal("Tomer Group Travel Concierge", viewModel.AssistantName);
         Assert.Equal(3, viewModel.Services.Count);
         Assert.Contains("Private airport transfer", viewModel.Services[0].Title);
     }
@@ -56,8 +56,8 @@ public class PlanTripFlowTests
         var viewModel = new TransferDetailsViewModel();
 
         Assert.Equal("Private airport transfer", viewModel.TransferTitle);
-        Assert.Equal("Alejandro Rojas", viewModel.DriverName);
-        Assert.Contains("SUV", viewModel.VehicleInfo);
+        Assert.Equal("Assigned Driver", viewModel.DriverName);
+        Assert.Contains("Vehicle", viewModel.VehicleInfo);
     }
 
     [Fact]
@@ -77,8 +77,8 @@ public class PlanTripFlowTests
         var viewModel = new LuxuryBrandingViewModel();
 
         Assert.Equal("Tomer Group", viewModel.BrandName);
-        Assert.Equal("Luxury Peru Travel", viewModel.Tagline);
-        Assert.Contains("#F59E0B", viewModel.AccentColor);
+        Assert.Equal("Peru Travel Experience", viewModel.Tagline);
+        Assert.Contains("#E11D48", viewModel.AccentColor);
     }
 
     [Fact]

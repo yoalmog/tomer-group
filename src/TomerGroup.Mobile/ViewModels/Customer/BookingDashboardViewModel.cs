@@ -7,7 +7,7 @@ public class BookingDashboardViewModel
     public string TripName { get; } = "Cusco & Sacred Valley";
     public string HotelName { get; } = "Casa Andina Premium Cusco";
     public string TransferTitle { get; } = "Private airport transfer";
-    public string ConciergeName { get; } = "Sofia Alvarez";
+    public string ConciergeName { get; } = "Tomer Group Travel Concierge";
 
     public ObservableCollection<string> ConciergeServices { get; } = new()
     {

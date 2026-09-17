@@ -155,10 +155,10 @@ public partial class AgencySettingsViewModel : BaseViewModel
     private string _accentColor = "#FB7185";
 
     [ObservableProperty]
-    private string _contactPhone = "+51 84 223 456";
+    private string _contactPhone = "+51 984 231961";
 
     [ObservableProperty]
-    private string _whatsApp = "+51 984 123 456";
+    private string _whatsApp = "+51 984 231961";
 
     [ObservableProperty]
     private string _selectedLanguage = "he";
