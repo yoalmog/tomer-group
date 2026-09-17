@@ -196,3 +196,4 @@ public class UsersController : ControllerBase
         return Ok(ApiResponse<bool>.Ok(true, "User deactivated successfully"));
     }
 }
+
