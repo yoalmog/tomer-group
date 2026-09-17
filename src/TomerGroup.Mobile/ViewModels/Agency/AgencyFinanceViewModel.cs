@@ -24,25 +24,31 @@ public partial class AgencyFinanceViewModel : ObservableObject
     private bool _isBusy;
 
     [ObservableProperty]
+    private bool _hasError;
+
+    [ObservableProperty]
     private string _errorMessage = string.Empty;
 
     [ObservableProperty]
-    private decimal _totalRevenueUsd = 45000;
+    private bool _isEmpty;
 
     [ObservableProperty]
-    private decimal _totalCollectedUsd = 38500;
+    private decimal _totalRevenueUsd = 0;
 
     [ObservableProperty]
-    private decimal _totalOutstandingUsd = 6500;
+    private decimal _totalCollectedUsd = 0;
 
     [ObservableProperty]
-    private decimal _totalExpensesUsd = 26200;
+    private decimal _totalOutstandingUsd = 0;
 
     [ObservableProperty]
-    private decimal _netProfitUsd = 18800;
+    private decimal _totalExpensesUsd = 0;
 
     [ObservableProperty]
-    private decimal _marginPercentage = 41.78m;
+    private decimal _netProfitUsd = 0;
+
+    [ObservableProperty]
+    private decimal _marginPercentage = 0;
 
     [RelayCommand]
     public async Task InitializeAsync()
@@ -54,6 +60,7 @@ public partial class AgencyFinanceViewModel : ObservableObject
     public async Task LoadFinancialsAsync()
     {
         IsBusy = true;
+        HasError = false;
         ErrorMessage = string.Empty;
 
         try
@@ -79,42 +86,11 @@ public partial class AgencyFinanceViewModel : ObservableObject
                 }
             }
 
-            if (RecentPayments.Count == 0)
-            {
-                // Fallback default sample transactions
-                RecentPayments.Add(new PaymentDto
-                {
-                    Id = Guid.NewGuid(),
-                    ReceiptNumber = "REC-2026-00102",
-                    BookingCode = "TG-2026-00482",
-                    CustomerName = "Danny Cohen",
-                    Amount = 2500,
-                    Currency = Core.Enums.Currency.USD,
-                    Method = Core.Enums.PaymentMethod.BankTransfer,
-                    Status = Core.Enums.PaymentStatus.Paid,
-                    PaymentDate = DateTime.UtcNow.AddHours(-3),
-                    ReferenceNumber = "HAPOALIM-88129",
-                    Notes = "Full balance payment - confirmed"
-                });
-
-                RecentPayments.Add(new PaymentDto
-                {
-                    Id = Guid.NewGuid(),
-                    ReceiptNumber = "REC-2026-00101",
-                    BookingCode = "TG-2026-00481",
-                    CustomerName = "Yossi Levi",
-                    Amount = 1500,
-                    Currency = Core.Enums.Currency.USD,
-                    Method = Core.Enums.PaymentMethod.CreditCard,
-                    Status = Core.Enums.PaymentStatus.Paid,
-                    PaymentDate = DateTime.UtcNow.AddDays(-1),
-                    ReferenceNumber = "VISA-4421-Auth",
-                    Notes = "Deposit 50% for Sacred Valley + Machu Picchu"
-                });
-            }
+            IsEmpty = RecentPayments.Count == 0;
         }
         catch (Exception ex)
         {
+            HasError = true;
             ErrorMessage = $"Error loading financials: {ex.Message}";
         }
         finally
@@ -123,4 +99,3 @@ public partial class AgencyFinanceViewModel : ObservableObject
         }
     }
 }
-

@@ -26,7 +26,13 @@ public partial class AgencyToursViewModel : ObservableObject
     private bool _isBusy;
 
     [ObservableProperty]
+    private bool _hasError;
+
+    [ObservableProperty]
     private string _errorMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _isEmpty;
 
     [ObservableProperty]
     private string _searchQuery = string.Empty;
@@ -46,6 +52,7 @@ public partial class AgencyToursViewModel : ObservableObject
     public async Task LoadToursAsync()
     {
         IsBusy = true;
+        HasError = false;
         ErrorMessage = string.Empty;
 
         try
@@ -53,81 +60,18 @@ public partial class AgencyToursViewModel : ObservableObject
             var response = await _apiClient.GetToursAsync();
             _allTours.Clear();
 
-            if (response.Success && response.Data != null && response.Data.Count > 0)
+            if (response.Success && response.Data != null)
             {
                 _allTours = response.Data;
-            }
-            else
-            {
-                // Fallback default tours
-                _allTours = new List<TourDto>
-                {
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Machu Picchu Classic Citadel Tour",
-                        HebrewName = "מאצ'ו פיצ'ו סיור מצודה קלאסי",
-                        Destination = "Machu Picchu",
-                        Category = TourCategory.DayTour,
-                        Duration = "Full Day",
-                        Difficulty = "Moderate",
-                        AdultPrice = 380,
-                        AltitudeMaxMeters = 2430,
-                        KosherFoodAvailable = true,
-                        KosherCertificationDetails = "Glatt Kosher lunch box from Chabad Cusco"
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Salkantay Trek to Machu Picchu",
-                        HebrewName = "טרק סלקנטאי למאצ'ו פיצ'ו 5 ימים",
-                        Destination = "Salkantay",
-                        Category = TourCategory.Trek,
-                        Duration = "5 Days / 4 Nights",
-                        Difficulty = "Challenging",
-                        AdultPrice = 650,
-                        AltitudeMaxMeters = 4630,
-                        RequiresAcclimatization = true,
-                        KosherFoodAvailable = true,
-                        KosherCertificationDetails = "Kosher trail cooking available"
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Rainbow Mountain & Red Valley Trek",
-                        HebrewName = "הר שבעת הצבעים ועמק האדום",
-                        Destination = "Rainbow Mountain",
-                        Category = TourCategory.Trek,
-                        Duration = "Full Day",
-                        Difficulty = "Strenuous",
-                        AdultPrice = 120,
-                        AltitudeMaxMeters = 5036,
-                        RequiresAcclimatization = true,
-                        KosherFoodAvailable = true,
-                        KosherCertificationDetails = "Kosher breakfast and packed lunch"
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Sacred Valley & Pisac Market",
-                        HebrewName = "העמק הקדוש ושוק פיסאק",
-                        Destination = "Sacred Valley",
-                        Category = TourCategory.Cultural,
-                        Duration = "Full Day",
-                        Difficulty = "Easy",
-                        AdultPrice = 150,
-                        AltitudeMaxMeters = 2972,
-                        KosherFoodAvailable = true,
-                        KosherCertificationDetails = "Kosher options certified by Chabad"
-                    }
-                };
             }
 
             FilterTours();
         }
         catch (Exception ex)
         {
+            HasError = true;
             ErrorMessage = $"Error loading tours: {ex.Message}";
+            FilterTours();
         }
         finally
         {
@@ -182,6 +126,7 @@ public partial class AgencyToursViewModel : ObservableObject
         {
             Tours.Add(t);
         }
+
+        IsEmpty = Tours.Count == 0;
     }
 }
-

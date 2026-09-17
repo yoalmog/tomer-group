@@ -30,7 +30,13 @@ public partial class AgencyTripsViewModel : ObservableObject
     private bool _isBusy = false;
 
     [ObservableProperty]
+    private bool _hasError = false;
+
+    [ObservableProperty]
     private string _errorMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _isEmpty = false;
 
     [ObservableProperty]
     private string _searchQuery = string.Empty;
@@ -46,19 +52,28 @@ public partial class AgencyTripsViewModel : ObservableObject
     public async Task LoadTripsAsync()
     {
         IsBusy = true;
+        HasError = false;
         ErrorMessage = string.Empty;
 
         try
         {
             Trips.Clear();
             var response = await _apiClient.GetCustomerTripsAsync(Guid.Empty);
-            // Default trips
-            AddDefaultTrips();
+            if (response.Success && response.Data != null)
+            {
+                foreach (var trip in response.Data)
+                {
+                    Trips.Add(trip);
+                }
+            }
+
+            IsEmpty = Trips.Count == 0;
         }
         catch (Exception ex)
         {
+            HasError = true;
             ErrorMessage = $"Error: {ex.Message}";
-            AddDefaultTrips();
+            IsEmpty = Trips.Count == 0;
         }
         finally
         {
@@ -86,47 +101,4 @@ public partial class AgencyTripsViewModel : ObservableObject
             // Non-blocking
         }
     }
-
-    private void AddDefaultTrips()
-    {
-        Trips.Clear();
-        Trips.Add(new TripDto
-        {
-            Id = Guid.NewGuid(),
-            TripCode = "PERU-2026-00482",
-            Title = "חוויית פרו VIP — דני כהן (Danny Cohen)",
-            CustomerName = "Danny Cohen (דני כהן)",
-            StartDate = DateTime.UtcNow.Date,
-            EndDate = DateTime.UtcNow.Date.AddDays(5),
-            Status = TripStatus.InProgress,
-            TotalRevenue = 2500,
-            TotalCost = 1450,
-            GrossProfit = 1050,
-            Currency = Currency.USD,
-            Days = new List<TripDayDto>
-            {
-                new() { DayNumber = 1, Date = DateTime.UtcNow.Date, Title = "Day 1: הגעה לקוסקו", Destination = "Cusco" },
-                new() { DayNumber = 2, Date = DateTime.UtcNow.Date.AddDays(1), Title = "Day 2: סיור עיר וסאקסייוואמאן", Destination = "Cusco" },
-                new() { DayNumber = 3, Date = DateTime.UtcNow.Date.AddDays(2), Title = "Day 3: שוק פיסאק ומבצר אולאנטייטמבו", Destination = "Sacred Valley" },
-                new() { DayNumber = 4, Date = DateTime.UtcNow.Date.AddDays(3), Title = "Day 4: סיור VIP במאצ'ו פיצ'ו", Destination = "Machu Picchu" },
-                new() { DayNumber = 5, Date = DateTime.UtcNow.Date.AddDays(4), Title = "Day 5: הר שבעת הצבעים (ויניקונקה)", Destination = "Rainbow Mountain" }
-            }
-        });
-
-        Trips.Add(new TripDto
-        {
-            Id = Guid.NewGuid(),
-            TripCode = "PERU-2026-00483",
-            Title = "עמק הקדוש ומאצ'ו פיצ'ו — מאיה לוי",
-            CustomerName = "Maya Levi (מאיה לוי)",
-            StartDate = DateTime.UtcNow.Date.AddDays(7),
-            EndDate = DateTime.UtcNow.Date.AddDays(12),
-            Status = TripStatus.Confirmed,
-            TotalRevenue = 1800,
-            TotalCost = 1020,
-            GrossProfit = 780,
-            Currency = Currency.USD
-        });
-    }
 }
-

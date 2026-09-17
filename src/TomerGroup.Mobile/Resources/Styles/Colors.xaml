@@ -3,40 +3,76 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- Tomer Group Official Andean Palette & Brand Design Tokens -->
-    <!-- Primary: Deep Andean Sapphire / Navy -->
-    <Color x:Key="Primary">#1B365D</Color>
-    <Color x:Key="PrimaryDark">#0F1F38</Color>
-    <Color x:Key="PrimaryLight">#2B4C7E</Color>
+    <!-- ============================================================ -->
+    <!-- TOMER GROUP OFFICIAL BRAND DESIGN TOKENS                    -->
+    <!-- Derived directly from official Tomer Group Magenta/Black ID   -->
+    <!-- ============================================================ -->
 
-    <!-- Secondary: Warm Incan Terracotta / Gold -->
-    <Color x:Key="Secondary">#C28251</Color>
-    <Color x:Key="SecondaryDark">#9E6336</Color>
-    <Color x:Key="SecondaryLight">#D99C6F</Color>
+    <!-- Primary Brand Colors: Official Magenta / Rose -->
+    <Color x:Key="TomerPrimary">#E11D48</Color>
+    <Color x:Key="TomerPrimaryDark">#BE123C</Color>
+    <Color x:Key="TomerPrimaryLight">#FB7185</Color>
+    <Color x:Key="TomerAccent">#F43F5E</Color>
 
-    <!-- Accent: High Mountain Sky Blue -->
-    <Color x:Key="Accent">#2D9CDB</Color>
-    <Color x:Key="AccentLight">#56CCF2</Color>
+    <!-- Deep Luxury Black & Clean White -->
+    <Color x:Key="TomerBlack">#0F172A</Color>
+    <Color x:Key="TomerBlackDark">#0A0E1A</Color>
+    <Color x:Key="TomerWhite">#FFFFFF</Color>
 
-    <!-- Brand Monogram Accent: Magenta / Deep Rose from Official Logo -->
+    <!-- Neutral Surfaces & Backgrounds -->
+    <Color x:Key="TomerBackground">#F8FAFC</Color>
+    <Color x:Key="TomerBackgroundDark">#0A0E1A</Color>
+    <Color x:Key="TomerSurface">#FFFFFF</Color>
+    <Color x:Key="TomerSurfaceDark">#1E293B</Color>
+    <Color x:Key="TomerCard">#FFFFFF</Color>
+    <Color x:Key="TomerCardDark">#1E293B</Color>
+
+    <!-- Typography Tones -->
+    <Color x:Key="TomerTextPrimary">#0F172A</Color>
+    <Color x:Key="TomerTextSecondary">#64748B</Color>
+    <Color x:Key="TomerTextPrimaryDark">#F8FAFC</Color>
+    <Color x:Key="TomerTextSecondaryDark">#94A3B8</Color>
+
+    <!-- Structural Borders & Dividers -->
+    <Color x:Key="TomerBorder">#E2E8F0</Color>
+    <Color x:Key="TomerBorderDark">#334155</Color>
+
+    <!-- Semantic Status Tones -->
+    <Color x:Key="TomerSuccess">#10B981</Color>
+    <Color x:Key="TomerSuccessBg">#ECFDF5</Color>
+    <Color x:Key="TomerWarning">#F59E0B</Color>
+    <Color x:Key="TomerWarningBg">#FFFBEB</Color>
+    <Color x:Key="TomerError">#EF4444</Color>
+    <Color x:Key="TomerErrorBg">#FEF2F2</Color>
+    <Color x:Key="TomerInfo">#3B82F6</Color>
+    <Color x:Key="TomerInfoBg">#EFF6FF</Color>
+
+    <!-- ============================================================ -->
+    <!-- BACKWARDS-COMPATIBLE ALIASES FOR SEAMLESS XAML RESOLUTION   -->
+    <!-- ============================================================ -->
+    <Color x:Key="Primary">#E11D48</Color>
+    <Color x:Key="PrimaryDark">#BE123C</Color>
+    <Color x:Key="PrimaryLight">#FB7185</Color>
+    <Color x:Key="Secondary">#0F172A</Color>
+    <Color x:Key="SecondaryDark">#0A0E1A</Color>
+    <Color x:Key="SecondaryLight">#1E293B</Color>
+    <Color x:Key="Accent">#E11D48</Color>
+    <Color x:Key="AccentLight">#FB7185</Color>
     <Color x:Key="BrandMonogram">#E11D48</Color>
     <Color x:Key="BrandMonogramLight">#FB7185</Color>
 
-    <!-- Neutral & Background Tones -->
     <Color x:Key="BackgroundLight">#F8FAFC</Color>
-    <Color x:Key="BackgroundDark">#0F172A</Color>
+    <Color x:Key="BackgroundDark">#0A0E1A</Color>
     <Color x:Key="SurfaceLight">#FFFFFF</Color>
     <Color x:Key="SurfaceDark">#1E293B</Color>
     <Color x:Key="CardBorder">#E2E8F0</Color>
     <Color x:Key="CardBorderDark">#334155</Color>
 
-    <!-- Text Tones -->
     <Color x:Key="TextPrimaryLight">#0F172A</Color>
     <Color x:Key="TextSecondaryLight">#64748B</Color>
     <Color x:Key="TextPrimaryDark">#F8FAFC</Color>
     <Color x:Key="TextSecondaryDark">#94A3B8</Color>
 
-    <!-- Status Tones -->
     <Color x:Key="StatusSuccess">#10B981</Color>
     <Color x:Key="StatusSuccessBg">#ECFDF5</Color>
     <Color x:Key="StatusWarning">#F59E0B</Color>
@@ -46,7 +82,6 @@
     <Color x:Key="StatusInfo">#3B82F6</Color>
     <Color x:Key="StatusInfoBg">#EFF6FF</Color>
 
-    <!-- Semantic Aliases for Cross-Platform Compatibility -->
     <Color x:Key="BackgroundColor">#F8FAFC</Color>
     <Color x:Key="TextPrimary">#0F172A</Color>
     <Color x:Key="TextSecondary">#64748B</Color>

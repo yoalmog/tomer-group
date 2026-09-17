@@ -33,6 +33,9 @@ public partial class AgencyCustomersViewModel : ObservableObject
     private bool _isBusy = false;
 
     [ObservableProperty]
+    private bool _hasError = false;
+
+    [ObservableProperty]
     private string _errorMessage = string.Empty;
 
     [ObservableProperty]
@@ -66,6 +69,7 @@ public partial class AgencyCustomersViewModel : ObservableObject
     public async Task LoadCustomersAsync()
     {
         IsBusy = true;
+        HasError = false;
         ErrorMessage = string.Empty;
 
         try
@@ -100,18 +104,14 @@ public partial class AgencyCustomersViewModel : ObservableObject
                     Customers.Add(item);
                 }
             }
-            else
-            {
-                // Fallback realistic demo travelers
-                AddDemoTravelers();
-            }
 
             HasNoResults = Customers.Count == 0;
         }
         catch (Exception ex)
         {
+            HasError = true;
             ErrorMessage = $"Could not load travelers: {ex.Message}";
-            AddDemoTravelers();
+            HasNoResults = true;
         }
         finally
         {
@@ -138,74 +138,4 @@ public partial class AgencyCustomersViewModel : ObservableObject
         if (customer == null) return;
         await _navigationService.NavigateToAsync($"AgencyCustomerDetail?id={customer.Id}");
     }
-
-    private void AddDemoTravelers()
-    {
-        Customers.Clear();
-        Customers.Add(new CustomerSummaryDto
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Danny",
-            LastName = "Cohen",
-            HebrewName = "דני כהן",
-            Phone = "+972 54 123 4567",
-            WhatsApp = "+972 54 123 4567",
-            Email = "danny@israel.com",
-            Country = "Israel",
-            MaskedPassportNumber = "IL-****2711",
-            IsActiveInPeru = true,
-            DietaryPreferences = "כשר למהדרין (Kosher Mehudar)",
-            ActiveTripsCount = 1,
-            TotalBookingsCount = 3
-        });
-        Customers.Add(new CustomerSummaryDto
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Maya",
-            LastName = "Levi",
-            HebrewName = "מאיה לוי",
-            Phone = "+972 52 444 8899",
-            WhatsApp = "+972 52 444 8899",
-            Email = "maya.levi@israel.com",
-            Country = "Israel",
-            MaskedPassportNumber = "IL-****1033",
-            IsActiveInPeru = false,
-            DietaryPreferences = "צמחוני (Vegetarian)",
-            ActiveTripsCount = 1,
-            TotalBookingsCount = 2
-        });
-        Customers.Add(new CustomerSummaryDto
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Yoni",
-            LastName = "Ben-David",
-            HebrewName = "יוני בן-דוד",
-            Phone = "+972 50 777 3322",
-            WhatsApp = "+972 50 777 3322",
-            Email = "yoni.bd@israel.com",
-            Country = "Israel",
-            MaskedPassportNumber = "IL-****9104",
-            IsActiveInPeru = true,
-            DietaryPreferences = "טבעוני (Vegan)",
-            ActiveTripsCount = 1,
-            TotalBookingsCount = 1
-        });
-        Customers.Add(new CustomerSummaryDto
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "Noa",
-            LastName = "Sharon",
-            HebrewName = "נועה שרון",
-            Phone = "+972 54 888 2211",
-            WhatsApp = "+972 54 888 2211",
-            Email = "noa.sharon@israel.com",
-            Country = "Israel",
-            MaskedPassportNumber = "IL-****8374",
-            IsActiveInPeru = false,
-            DietaryPreferences = "גלאט כשר (Glatt Kosher)",
-            ActiveTripsCount = 0,
-            TotalBookingsCount = 1
-        });
-    }
 }
-

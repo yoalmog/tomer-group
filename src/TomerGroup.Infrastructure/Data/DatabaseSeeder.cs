@@ -7,7 +7,7 @@ namespace TomerGroup.Infrastructure.Data;
 
 public static class DatabaseSeeder
 {
-    public static async Task SeedAsync(TomerDbContext context, IPasswordHasher hasher)
+    public static async Task SeedAsync(TomerDbContext context, IPasswordHasher hasher, bool isDevelopment = false)
     {
         // 1. Seed BrandSettings if none exists
         if (!await context.BrandSettings.AnyAsync())
@@ -125,19 +125,8 @@ public static class DatabaseSeeder
                 PreferredLanguage = "es"
             };
 
-            var customerUser = new User
-            {
-                Email = "danny@israel.com",
-                PasswordHash = customerHash,
-                Salt = customerSalt,
-                FirstName = "Danny",
-                LastName = "Cohen",
-                Phone = "+972 54 123 4567",
-                Role = UserRole.Customer,
-                PreferredLanguage = "he"
-            };
-
-            await context.Users.AddRangeAsync(adminUser, managerUser, salesUser, opsUser, financeUser, guideUser, driverUser, customerUser);
+            var staffUsers = new List<User> { adminUser, managerUser, salesUser, opsUser, financeUser, guideUser, driverUser };
+            await context.Users.AddRangeAsync(staffUsers);
             await context.SaveChangesAsync();
 
             // Seed Guide & Driver entities
@@ -172,13 +161,27 @@ public static class DatabaseSeeder
             await context.Guides.AddAsync(guide);
             await context.Drivers.AddAsync(driver);
             await context.Vehicles.AddAsync(vehicle);
+            await context.SaveChangesAsync();
 
-            // Seed Customer Profile for Danny (Active in Peru, Kosher)
-            var customer = new Customer
+            if (isDevelopment)
             {
-                UserId = customerUser.Id,
-                FirstName = "Danny",
-                LastName = "Cohen",
+                var customerUser = new User
+                {
+                    Email = "danny@israel.com",
+                    PasswordHash = customerHash,
+                    Salt = customerSalt,
+                    FirstName = "Danny",
+                    LastName = "Cohen",
+                    Phone = "+972 54 123 4567",
+                    Role = UserRole.Customer,
+                    PreferredLanguage = "he"
+                };
+                await context.Users.AddAsync(customerUser);
+                var customer = new Customer
+                {
+                    UserId = customerUser.Id,
+                    FirstName = "Danny",
+                    LastName = "Cohen",
                 HebrewName = "דני כהן",
                 PassportName = "DANNY COHEN",
                 Phone = "+972 54 123 4567",
@@ -583,6 +586,7 @@ public static class DatabaseSeeder
 
             await context.Notifications.AddAsync(notification);
             await context.SaveChangesAsync();
+            }
         }
 
         // 10. Seed Peru Destinations (Section 10: Dynamic Destinations)

@@ -219,19 +219,7 @@ public partial class LoginViewModel : BaseViewModel
             }
             else
             {
-                // Demo fallback routing if offline
-                if (Email == "danny@israel.com" && Password == "Traveler2026!")
-                {
-                    await Navigation.NavigateToCustomerShellAsync();
-                }
-                else if (Email.Contains("tomergroup") || Email.Contains("admin"))
-                {
-                    await Navigation.NavigateToAgencyShellAsync();
-                }
-                else
-                {
-                    ErrorMessage = result.Message ?? "Invalid credentials";
-                }
+                ErrorMessage = result.Message ?? "Invalid credentials";
             }
         }
         catch (Exception ex)

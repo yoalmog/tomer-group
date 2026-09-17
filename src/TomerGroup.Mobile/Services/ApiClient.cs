@@ -95,6 +95,15 @@ public interface IApiClient
     // Phase 12: Reports & Analytics
     Task<ApiResponse<ExecutiveAnalyticsReportDto>> GetExecutiveAnalyticsAsync(DateRangeFilterDto? filter = null);
     Task<ApiResponse<ExportReportResultDto>> ExportExecutiveReportAsync(string format = "csv", DateRangeFilterDto? filter = null);
+
+    // Admin Real Backend API
+    Task<ApiResponse<AdminDashboardMetricsDto>> GetAdminDashboardMetricsAsync();
+    Task<ApiResponse<List<AdminUserDto>>> GetAdminUsersAsync(UserRole? role = null, string? search = null);
+    Task<ApiResponse<AdminUserDto>> GetAdminUserByIdAsync(Guid id);
+    Task<ApiResponse<AdminUserDto>> CreateAdminUserAsync(CreateAdminUserDto request);
+    Task<ApiResponse<AdminUserDto>> UpdateAdminUserAsync(Guid id, UpdateAdminUserDto request);
+    Task<ApiResponse<bool>> DeactivateAdminUserAsync(Guid id);
+    Task<ApiResponse<PagedResult<AdminActivityFeedItemDto>>> GetAdminAuditLogsAsync(string? action = null, string? entity = null, int page = 1, int pageSize = 20);
 }
 
 public class ApiClient : IApiClient
@@ -1053,6 +1062,111 @@ public class ApiClient : IApiClient
         catch (Exception ex)
         {
             return ApiResponse<ExportReportResultDto>.Fail($"Error exporting report: {ex.Message}");
+        }
+    }
+
+    // Admin Real Backend API Implementations
+    public async Task<ApiResponse<AdminDashboardMetricsDto>> GetAdminDashboardMetricsAsync()
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<AdminDashboardMetricsDto>>("api/admin/dashboard");
+            return result ?? ApiResponse<AdminDashboardMetricsDto>.Fail("No dashboard metrics returned");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<AdminDashboardMetricsDto>.Fail($"Error loading admin dashboard: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<List<AdminUserDto>>> GetAdminUsersAsync(UserRole? role = null, string? search = null)
+    {
+        try
+        {
+            var query = "api/admin/users";
+            var queryParams = new List<string>();
+            if (role.HasValue) queryParams.Add($"role={role.Value}");
+            if (!string.IsNullOrWhiteSpace(search)) queryParams.Add($"search={Uri.EscapeDataString(search)}");
+            if (queryParams.Count > 0) query += "?" + string.Join("&", queryParams);
+
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<List<AdminUserDto>>>(query);
+            return result ?? ApiResponse<List<AdminUserDto>>.Fail("No staff users found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<List<AdminUserDto>>.Fail($"Error loading staff users: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<AdminUserDto>> GetAdminUserByIdAsync(Guid id)
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<AdminUserDto>>($"api/admin/users/{id}");
+            return result ?? ApiResponse<AdminUserDto>.Fail("Staff user not found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<AdminUserDto>.Fail($"Error loading staff user: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<AdminUserDto>> CreateAdminUserAsync(CreateAdminUserDto request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/admin/users", request);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<AdminUserDto>>();
+            return result ?? ApiResponse<AdminUserDto>.Fail("Failed to create staff user");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<AdminUserDto>.Fail($"Error creating user: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<AdminUserDto>> UpdateAdminUserAsync(Guid id, UpdateAdminUserDto request)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/admin/users/{id}", request);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<AdminUserDto>>();
+            return result ?? ApiResponse<AdminUserDto>.Fail("Failed to update staff user");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<AdminUserDto>.Fail($"Error updating user: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<bool>> DeactivateAdminUserAsync(Guid id)
+    {
+        try
+        {
+            var response = await _httpClient.DeleteAsync($"api/admin/users/{id}");
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<bool>>();
+            return result ?? ApiResponse<bool>.Fail("Failed to deactivate staff user");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<bool>.Fail($"Error deactivating user: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<PagedResult<AdminActivityFeedItemDto>>> GetAdminAuditLogsAsync(string? action = null, string? entity = null, int page = 1, int pageSize = 20)
+    {
+        try
+        {
+            var query = $"api/admin/audit?page={page}&pageSize={pageSize}";
+            if (!string.IsNullOrWhiteSpace(action)) query += $"&action={Uri.EscapeDataString(action)}";
+            if (!string.IsNullOrWhiteSpace(entity)) query += $"&entity={Uri.EscapeDataString(entity)}";
+
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<PagedResult<AdminActivityFeedItemDto>>>(query);
+            return result ?? ApiResponse<PagedResult<AdminActivityFeedItemDto>>.Fail("No audit logs found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<PagedResult<AdminActivityFeedItemDto>>.Fail($"Error loading audit logs: {ex.Message}");
         }
     }
 }

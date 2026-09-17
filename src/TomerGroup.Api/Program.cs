@@ -172,8 +172,8 @@ using (var scope = app.Services.CreateScope())
         if (dbProvider.Equals("InMemory", StringComparison.OrdinalIgnoreCase))
         {
             context.Database.EnsureCreated();
-            await DatabaseSeeder.SeedAsync(context, hasher);
-            logger.LogInformation("In-Memory database created and seeded with Tomer Group Peru data.");
+            await DatabaseSeeder.SeedAsync(context, hasher, app.Environment.IsDevelopment());
+            logger.LogInformation("In-Memory database created and seeded with Tomer Group Peru data (DevMode: {DevMode}).", app.Environment.IsDevelopment());
         }
         else
         {
@@ -181,8 +181,8 @@ using (var scope = app.Services.CreateScope())
             if (canConnect)
             {
                 context.Database.EnsureCreated();
-                await DatabaseSeeder.SeedAsync(context, hasher);
-                logger.LogInformation("PostgreSQL database successfully connected and seeded.");
+                await DatabaseSeeder.SeedAsync(context, hasher, app.Environment.IsDevelopment());
+                logger.LogInformation("PostgreSQL database successfully connected and initialized (DevMode: {DevMode}).", app.Environment.IsDevelopment());
             }
             else
             {

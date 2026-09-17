@@ -1,5 +1,7 @@
+using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using TomerGroup.Core.DTOs;
 using TomerGroup.Core.Interfaces;
 using TomerGroup.Core.Localization;
 using TomerGroup.Mobile.Services;
@@ -11,28 +13,48 @@ public partial class AgencyDashboardViewModel : BaseViewModel
     private readonly IApiClient _apiClient;
 
     [ObservableProperty]
-    private int _todayArrivals = 3;
+    private int _todayArrivals = 0;
 
     [ObservableProperty]
-    private int _todayDepartures = 2;
+    private int _todayDepartures = 0;
 
     [ObservableProperty]
-    private int _todayTours = 5;
+    private int _todayTours = 0;
 
     [ObservableProperty]
-    private int _activeTravelers = 18;
+    private int _activeTravelers = 0;
 
     [ObservableProperty]
-    private decimal _revenue = 2500;
+    private int _pendingBookings = 0;
 
     [ObservableProperty]
-    private decimal _expenses = 1700;
+    private int _pendingPayments = 0;
 
     [ObservableProperty]
-    private decimal _grossProfit = 800;
+    private int _unassignedTransfers = 0;
 
     [ObservableProperty]
-    private decimal _outstandingPayments = 0;
+    private int _unassignedGuides = 0;
+
+    [ObservableProperty]
+    private decimal _revenue = 0;
+
+    [ObservableProperty]
+    private decimal _expenses = 0;
+
+    [ObservableProperty]
+    private decimal _grossProfit = 0;
+
+    [ObservableProperty]
+    private decimal _marginPercentage = 0;
+
+    [ObservableProperty]
+    private bool _hasError;
+
+    [ObservableProperty]
+    private string _errorMessage = string.Empty;
+
+    public ObservableCollection<AdminActivityFeedItemDto> RecentActivities { get; } = new();
 
     public AgencyDashboardViewModel(ILocalizationService localization, INavigationService navigation, IApiClient apiClient)
         : base(localization, navigation)
@@ -42,15 +64,62 @@ public partial class AgencyDashboardViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    public async Task InitializeAsync()
+    {
+        await RefreshMetricsAsync();
+    }
+
+    [RelayCommand]
     public async Task RefreshMetricsAsync()
     {
         IsBusy = true;
+        HasError = false;
+        ErrorMessage = string.Empty;
+
         try
         {
-            await Task.Delay(300);
-            Revenue = 2500;
-            Expenses = 1700;
-            GrossProfit = 800;
+            var response = await _apiClient.GetAdminDashboardMetricsAsync();
+            if (response.Success && response.Data != null)
+            {
+                var data = response.Data;
+                TodayArrivals = data.TodayArrivals;
+                TodayDepartures = data.TodayDepartures;
+                ActiveTravelers = data.ActiveInPeruCustomers > 0 ? data.ActiveInPeruCustomers : data.TotalCustomers;
+                PendingBookings = data.PendingBookings;
+                PendingPayments = data.PendingPayments;
+                UnassignedTransfers = data.UnassignedTransportationCount;
+                UnassignedGuides = data.UnassignedGuidesCount;
+                Revenue = data.TotalRevenue;
+                Expenses = data.TotalExpenses;
+                GrossProfit = data.GrossProfit;
+                MarginPercentage = data.MarginPercentage;
+
+                RecentActivities.Clear();
+                if (data.RecentActivities != null)
+                {
+                    foreach (var item in data.RecentActivities)
+                    {
+                        RecentActivities.Add(item);
+                    }
+                }
+            }
+            else
+            {
+                // Fallback to reports or summary if dashboard endpoint is unavailable
+                var finResponse = await _apiClient.GetFinancialSummaryAsync();
+                if (finResponse.Success && finResponse.Data != null)
+                {
+                    Revenue = finResponse.Data.TotalRevenueUsd;
+                    Expenses = finResponse.Data.TotalExpensesUsd;
+                    GrossProfit = finResponse.Data.NetProfitUsd;
+                    MarginPercentage = finResponse.Data.MarginPercentage;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            HasError = true;
+            ErrorMessage = $"Error loading metrics: {ex.Message}";
         }
         finally
         {
@@ -77,13 +146,13 @@ public partial class AgencySettingsViewModel : BaseViewModel
     private string _tagline = "Peru Travel Experience";
 
     [ObservableProperty]
-    private string _primaryColor = "#1B365D";
+    private string _primaryColor = "#E11D48";
 
     [ObservableProperty]
-    private string _secondaryColor = "#C28251";
+    private string _secondaryColor = "#0F172A";
 
     [ObservableProperty]
-    private string _accentColor = "#2D9CDB";
+    private string _accentColor = "#FB7185";
 
     [ObservableProperty]
     private string _contactPhone = "+51 84 223 456";
@@ -133,4 +202,3 @@ public partial class AgencySettingsViewModel : BaseViewModel
         }
     }
 }
-

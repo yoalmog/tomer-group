@@ -15,9 +15,9 @@ public class BrandSettingsTests
         Assert.Equal("Tomer Group", brand.AgencyName);
         Assert.Equal("Tomer Group", brand.AppName);
         Assert.Equal("Peru Travel Experience", brand.Tagline);
-        Assert.Equal("#1B365D", brand.PrimaryColor); // Deep Andean Navy
-        Assert.Equal("#C28251", brand.SecondaryColor); // Warm Incan Terracotta
-        Assert.Equal("#2D9CDB", brand.AccentColor); // High Mountain Sky Blue
+        Assert.Equal("#E11D48", brand.PrimaryColor); // Official Tomer Magenta
+        Assert.Equal("#0F172A", brand.SecondaryColor); // Deep Luxury Black/Slate
+        Assert.Equal("#FB7185", brand.AccentColor); // Soft Rose Accent
         Assert.Contains("Cusco", brand.Address);
         Assert.NotEmpty(brand.WhatsApp);
         Assert.NotEmpty(brand.EmergencyContact);
@@ -31,11 +31,10 @@ public class BrandSettingsTests
 
         // Act
         brand.AgencyName = "Tomer Group Expeditions";
-        brand.PrimaryColor = "#002040";
+        brand.PrimaryColor = "#BE123C";
 
         // Assert
         Assert.Equal("Tomer Group Expeditions", brand.AgencyName);
-        Assert.Equal("#002040", brand.PrimaryColor);
+        Assert.Equal("#BE123C", brand.PrimaryColor);
     }
 }
-

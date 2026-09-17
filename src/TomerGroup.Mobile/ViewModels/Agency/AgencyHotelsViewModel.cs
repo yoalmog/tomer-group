@@ -25,7 +25,13 @@ public partial class AgencyHotelsViewModel : ObservableObject
     private bool _isBusy;
 
     [ObservableProperty]
+    private bool _hasError;
+
+    [ObservableProperty]
     private string _errorMessage = string.Empty;
+
+    [ObservableProperty]
+    private bool _isEmpty;
 
     [ObservableProperty]
     private string _searchQuery = string.Empty;
@@ -40,6 +46,7 @@ public partial class AgencyHotelsViewModel : ObservableObject
     public async Task LoadHotelsAsync()
     {
         IsBusy = true;
+        HasError = false;
         ErrorMessage = string.Empty;
 
         try
@@ -47,83 +54,18 @@ public partial class AgencyHotelsViewModel : ObservableObject
             var response = await _apiClient.GetHotelsAsync();
             _allHotels.Clear();
 
-            if (response.Success && response.Data != null && response.Data.Count > 0)
+            if (response.Success && response.Data != null)
             {
                 _allHotels = response.Data;
-            }
-            else
-            {
-                // Fallback default hotels
-                _allHotels = new List<HotelDto>
-                {
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Palacio del Inka, A Luxury Collection Hotel",
-                        HebrewName = "פלאסיו דל אינקה - קוסקו",
-                        Destination = "Cusco",
-                        Stars = 5,
-                        HasOxygenEnrichedRooms = true,
-                        HasOxygenConcentrators = true,
-                        HasHeating = true,
-                        IsKosherFriendly = true,
-                        ShabbatFriendly = true,
-                        WalkingDistanceToChabadCusco = true,
-                        Phone = "+51 84 231961"
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Monasterio, A Belmond Hotel",
-                        HebrewName = "מונסטריו בלמונד - קוסקו",
-                        Destination = "Cusco",
-                        Stars = 5,
-                        HasOxygenEnrichedRooms = true,
-                        HasOxygenConcentrators = true,
-                        HasHeating = true,
-                        IsKosherFriendly = true,
-                        ShabbatFriendly = true,
-                        WalkingDistanceToChabadCusco = true,
-                        Phone = "+51 84 604000"
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Casa Andina Premium Cusco",
-                        HebrewName = "קאסה אנדינה פרימיום קוסקו",
-                        Destination = "Cusco",
-                        Stars = 4,
-                        HasOxygenEnrichedRooms = false,
-                        HasOxygenConcentrators = true,
-                        HasHeating = true,
-                        IsKosherFriendly = true,
-                        ShabbatFriendly = true,
-                        WalkingDistanceToChabadCusco = true,
-                        Phone = "+51 84 232610"
-                    },
-                    new()
-                    {
-                        Id = Guid.NewGuid(),
-                        Name = "Tambo del Inka Resort & Spa",
-                        HebrewName = "טמבו דל אינקה - העמק הקדוש",
-                        Destination = "Sacred Valley",
-                        Stars = 5,
-                        HasOxygenEnrichedRooms = false,
-                        HasOxygenConcentrators = true,
-                        HasHeating = true,
-                        IsKosherFriendly = true,
-                        ShabbatFriendly = false,
-                        WalkingDistanceToChabadCusco = false,
-                        Phone = "+51 84 581777"
-                    }
-                };
             }
 
             FilterHotels();
         }
         catch (Exception ex)
         {
+            HasError = true;
             ErrorMessage = $"Error loading hotels: {ex.Message}";
+            FilterHotels();
         }
         finally
         {
@@ -146,14 +88,15 @@ public partial class AgencyHotelsViewModel : ObservableObject
             var term = SearchQuery.Trim().ToLower();
             query = query.Where(h =>
                 h.Name.ToLower().Contains(term) ||
-                h.HebrewName.ToLower().Contains(term) ||
-                h.Destination.ToLower().Contains(term));
+                (h.HebrewName != null && h.HebrewName.ToLower().Contains(term)) ||
+                (h.Destination != null && h.Destination.ToLower().Contains(term)));
         }
 
         foreach (var h in query)
         {
             Hotels.Add(h);
         }
+
+        IsEmpty = Hotels.Count == 0;
     }
 }
-
