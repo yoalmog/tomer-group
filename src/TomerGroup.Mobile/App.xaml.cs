@@ -18,8 +18,8 @@ public partial class App : Microsoft.Maui.Controls.Application
 
         _navigationService.ShellChanged += OnShellChanged;
 
-        // Start with Splash Screen
-        MainPage = _serviceProvider.GetRequiredService<SplashPage>();
+        // Start with the branded travel homepage so the first screen feels like the agency website.
+        MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<LoginPage>());
     }
 
     private void OnShellChanged(string shellName)
