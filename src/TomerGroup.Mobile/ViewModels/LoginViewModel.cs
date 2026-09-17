@@ -147,7 +147,7 @@ public partial class LoginViewModel : BaseViewModel
     [RelayCommand]
     public async Task OpenForgotPasswordAsync()
     {
-        await Navigation.NavigateToAsync("ForgotPassword");
+        await Navigation.NavigateToForgotPasswordAsync();
     }
 
     [RelayCommand]

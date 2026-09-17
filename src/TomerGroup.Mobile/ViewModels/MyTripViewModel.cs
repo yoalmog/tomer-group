@@ -192,6 +192,6 @@ public partial class MyTripViewModel : BaseViewModel
     [RelayCommand]
     public async Task OpenContactAsync()
     {
-        await Navigation.NavigateToAsync("//More");
+        await Navigation.NavigateToAsync("More");
     }
 }

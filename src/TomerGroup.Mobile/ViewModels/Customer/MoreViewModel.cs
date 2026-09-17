@@ -58,8 +58,19 @@ public partial class MoreViewModel : BaseViewModel
     [RelayCommand]
     public async Task OpenAgencyWhatsAppAsync()
     {
-        // Launches WhatsApp chat with the agency
+#if USE_MAUI
+        try
+        {
+            var uri = new Uri("https://wa.me/51984231961");
+            await Microsoft.Maui.ApplicationModel.Launcher.Default.OpenAsync(uri);
+        }
+        catch
+        {
+            // Ignore failure if device has no browser or WhatsApp handler
+        }
+#else
         await Task.CompletedTask;
+#endif
     }
 
     [RelayCommand]

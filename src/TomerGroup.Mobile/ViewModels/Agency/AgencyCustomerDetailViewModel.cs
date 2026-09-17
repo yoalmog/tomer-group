@@ -3,9 +3,17 @@ using CommunityToolkit.Mvvm.Input;
 using TomerGroup.Core.DTOs;
 using TomerGroup.Mobile.Services;
 
+#if USE_MAUI
+using Microsoft.Maui.Controls;
+#endif
+
 namespace TomerGroup.Mobile.ViewModels.Agency;
 
+#if USE_MAUI
+public partial class AgencyCustomerDetailViewModel : ObservableObject, IQueryAttributable
+#else
 public partial class AgencyCustomerDetailViewModel : ObservableObject
+#endif
 {
     private readonly IApiClient _apiClient;
     private readonly INavigationService _navigationService;
@@ -14,6 +22,21 @@ public partial class AgencyCustomerDetailViewModel : ObservableObject
     {
         _apiClient = apiClient;
         _navigationService = navigationService;
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        if (query.TryGetValue("id", out var idObj))
+        {
+            if (idObj is Guid idGuid)
+            {
+                _ = LoadCustomerAsync(idGuid);
+            }
+            else if (idObj is string idStr && Guid.TryParse(idStr, out var parsedGuid))
+            {
+                _ = LoadCustomerAsync(parsedGuid);
+            }
+        }
     }
 
     [ObservableProperty]

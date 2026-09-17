@@ -1,6 +1,10 @@
 #if USE_MAUI
 using Microsoft.Maui.Controls;
 #endif
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace TomerGroup.Mobile.Services;
 
@@ -18,6 +22,26 @@ public interface INavigationService
 
 public class NavigationService : INavigationService
 {
+    private static readonly HashSet<string> TopLevelShellTabs = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Home",
+        "Explore",
+        "MyTrip",
+        "Bookings",
+        "Profile",
+        "AgencyDashboard",
+        "AgencyCustomers",
+        "AgencyTrips",
+        "AgencyTours",
+        "AgencyHotels",
+        "AgencyStaffDirectory",
+        "AgencyManifest",
+        "AgencyFinance",
+        "AgencyAIAssistant",
+        "AgencyReports",
+        "AgencySettings"
+    };
+
     public string CurrentShell { get; private set; } = "Splash";
     public event Action<string>? ShellChanged;
 
@@ -63,26 +87,61 @@ public class NavigationService : INavigationService
             return;
         }
 
+        var normalizedRoute = NormalizeRoute(route);
+
+        if (normalizedRoute.Equals("Login", StringComparison.OrdinalIgnoreCase) ||
+            normalizedRoute.Equals("//Login", StringComparison.OrdinalIgnoreCase))
+        {
+            await NavigateToLoginAsync();
+            return;
+        }
+
+        if (normalizedRoute.Equals("ForgotPassword", StringComparison.OrdinalIgnoreCase) ||
+            normalizedRoute.Equals("//ForgotPassword", StringComparison.OrdinalIgnoreCase))
+        {
+            await NavigateToForgotPasswordAsync();
+            return;
+        }
+
+        if (normalizedRoute.Equals("Splash", StringComparison.OrdinalIgnoreCase) ||
+            normalizedRoute.Equals("//Splash", StringComparison.OrdinalIgnoreCase))
+        {
+            await NavigateToSplashAsync();
+            return;
+        }
+
 #if USE_MAUI
         try
         {
             if (Shell.Current is not null)
             {
-                await Shell.Current.GoToAsync(route);
+                await Shell.Current.GoToAsync(normalizedRoute);
                 return;
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Safe fallback for shell route navigation if the shell is not yet active.
+            Debug.WriteLine($"Initial Shell navigation failed for '{normalizedRoute}': {ex.Message}");
         }
 
         CurrentShell = "CustomerShell";
         ShellChanged?.Invoke(CurrentShell);
 
-        if (Shell.Current is not null)
+        try
         {
-            await Shell.Current.GoToAsync(route);
+            if (Shell.Current is null)
+            {
+                await Task.Delay(100);
+            }
+
+            if (Shell.Current is not null)
+            {
+                await Shell.Current.GoToAsync(normalizedRoute);
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Fallback Shell navigation failed for '{normalizedRoute}': {ex.Message}");
         }
 #else
         CurrentShell = "CustomerShell";
@@ -102,13 +161,37 @@ public class NavigationService : INavigationService
                 return;
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Ignore unsupported back navigation while shell is not active.
+            Debug.WriteLine($"GoBackAsync navigation failed: {ex.Message}");
         }
 #else
         await Task.CompletedTask;
 #endif
+    }
+
+    private static string NormalizeRoute(string route)
+    {
+        var trimmed = route.Trim();
+
+        if (trimmed.StartsWith("//", StringComparison.Ordinal))
+        {
+            var withoutPrefix = trimmed.Substring(2);
+            var pathPart = withoutPrefix;
+            var queryIdx = pathPart.IndexOf('?');
+            if (queryIdx >= 0)
+            {
+                pathPart = pathPart.Substring(0, queryIdx);
+            }
+
+            // If the route target is NOT a top-level shell tab, strip the "//" prefix
+            if (!TopLevelShellTabs.Contains(pathPart))
+            {
+                return withoutPrefix;
+            }
+        }
+
+        return trimmed;
     }
 }
 

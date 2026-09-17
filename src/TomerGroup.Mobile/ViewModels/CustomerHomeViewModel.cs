@@ -265,6 +265,12 @@ public partial class CustomerHomeViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    public async Task OpenSupportAsync()
+    {
+        await Navigation.NavigateToAsync("More");
+    }
+
+    [RelayCommand]
     public void ToggleLanguage()
     {
         var next = Localization.CurrentLanguage switch

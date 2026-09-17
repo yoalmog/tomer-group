@@ -387,6 +387,9 @@
                         <Label Text="צוות השטח שלנו זמין עבורכם בכל שעה בוואטסאפ ובטלפון" FontSize="11" TextColor="#CBD5E1" />
                     </VerticalStackLayout>
                 </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenSupportCommand}" />
+                </Border.GestureRecognizers>
             </Border>
 
         </VerticalStackLayout>

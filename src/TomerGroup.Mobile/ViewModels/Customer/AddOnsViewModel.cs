@@ -68,6 +68,6 @@ public partial class AddOnsViewModel : ObservableObject
     public async Task ContinueToPaymentAsync()
     {
         StatusMessage = $"Add-ons confirmed. Total extras: ${TotalAddOnPrice:N0} USD";
-        await _navigationService.NavigateToAsync("//Payment");
+        await _navigationService.NavigateToAsync("Payment");
     }
 }

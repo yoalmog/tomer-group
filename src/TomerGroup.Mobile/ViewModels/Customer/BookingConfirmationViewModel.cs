@@ -38,6 +38,6 @@ public partial class BookingConfirmationViewModel : ObservableObject
     public async Task ConfirmBookingAsync()
     {
         StatusMessage = $"Booking {ConfirmationNumber} confirmed for {Travelers} traveler(s) to {Destination}.";
-        await _navigationService.NavigateToAsync("//AddOns");
+        await _navigationService.NavigateToAsync("AddOns");
     }
 }

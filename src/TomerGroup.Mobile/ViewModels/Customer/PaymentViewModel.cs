@@ -32,6 +32,6 @@ public partial class PaymentViewModel : ObservableObject
     public async Task PayNowAsync()
     {
         StatusMessage = $"Payment of ${CardAmount:N0} USD processed securely for your Peru booking.";
-        await _navigationService.NavigateToAsync("//PreTripChecklist");
+        await _navigationService.NavigateToAsync("PreTripChecklist");
     }
 }

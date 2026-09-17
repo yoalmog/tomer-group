@@ -90,6 +90,6 @@ public partial class BookingDetailViewModel : BaseViewModel
     [RelayCommand]
     public async Task ContactSupportAsync()
     {
-        await Navigation.NavigateToAsync("//More");
+        await Navigation.NavigateToAsync("More");
     }
 }

@@ -64,6 +64,6 @@ public partial class PreTripChecklistViewModel : ObservableObject
     [RelayCommand]
     public async Task OpenTripSummaryAsync()
     {
-        await _navigationService.NavigateToAsync("//TripSummary");
+        await _navigationService.NavigateToAsync("TripSummary");
     }
 }

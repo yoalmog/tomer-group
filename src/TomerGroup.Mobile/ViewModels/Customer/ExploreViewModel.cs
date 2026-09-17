@@ -185,7 +185,7 @@ public partial class ExploreViewModel : BaseViewModel
     [RelayCommand]
     public async Task ContactTeamAsync()
     {
-        await Navigation.NavigateToAsync("//More");
+        await Navigation.NavigateToAsync("More");
     }
 }
 

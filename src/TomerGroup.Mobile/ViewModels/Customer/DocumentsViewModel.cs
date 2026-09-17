@@ -165,6 +165,6 @@ public partial class DocumentsViewModel : ObservableObject
     [RelayCommand]
     public async Task ContactAgencyAsync()
     {
-        await _navigationService.NavigateToAsync("//More");
+        await _navigationService.NavigateToAsync("More");
     }
 }
