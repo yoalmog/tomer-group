@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.HotelStayPage"
+             Title="Hotel stay">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Accommodation" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="{Binding HotelName}" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="{Binding StayWindow}" FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Room details" Style="{StaticResource SectionTitleStyle}"/>
+                    <Label Text="{Binding RoomType}" FontSize="18" FontAttributes="Bold" TextColor="#111827"/>
+
+                    <CollectionView ItemsSource="{Binding Features}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Border Padding="10,8" Margin="0,0,0,8" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 14">
+                                    <Label Text="•  {Binding}" FontSize="14" TextColor="#475569"/>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

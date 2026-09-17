@@ -1,3 +1,7 @@
+#if USE_MAUI
+using Microsoft.Maui.Controls;
+#endif
+
 namespace TomerGroup.Mobile.Services;
 
 public interface INavigationService
@@ -52,14 +56,56 @@ public class NavigationService : INavigationService
         return Task.CompletedTask;
     }
 
-    public Task NavigateToAsync(string route)
+    public async Task NavigateToAsync(string route)
     {
-        return Task.CompletedTask;
+        if (string.IsNullOrWhiteSpace(route))
+        {
+            return;
+        }
+
+#if USE_MAUI
+        try
+        {
+            if (Shell.Current is not null)
+            {
+                await Shell.Current.GoToAsync(route);
+                return;
+            }
+        }
+        catch
+        {
+            // Safe fallback for shell route navigation if the shell is not yet active.
+        }
+
+        CurrentShell = "CustomerShell";
+        ShellChanged?.Invoke(CurrentShell);
+
+        if (Shell.Current is not null)
+        {
+            await Shell.Current.GoToAsync(route);
+        }
+#else
+        CurrentShell = "CustomerShell";
+        ShellChanged?.Invoke(CurrentShell);
+#endif
     }
 
-    public Task GoBackAsync()
+    public async Task GoBackAsync()
     {
-        return Task.CompletedTask;
+#if USE_MAUI
+        try
+        {
+            if (Shell.Current is not null)
+            {
+                await Shell.Current.GoToAsync("..");
+                return;
+            }
+        }
+        catch
+        {
+            // Ignore unsupported back navigation while shell is not active.
+        }
+#endif
     }
 }
 

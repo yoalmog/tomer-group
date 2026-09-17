@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.PaymentPage"
+             Title="Secure payment">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Secure checkout" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="Complete your deposit" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Your travel advisor will confirm the full itinerary once payment is processed." FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Payment details" Style="{StaticResource SectionTitleStyle}"/>
+
+                    <Border BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="10">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Trip total" FontSize="13" TextColor="#64748B"/>
+                                <Label Grid.Column="1" Text="{Binding TotalAmount, StringFormat='${0:N0} USD'}" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                            </Grid>
+
+                            <Grid ColumnDefinitions="*,Auto">
+                                <Label Text="Deposit due now" FontSize="13" TextColor="#64748B"/>
+                                <Label Grid.Column="1" Text="{Binding DepositAmount, StringFormat='${0:N0} USD'}" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#EEF2FF" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Payment method" FontSize="12" FontAttributes="Bold" TextColor="#4F46E5"/>
+                            <Label Text="{Binding SelectedMethod}" FontSize="17" FontAttributes="Bold" TextColor="#111827"/>
+                            <Label Text="Protected with 256-bit encryption" FontSize="12" TextColor="#475569"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Border BackgroundColor="#F0FDF4" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Amount to pay" FontSize="12" FontAttributes="Bold" TextColor="#15803D"/>
+                            <Label Text="{Binding CardAmount, StringFormat='${0:N0} USD'}" FontSize="28" FontAttributes="Bold" TextColor="#111827"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Button Text="Pay now"
+                            Command="{Binding PayNowCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+
+                    <Label Text="{Binding StatusMessage}" FontSize="13" TextColor="#475569" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

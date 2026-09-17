@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.AddOnsPage"
+             Title="Add-ons &amp; concierge">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Luxury extras" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="Add a premium touch to your trip" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Enhance your Peru stay with concierge-level services and flexible upgrades." FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Choose your extras" Style="{StaticResource SectionTitleStyle}"/>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Travel insurance" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="$180 USD" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding TravelInsuranceSelected}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Airport transfer" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="$120 USD" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding AirportTransferSelected}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="VIP lounge" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="$210 USD" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding VipLoungeSelected}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Private guide" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="$190 USD" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding PrivateGuideSelected}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border BackgroundColor="#EEF2FF" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Extras total" FontSize="12" FontAttributes="Bold" TextColor="#4F46E5"/>
+                            <Label Text="{Binding TotalAddOnPrice, StringFormat='${0:N0} USD'}" FontSize="28" FontAttributes="Bold" TextColor="#111827"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Button Text="Continue to payment"
+                            Command="{Binding ContinueToPaymentCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+
+                    <Label Text="{Binding StatusMessage}" FontSize="13" TextColor="#475569" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

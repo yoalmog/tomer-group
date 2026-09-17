@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             x:Class="TomerGroup.Mobile.Pages.Customer.PlanTripPage"
+             Title="Plan a trip">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Design your trip" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="Plan a seamless Peru escape" FontSize="26" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Choose a destination, date range, and travelers to create a curated itinerary." FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="14">
+                    <Label Text="Destination" Style="{StaticResource SectionTitleStyle}"/>
+                    <Picker Title="Select destination"
+                            ItemsSource="{Binding DestinationOptions}"
+                            SelectedItem="{Binding SelectedDestination}" />
+
+                    <Label Text="Travel dates" Style="{StaticResource SectionTitleStyle}"/>
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <DatePicker Date="{Binding StartDate}" Format="dd/MM/yyyy" />
+                        <DatePicker Date="{Binding EndDate}" Format="dd/MM/yyyy" Grid.Column="1"/>
+                    </Grid>
+
+                    <Label Text="Travelers" Style="{StaticResource SectionTitleStyle}"/>
+                    <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                        <Label Text="{Binding Travelers}" FontSize="24" FontAttributes="Bold" VerticalOptions="Center"/>
+                        <Stepper Value="{Binding Travelers}" Minimum="1" Maximum="12" />
+                    </HorizontalStackLayout>
+
+                    <Border BackgroundColor="#F5F3FF" StrokeShape="RoundRectangle 12" Padding="14" StrokeThickness="0">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Estimated total" FontSize="12" TextColor="#6D28D9" FontAttributes="Bold"/>
+                            <Label Text="{Binding EstimatedTotal, StringFormat='${0:N0} USD'}" FontSize="24" FontAttributes="Bold" TextColor="#111827"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Button Text="Create booking request"
+                            Command="{Binding CreateBookingCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+
+                    <Label Text="{Binding StatusMessage}" FontSize="13" TextColor="#475569" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

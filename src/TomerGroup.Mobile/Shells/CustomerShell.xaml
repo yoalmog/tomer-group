@@ -21,8 +21,32 @@
         <Tab Title="MY TRIP" Icon="trip_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:MyTripPage}" Route="MyTrip" />
         </Tab>
+        <Tab Title="PLAN" Icon="trip_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:PlanTripPage}" Route="PlanTrip" />
+        </Tab>
         <Tab Title="BOOKINGS" Icon="booking_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:BookingsPage}" Route="Bookings" />
+        </Tab>
+        <Tab Title="EXTRAS" Icon="extras_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:AddOnsPage}" Route="AddOns" />
+        </Tab>
+        <Tab Title="PAYMENT" Icon="payment_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:PaymentPage}" Route="Payment" />
+        </Tab>
+        <Tab Title="ITINERARY" Icon="doc_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:TripSummaryPage}" Route="TripSummary" />
+        </Tab>
+        <Tab Title="CONCIERGE" Icon="doc_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:TravelConciergePage}" Route="TravelConcierge" />
+        </Tab>
+        <Tab Title="STAY" Icon="doc_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:HotelStayPage}" Route="HotelStay" />
+        </Tab>
+        <Tab Title="TRANSFER" Icon="doc_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:TransferDetailsPage}" Route="TransferDetails" />
+        </Tab>
+        <Tab Title="DASHBOARD" Icon="doc_icon.png">
+            <ShellContent ContentTemplate="{DataTemplate customer:BookingDashboardPage}" Route="BookingDashboard" />
         </Tab>
         <Tab Title="DOCUMENTS" Icon="doc_icon.png">
             <ShellContent ContentTemplate="{DataTemplate customer:DocumentsPage}" Route="Documents" />

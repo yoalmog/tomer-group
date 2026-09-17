@@ -160,6 +160,12 @@ public partial class CustomerHomeViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    public async Task OpenPlanTripAsync()
+    {
+        await Navigation.NavigateToAsync("//PlanTrip");
+    }
+
+    [RelayCommand]
     public async Task OpenBookingsAsync()
     {
         await Navigation.NavigateToAsync("//Bookings");

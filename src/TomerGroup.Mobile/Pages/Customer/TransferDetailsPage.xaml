@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.TransferDetailsPage"
+             Title="Transfer details">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="Transportation" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="{Binding TransferTitle}" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="{Binding PickupTime}" FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Driver & vehicle" Style="{StaticResource SectionTitleStyle}"/>
+                    <Label Text="{Binding DriverName}" FontSize="18" FontAttributes="Bold" TextColor="#111827"/>
+                    <Label Text="{Binding VehicleInfo}" FontSize="14" TextColor="#475569"/>
+                    <Label Text="Route" FontSize="12" FontAttributes="Bold" TextColor="#7C2D12"/>
+                    <Label Text="{Binding Route}" FontSize="15" TextColor="#0F172A"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

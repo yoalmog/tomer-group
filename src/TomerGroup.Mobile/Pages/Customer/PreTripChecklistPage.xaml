@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.PreTripChecklistPage"
+             Title="Pre-trip essentials">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Before departure" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="Your travel checklist" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Keep everything ready for a smooth arrival in Peru." FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Checklist" Style="{StaticResource SectionTitleStyle}"/>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Passport and visa" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="Valid and ready for travel" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding PassportReady}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Travel insurance" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="Policy uploaded and active" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding InsuranceReady}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Flight confirmation" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="Arrival and return details" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding FlightConfirmationReady}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="12" BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Hotel vouchers" FontSize="15" FontAttributes="Bold" TextColor="#111827"/>
+                                <Label Text="Ready for check-in" FontSize="12" TextColor="#64748B"/>
+                            </VerticalStackLayout>
+                            <CheckBox IsChecked="{Binding HotelVouchersReady}" Color="#0F172A"/>
+                        </Grid>
+                    </Border>
+
+                    <Border BackgroundColor="#F0FDF4" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="Status" FontSize="12" FontAttributes="Bold" TextColor="#15803D"/>
+                            <Label Text="{Binding StatusMessage}" FontSize="16" FontAttributes="Bold" TextColor="#111827"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Button Text="View trip summary"
+                            Command="{Binding OpenTripSummaryCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

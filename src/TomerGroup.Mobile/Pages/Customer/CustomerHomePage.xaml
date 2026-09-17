@@ -121,9 +121,9 @@
 
             <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="12" ColumnSpacing="12">
                 <Button Grid.Row="0" Grid.Column="0" Text="🗺️ My trip" Command="{Binding OpenMyTripCommand}" Style="{StaticResource PrimaryButtonStyle}" FontSize="14" />
-                <Button Grid.Row="0" Grid.Column="1" Text="📋 Bookings" Command="{Binding OpenBookingsCommand}" Style="{StaticResource PrimaryButtonStyle}" FontSize="14" />
-                <Button Grid.Row="1" Grid.Column="0" Text="🎫 Documents" Command="{Binding OpenDocumentsCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
-                <Button Grid.Row="1" Grid.Column="1" Text="💬 Support" Command="{Binding OpenMoreCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
+                <Button Grid.Row="0" Grid.Column="1" Text="✈️ Plan trip" Command="{Binding OpenPlanTripCommand}" Style="{StaticResource PrimaryButtonStyle}" FontSize="14" />
+                <Button Grid.Row="1" Grid.Column="0" Text="📋 Bookings" Command="{Binding OpenBookingsCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
+                <Button Grid.Row="1" Grid.Column="1" Text="🎫 Documents" Command="{Binding OpenDocumentsCommand}" Style="{StaticResource SecondaryButtonStyle}" FontSize="14" />
             </Grid>
 
             <Border BackgroundColor="#FEF2F2" Stroke="#FECACA" StrokeShape="RoundRectangle 20" Padding="14" StrokeThickness="1">

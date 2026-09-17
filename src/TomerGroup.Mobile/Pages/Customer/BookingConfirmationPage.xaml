@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TomerGroup.Mobile.Pages.Customer.BookingConfirmationPage"
+             Title="Booking confirmation">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="18">
+
+            <Border Style="{StaticResource HeroCardStyle}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Booking ready" FontSize="12" FontAttributes="Bold" TextColor="#FDE68A"/>
+                    <Label Text="Your Peru getaway is prepared" FontSize="28" FontAttributes="Bold" TextColor="White"/>
+                    <Label Text="Review your package, traveler count, and deposit before final confirmation." FontSize="13" TextColor="#E2E8F0"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="14">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Confirmation" Style="{StaticResource SectionTitleStyle}"/>
+                        <Border Grid.Column="1" Padding="10,4" BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 8">
+                            <Label Text="Confirmed" FontSize="11" FontAttributes="Bold" TextColor="#166534"/>
+                        </Border>
+                    </Grid>
+
+                    <Label Text="{Binding ConfirmationNumber}" FontSize="26" FontAttributes="Bold" TextColor="#111827"/>
+
+                    <Border BackgroundColor="#F8FAFC" StrokeThickness="0" StrokeShape="RoundRectangle 16" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Label Text="Destination" FontSize="12" TextColor="#6B7280" FontAttributes="Bold"/>
+                            <Label Text="{Binding Destination}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A"/>
+
+                            <Label Text="Dates" FontSize="12" TextColor="#6B7280" FontAttributes="Bold"/>
+                            <Label Text="{Binding TripDates}" FontSize="16" TextColor="#334155"/>
+
+                            <Label Text="Travelers" FontSize="12" TextColor="#6B7280" FontAttributes="Bold"/>
+                            <Label Text="{Binding Travelers, StringFormat='{0} guests'}" FontSize="16" TextColor="#334155"/>
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                        <Border BackgroundColor="#EEF2FF" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="12">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Total" FontSize="12" TextColor="#4F46E5" FontAttributes="Bold"/>
+                                <Label Text="{Binding TotalAmount, StringFormat='${0:N0} USD'}" FontSize="22" FontAttributes="Bold" TextColor="#111827"/>
+                            </VerticalStackLayout>
+                        </Border>
+
+                        <Border BackgroundColor="#F0FDF4" StrokeThickness="0" StrokeShape="RoundRectangle 14" Padding="12">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="Deposit" FontSize="12" TextColor="#15803D" FontAttributes="Bold"/>
+                                <Label Text="{Binding DepositAmount, StringFormat='${0:N0} USD'}" FontSize="22" FontAttributes="Bold" TextColor="#111827"/>
+                            </VerticalStackLayout>
+                        </Border>
+                    </Grid>
+
+                    <Button Text="Confirm booking"
+                            Command="{Binding ConfirmBookingCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
+
+                    <Label Text="{Binding StatusMessage}" FontSize="13" TextColor="#475569" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
