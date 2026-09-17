@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TomerGroup.Mobile.Shells.AgencyShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:agency="clr-namespace:TomerGroup.Mobile.Pages.Agency"
+    Title="Tomer Group — Agency Portal">
+
+    <FlyoutItem Title="Dashboard" Icon="dashboard_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyDashboardPage}" Route="AgencyDashboard" />
+    </FlyoutItem>
+    <FlyoutItem Title="Travelers / Customers" Icon="customers_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyCustomersPage}" Route="AgencyCustomers" />
+    </FlyoutItem>
+    <FlyoutItem Title="Trips &amp; Itineraries" Icon="trips_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyTripsPage}" Route="AgencyTrips" />
+    </FlyoutItem>
+    <FlyoutItem Title="Tours &amp; Treks" Icon="tours_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyToursPage}" Route="AgencyTours" />
+    </FlyoutItem>
+    <FlyoutItem Title="Hotels Directory" Icon="hotels_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyHotelsPage}" Route="AgencyHotels" />
+    </FlyoutItem>
+    <FlyoutItem Title="Staff &amp; Drivers" Icon="staff_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyStaffDirectoryPage}" Route="AgencyStaffDirectory" />
+    </FlyoutItem>
+    <FlyoutItem Title="Daily Mission Manifest" Icon="manifest_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyManifestPage}" Route="AgencyManifest" />
+    </FlyoutItem>
+    <FlyoutItem Title="Finance &amp; Payments" Icon="finance_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyFinancePage}" Route="AgencyFinance" />
+    </FlyoutItem>
+    <FlyoutItem Title="AI Assistant" Icon="ai_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyAIAssistantPage}" Route="AgencyAIAssistant" />
+    </FlyoutItem>
+    <FlyoutItem Title="Executive Reports" Icon="reports_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyReportsPage}" Route="AgencyReports" />
+    </FlyoutItem>
+    <FlyoutItem Title="Settings &amp; Branding" Icon="settings_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencySettingsPage}" Route="AgencySettings" />
+    </FlyoutItem>
+
+</Shell>
+

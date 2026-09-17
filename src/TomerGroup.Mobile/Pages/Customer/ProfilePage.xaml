@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+             x:Class="TomerGroup.Mobile.Pages.Customer.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="פרופיל מטייל"
+             BackgroundColor="{StaticResource Background}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Hero Header Card -->
+            <Border Stroke="{StaticResource Primary}" StrokeThickness="0" BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 16" Padding="20">
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <!-- Initials Avatar -->
+                    <Border Stroke="{StaticResource Secondary}" StrokeThickness="3" BackgroundColor="{StaticResource Accent}" StrokeShape="RoundRectangle 40" WidthRequest="80" HeightRequest="80" HorizontalOptions="Center">
+                        <Label Text="{Binding Initials}" FontSize="28" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                    </Border>
+
+                    <Label Text="{Binding HebrewName}" FontSize="22" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" />
+                    <Label Text="{Binding PassportName}" FontSize="14" TextColor="#D1D5DB" HorizontalTextAlignment="Center" />
+
+                    <!-- Peru Status Badge -->
+                    <Border BackgroundColor="#2E7D32" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="10,4" HorizontalOptions="Center">
+                        <Label Text="🇵🇪 שוהה כעת בפרו (Active in Peru)" FontSize="12" FontAttributes="Bold" TextColor="White" />
+                    </Border>
+
+                    <!-- Edit Mode Button -->
+                    <Button Text="{Binding IsEditing, Converter={x:Null}}" 
+                            TextTransform="None"
+                            Command="{Binding ToggleEditModeCommand}" 
+                            BackgroundColor="{StaticResource Secondary}" 
+                            TextColor="White" 
+                            CornerRadius="8" 
+                            HeightRequest="40" 
+                            FontSize="14" 
+                            FontAttributes="Bold" 
+                            Margin="0,8,0,0">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="True">
+                                <Setter Property="Text" Value="✕ בטל עריכה (Cancel)" />
+                                <Setter Property="BackgroundColor" Value="#757575" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button" Binding="{Binding IsEditing}" Value="False">
+                                <Setter Property="Text" Value="✎ ערוך פרטים (Edit Profile)" />
+                                <Setter Property="BackgroundColor" Value="{StaticResource Secondary}" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Status Alert Message -->
+            <Border IsVisible="{Binding StatusMessage, Converter={x:Null}}" BackgroundColor="#E8F5E9" StrokeThickness="1" Stroke="#81C784" StrokeShape="RoundRectangle 8" Padding="12">
+                <Label Text="{Binding StatusMessage}" FontSize="14" FontAttributes="Bold" TextColor="#2E7D32" HorizontalTextAlignment="Center" />
+            </Border>
+
+            <!-- Section 1: Personal & Contact Information -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="פרטים אישיים וקשר / Personal Information" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+                    <!-- View Mode -->
+                    <VerticalStackLayout Spacing="8" IsVisible="{Binding IsEditing, Converter={x:Null}}">
+                        <Grid ColumnDefinitions="120,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="8">
+                            <Label Grid.Row="0" Grid.Column="0" Text="שם בעברית:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding HebrewName}" TextColor="{StaticResource TextPrimary}" />
+
+                            <Label Grid.Row="1" Grid.Column="0" Text="Passport Name:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                            <Label Grid.Row="1" Grid.Column="1" Text="{Binding PassportName}" TextColor="{StaticResource TextPrimary}" />
+
+                            <Label Grid.Row="2" Grid.Column="0" Text="WhatsApp:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                            <Label Grid.Row="2" Grid.Column="1" Text="{Binding WhatsApp}" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+
+                            <Label Grid.Row="3" Grid.Column="0" Text="אימייל:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                            <Label Grid.Row="3" Grid.Column="1" Text="{Binding Email}" TextColor="{StaticResource TextPrimary}" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <!-- Edit Mode Inputs -->
+                    <VerticalStackLayout Spacing="10" IsVisible="{Binding IsEditing}">
+                        <Label Text="שם בעברית:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        <Entry Text="{Binding HebrewName}" Placeholder="שם מלא בעברית" />
+
+                        <Label Text="Passport Name (English):" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        <Entry Text="{Binding PassportName}" Placeholder="Full Name as in Passport" />
+
+                        <Label Text="WhatsApp Phone:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        <Entry Text="{Binding WhatsApp}" Placeholder="+972..." Keyboard="Telephone" />
+
+                        <Label Text="Email Address:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        <Entry Text="{Binding Email}" Placeholder="email@example.com" Keyboard="Email" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Section 2: Identification & Passport (Section 14 Sensitive Data Masking) -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0" Text="דרכון וזיהוי / Passport &amp; ID" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
+                        <Button Grid.Column="1" Text="{Binding IsPassportRevealed, Converter={x:Null}}"
+                                Command="{Binding ToggleRevealPassportCommand}"
+                                FontSize="12" BackgroundColor="{StaticResource Accent}" TextColor="White" HeightRequest="34" CornerRadius="6" Padding="10,0">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsPassportRevealed}" Value="True">
+                                    <Setter Property="Text" Value="🔒 הסתר" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsPassportRevealed}" Value="False">
+                                    <Setter Property="Text" Value="👁️ הצג פרטים" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8">
+                        <Label Grid.Row="0" Grid.Column="0" Text="מספר דרכון:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DisplayPassportNumber}" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="תוקף דרכון:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding PassportExpiration, StringFormat='{0:dd/MM/yyyy}'}" TextColor="{StaticResource TextPrimary}" />
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="תעודת זהות:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding IsraelIdNumber}" TextColor="{StaticResource TextPrimary}" />
+                    </Grid>
+
+                    <!-- 6-Month Peru Passport Expiration Warning -->
+                    <Border IsVisible="{Binding IsPassportExpiringSoon}" BackgroundColor="#FFF3E0" Stroke="#FF9800" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="10">
+                        <Label Text="⚠️ שים לב: לפי חוקי ההגירה של פרו, נדרש דרכון בתוקף לפחות 6 חודשים מיום הכניסה למדינה!" FontSize="12" FontAttributes="Bold" TextColor="#E65100" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Section 3: Dietary & Kosher Preferences (Israeli Traveler Specific) -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="העדפות תזונה וכשרות / Dietary &amp; Kosher" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+                    <VerticalStackLayout Spacing="8" IsVisible="{Binding IsEditing, Converter={x:Null}}">
+                        <Border BackgroundColor="#E3F2FD" StrokeThickness="0" StrokeShape="RoundRectangle 8" Padding="12">
+                            <Label Text="{Binding DietaryPreferences}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        </Border>
+                        <Label Text="בקשות מיוחדות:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Text="{Binding SpecialRequests}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+                    </VerticalStackLayout>
+
+                    <!-- Edit Mode Picker -->
+                    <VerticalStackLayout Spacing="10" IsVisible="{Binding IsEditing}">
+                        <Label Text="בחר סוג כשרות/תזונה:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        <Picker ItemsSource="{Binding DietaryOptions}" SelectedItem="{Binding SelectedDietaryOption}" Title="בחר העדפת תזונה" />
+
+                        <Label Text="בקשות מיוחדות למלונות/מסעדות בפרו:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        <Editor Text="{Binding SpecialRequests}" AutoSize="TextChanges" HeightRequest="60" Placeholder="חלון ברכבת, אוכל כשר בקוסקו..." />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Section 4: Altitude Awareness & Health (Cusco 3,400m) -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="בריאות והתאקלמות לגובה / Altitude &amp; Health" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+                    <!-- Cusco Altitude Advisory Banner -->
+                    <Border BackgroundColor="#E8F4F8" Stroke="{StaticResource Accent}" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="12">
+                        <VerticalStackLayout Spacing="6">
+                            <Label Text="🏔️ מידע למטייל בקוסקו (3,400 מטר)" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                            <Label Text="ביום הראשון בקוסקו מומלץ לנוח, לשתות הרבה מים ותה קוקה (Mate de Coca), ולהימנע ממאמץ גופני ומאלכוהול." FontSize="12" TextColor="{StaticResource TextPrimary}" />
+                        </VerticalStackLayout>
+                    </Border>
+
+                    <Label Text="הערות רפואיות ותרופות:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="{Binding MedicalNotes}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+
+                    <Label Text="ביטוח נסיעות וחילוץ בגבהים:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="{Binding InsuranceCompany}" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                    <Label Text="{Binding InsurancePolicyNumber, StringFormat='פוליסה: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Section 5: Emergency Contacts -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="אנשי קשר לחירום / Emergency Contacts" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+                    <!-- Tomer Group Cusco Emergency -->
+                    <Border BackgroundColor="#FFEBEE" Stroke="#EF5350" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="12">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <VerticalStackLayout Grid.Column="0" Spacing="4">
+                                <Label Text="מוקד חירום Tomer Group קוסקו (24/7):" FontSize="13" FontAttributes="Bold" TextColor="#C62828" />
+                                <Label Text="+51 984 999 888" FontSize="16" FontAttributes="Bold" TextColor="#C62828" />
+                            </VerticalStackLayout>
+                            <Button Grid.Column="1" Text="📞 התקשר" BackgroundColor="#C62828" TextColor="White" CornerRadius="6" HeightRequest="36" Padding="12,0" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Family in Israel -->
+                    <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto" RowSpacing="8">
+                        <Label Grid.Row="0" Grid.Column="0" Text="איש קשר בישראל:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding EmergencyContactName}" TextColor="{StaticResource TextPrimary}" />
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="טלפון לחירום:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding EmergencyContactPhone}" TextColor="{StaticResource TextPrimary}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Save Changes Button (Visible only in Edit Mode) -->
+            <Button Text="💾 שמור שינויים (Save Changes)" 
+                    Command="{Binding SaveProfileCommand}" 
+                    IsVisible="{Binding IsEditing}" 
+                    BackgroundColor="{StaticResource Secondary}" 
+                    TextColor="White" 
+                    CornerRadius="10" 
+                    HeightRequest="50" 
+                    FontSize="16" 
+                    FontAttributes="Bold" 
+                    Margin="0,8,0,24" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

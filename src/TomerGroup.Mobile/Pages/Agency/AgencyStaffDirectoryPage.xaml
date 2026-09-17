@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dto="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyStaffDirectoryPage"
+             Title="צוות שטח וצי רכבים (Guides &amp; Drivers)"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+        <!-- Search bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="חיפוש מדריך, נהג, רישיון או שפה..."
+                   Text="{Binding SearchQuery}" />
+
+        <!-- Role Tabs -->
+        <HorizontalStackLayout Grid.Row="1" Spacing="8">
+            <Button Text="מדריכים מוסמכים (Guides)" Command="{Binding SelectTabCommand}" CommandParameter="מדריכים" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+            <Button Text="נהגים מקצועיים (Drivers)" Command="{Binding SelectTabCommand}" CommandParameter="נהגים" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+        </HorizontalStackLayout>
+
+        <!-- Main Content Area -->
+        <Grid Grid.Row="2">
+            <!-- Guides Collection -->
+            <CollectionView ItemsSource="{Binding Guides}" IsVisible="{Binding SelectedRoleTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='מדריכים'}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:GuideDto">
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="8">
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding FullName}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                    <Label Text="{Binding Rating, StringFormat='⭐ {0:F1}'}" FontSize="14" TextColor="{StaticResource Secondary}" HorizontalOptions="EndAndExpand" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding HebrewName}" FontSize="13" TextColor="{StaticResource Secondary}" />
+                                <Label Text="{Binding Specialization}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+
+                                <HorizontalStackLayout Spacing="6" Margin="0,4,0,0">
+                                    <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 6" Padding="6,3">
+                                        <Label Text="{Binding CertificationNumber}" TextColor="#0369A1" FontSize="10" FontAttributes="Bold" />
+                                    </Border>
+                                    <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 6" Padding="6,3" IsVisible="{Binding FirstAidCertified}">
+                                        <Label Text="מגיש עזרה ראשונה בגובה ✓" TextColor="#166534" FontSize="10" FontAttributes="Bold" />
+                                    </Border>
+                                    <Border BackgroundColor="#FEF3C7" StrokeShape="RoundRectangle 6" Padding="6,3">
+                                        <Label Text="{Binding DailyRate, StringFormat='${0:N0}/יום'}" TextColor="#92400E" FontSize="10" FontAttributes="Bold" />
+                                    </Border>
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding WhatsApp, StringFormat='WhatsApp: {0}'}" FontSize="12" TextColor="{StaticResource Primary}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Drivers Collection -->
+            <CollectionView ItemsSource="{Binding Drivers}" IsVisible="{Binding SelectedRoleTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='נהגים'}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:DriverDto">
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="8">
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding FullName}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                    <Label Text="{Binding Rating, StringFormat='⭐ {0:F1}'}" FontSize="14" TextColor="{StaticResource Secondary}" HorizontalOptions="EndAndExpand" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding LicenseNumber, StringFormat='רישיון: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                <Label Text="{Binding LicenseCategory, StringFormat='קטגוריה: {0}'}" FontSize="12" TextColor="{StaticResource Primary}" />
+
+                                <Border BackgroundColor="#ECFDF5" StrokeShape="RoundRectangle 6" Padding="8,4" Margin="0,4,0,0">
+                                    <Label Text="צי רכבים: Mercedes-Benz Sprinter 2024 (X4T-892) - 19 מקומות" TextColor="#065F46" FontSize="11" />
+                                </Border>
+
+                                <Label Text="{Binding WhatsApp, StringFormat='WhatsApp: {0}'}" FontSize="12" TextColor="{StaticResource Primary}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+
+</ContentPage>
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dto="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyFinancePage"
+             Title="פיננסים ותקבולים (Financials &amp; Payments)"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Revenue Summary Card -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="דוח רווחיות והכנסות סוכנות" TextColor="{StaticResource Secondary}" FontSize="14" FontAttributes="Bold" />
+                    
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="12" ColumnSpacing="12">
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                            <Label Text="סך הכנסות (Revenue):" TextColor="#B0C4DE" FontSize="11" />
+                            <Label Text="{Binding TotalRevenueUsd, StringFormat='${0:N0}'}" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                            <Label Text="נגבה בפועל (Collected):" TextColor="#B0C4DE" FontSize="11" />
+                            <Label Text="{Binding TotalCollectedUsd, StringFormat='${0:N0}'}" TextColor="#10B981" FontSize="20" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+                            <Label Text="יתרת חוב לקוחות:" TextColor="#B0C4DE" FontSize="11" />
+                            <Label Text="{Binding TotalOutstandingUsd, StringFormat='${0:N0}'}" TextColor="#F59E0B" FontSize="18" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
+                            <Label Text="רווח גולמי ומרווח:" TextColor="#B0C4DE" FontSize="11" />
+                            <Label Text="{Binding MarginPercentage, StringFormat='{0:F1}% רווח'}" TextColor="{StaticResource Secondary}" FontSize="18" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Recent Payments Section -->
+            <Label Text="תשלומים וקבלות אחרונות" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+            <CollectionView ItemsSource="{Binding RecentPayments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:PaymentDto">
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,10">
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding ReceiptNumber}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                    <Label Text="{Binding Amount, StringFormat='${0:N0} {1}'}" FontSize="16" FontAttributes="Bold" TextColor="#10B981" HorizontalOptions="EndAndExpand" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding CustomerName, StringFormat='לקוח: {0}'}" FontSize="14" FontAttributes="Bold" />
+                                <Label Text="{Binding BookingCode, StringFormat='הזמנה: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                <HorizontalStackLayout Spacing="8">
+                                    <Border BackgroundColor="#F1F5F9" StrokeShape="RoundRectangle 6" Padding="6,3">
+                                        <Label Text="{Binding Method}" FontSize="11" TextColor="#334155" />
+                                    </Border>
+                                    <Label Text="{Binding ReferenceNumber, StringFormat='אסמכתא: {0}'}" FontSize="11" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

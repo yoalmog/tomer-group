@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             x:Class="TomerGroup.Mobile.Pages.Customer.NotificationsPage"
+             Title="הודעות ועדכונים"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Hero Banner -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
+                <VerticalStackLayout Spacing="8">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="מרכז עדכונים והתרעות 🔔" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource Secondary}" StrokeShape="RoundRectangle 12" Padding="8,2"
+                                IsVisible="{Binding UnreadCount, Converter={StaticResource IntToBoolConverter}}">
+                            <Label Text="{Binding UnreadCount, StringFormat='{0} חדשות'}" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                        </Border>
+                    </Grid>
+                    <Label Text="עדכוני זמני איסוף נהג, הנפקת כרטיסי כניסה, שינויי מסלול והודעות דחופות מצוות קוסקו."
+                           TextColor="#B0C4DE" FontSize="13" LineBreakMode="WordWrap" />
+
+                    <!-- Quick WhatsApp Support Trigger -->
+                    <Button Text="💬 מוקד ווטסאפ קוסקו (חירום וסיוע 24/7)"
+                            Command="{Binding OpenWhatsAppSupportCommand}"
+                            BackgroundColor="#25D366" TextColor="White" HeightRequest="38" FontSize="13" FontAttributes="Bold" CornerRadius="8" Margin="0,6,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Action Status Message -->
+            <Border IsVisible="{Binding ActionStatus, Converter={StaticResource StringNotEmptyConverter}}"
+                    BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 8" Padding="10,6">
+                <Label Text="{Binding ActionStatus}" TextColor="#0369A1" FontSize="13" FontAttributes="Bold" />
+            </Border>
+
+            <!-- Filter Tabs & Mark All Read -->
+            <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
+                <Button Grid.Column="0" Text="הכל" Command="{Binding FilterByStatusCommand}" CommandParameter="הכל"
+                        Style="{StaticResource PrimaryButtonStyle}" CornerRadius="18" HeightRequest="36" FontSize="12" />
+                <Button Grid.Column="1" Text="לא נקראו" Command="{Binding FilterByStatusCommand}" CommandParameter="לא נקראו"
+                        BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" CornerRadius="18" HeightRequest="36" FontSize="12" />
+                <Button Grid.Column="2" Text="סמן הכל כנקרא ✓" Command="{Binding MarkAllAsReadCommand}"
+                        BackgroundColor="Transparent" TextColor="{StaticResource PrimaryDark}" FontSize="12" HorizontalOptions="End" />
+            </Grid>
+
+            <!-- Notifications List -->
+            <CollectionView ItemsSource="{Binding FilteredNotifications}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,10">
+                            <VerticalStackLayout Spacing="8">
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                    <Border BackgroundColor="{StaticResource PrimaryLight}" StrokeShape="RoundRectangle 8" WidthRequest="38" HeightRequest="38" VerticalOptions="Center">
+                                        <Label Text="🔔" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding HebrewTitle}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                        <Label Text="{Binding Title}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                    </VerticalStackLayout>
+                                    <Border Grid.Column="2" StrokeShape="RoundRectangle 4" Padding="6,2" VerticalOptions="Start"
+                                            BackgroundColor="{Binding IsRead, Converter={StaticResource ReadStatusColorConverter}}">
+                                        <Label Text="{Binding IsRead, Converter={StaticResource ReadStatusTextConverter}}" TextColor="White" FontSize="10" FontAttributes="Bold" />
+                                    </Border>
+                                </Grid>
+
+                                <Label Text="{Binding HebrewMessage}" FontSize="13" TextColor="{StaticResource TextPrimary}" LineBreakMode="WordWrap" />
+
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                                    <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM/yyyy HH:mm}'}" FontSize="11" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" />
+                                    <Button Grid.Column="1" Text="סמן כנקרא ✓"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:NotificationsViewModel}}, Path=MarkAsReadCommand}"
+                                            CommandParameter="{Binding .}"
+                                            IsVisible="{Binding IsRead, Converter={StaticResource InvertedBoolConverter}}"
+                                            BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" HeightRequest="28" FontSize="11" Padding="8,0" CornerRadius="4" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

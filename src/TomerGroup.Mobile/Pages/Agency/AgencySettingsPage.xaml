@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencySettingsPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <Label Text="הגדרות מותג ותצורה / Brand Settings" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="שם הסוכנות / Agency Name" FontSize="13" FontAttributes="Bold" />
+                    <Entry Text="{Binding AgencyName}" />
+
+                    <Label Text="סלוגן / Tagline" FontSize="13" FontAttributes="Bold" />
+                    <Entry Text="{Binding Tagline}" />
+
+                    <Label Text="טלפון סוכנות / Contact Phone" FontSize="13" FontAttributes="Bold" />
+                    <Entry Text="{Binding ContactPhone}" />
+
+                    <Label Text="וואטסאפ / WhatsApp Support" FontSize="13" FontAttributes="Bold" />
+                    <Entry Text="{Binding WhatsApp}" />
+
+                    <Button Text="שמור הגדרות מותג" Command="{Binding SaveBrandingCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Language Configuration for Staff -->
+            <Label Text="שפת ממשק / System Language" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="עברית (RTL)" Command="{Binding ChangeLanguageCommand}" CommandParameter="he" Style="{StaticResource SecondaryButtonStyle}" />
+                <Button Text="English" Command="{Binding ChangeLanguageCommand}" CommandParameter="en" Style="{StaticResource SecondaryButtonStyle}" />
+                <Button Text="Español" Command="{Binding ChangeLanguageCommand}" CommandParameter="es" Style="{StaticResource SecondaryButtonStyle}" />
+            </HorizontalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

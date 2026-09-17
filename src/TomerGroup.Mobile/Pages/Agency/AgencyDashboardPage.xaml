@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyDashboardPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Operations Metrics Grid -->
+            <Label Text="תפעול יומי / Daily Operations" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+            
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="10" ColumnSpacing="10">
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout>
+                        <Label Text="נחיתות היום" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+                        <Label Text="{Binding TodayArrivals}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout>
+                        <Label Text="עזיבות היום" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+                        <Label Text="{Binding TodayDepartures}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout>
+                        <Label Text="סיורים פעילים" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+                        <Label Text="{Binding TodayTours}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout>
+                        <Label Text="מטיילים בפרו" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+                        <Label Text="{Binding ActiveTravelers}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- Financial Performance Card (Section 22 & 23) -->
+            <Label Text="ביצועים פיננסיים / Financials" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource Primary}">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,*,*">
+                        <VerticalStackLayout>
+                            <Label Text="הכנסות" TextColor="#CBD5E1" FontSize="12" />
+                            <Label Text="{Binding Revenue, StringFormat='${0:N0}'}" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="הוצאות" TextColor="#CBD5E1" FontSize="12" />
+                            <Label Text="{Binding Expenses, StringFormat='${0:N0}'}" TextColor="#FCA5A5" FontSize="18" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="2">
+                            <Label Text="רווח גולמי" TextColor="{StaticResource SecondaryLight}" FontSize="12" FontAttributes="Bold" />
+                            <Label Text="{Binding GrossProfit, StringFormat='${0:N0}'}" TextColor="{StaticResource SecondaryLight}" FontSize="20" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Actions -->
+            <Button Text="רענון נתונים" Command="{Binding RefreshMetricsCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Text="התנתק" Command="{Binding LogoutCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

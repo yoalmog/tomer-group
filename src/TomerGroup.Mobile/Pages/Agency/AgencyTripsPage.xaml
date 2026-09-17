@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dtos="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyTripsPage"
+             x:DataType="vm:AgencyTripsViewModel"
+             Title="ניהול טיולים / Itinerary Builder"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,*" Padding="16" RowSpacing="12">
+
+        <!-- Top Header & Destinations Quick Bar -->
+        <Border Grid.Row="0" Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource Primary}">
+            <VerticalStackLayout Spacing="8">
+                <Grid ColumnDefinitions="*,Auto">
+                    <VerticalStackLayout Grid.Column="0">
+                        <Label Text="בונה מסלולים / Itinerary Builder" FontSize="18" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="צפה בלוחות זמנים, ימי טיול ורווחיות" FontSize="12" TextColor="{StaticResource SecondaryLight}" />
+                    </VerticalStackLayout>
+                    <Button Grid.Column="1" Text="+ טיול חדש" BackgroundColor="{StaticResource Secondary}" TextColor="White" CornerRadius="6" HeightRequest="36" Padding="12,0" FontAttributes="Bold" />
+                </Grid>
+
+                <!-- Peru Destinations Carousel/Chips -->
+                <Label Text="יעדים מרכזיים בפרו:" FontSize="11" TextColor="#CBD5E1" FontAttributes="Bold" />
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="6">
+                        <Border BackgroundColor="#2D9CDB" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="8,3">
+                            <Label Text="🏔️ Cusco (3,400m)" FontSize="11" TextColor="White" />
+                        </Border>
+                        <Border BackgroundColor="#2D9CDB" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="8,3">
+                            <Label Text="🏰 Machu Picchu (2,430m)" FontSize="11" TextColor="White" />
+                        </Border>
+                        <Border BackgroundColor="#2D9CDB" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="8,3">
+                            <Label Text="🌾 Sacred Valley (2,800m)" FontSize="11" TextColor="White" />
+                        </Border>
+                        <Border BackgroundColor="#2D9CDB" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="8,3">
+                            <Label Text="🌈 Rainbow Mtn (5,036m)" FontSize="11" TextColor="White" />
+                        </Border>
+                        <Border BackgroundColor="#2D9CDB" StrokeThickness="0" StrokeShape="RoundRectangle 12" Padding="8,3">
+                            <Label Text="🌊 Lake Titicaca (3,812m)" FontSize="11" TextColor="White" />
+                        </Border>
+                    </HorizontalStackLayout>
+                </ScrollView>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Trips List with Visual Timeline -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Trips}" SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dtos:TripDto">
+                    <Border Style="{StaticResource CardFrameStyle}" Margin="0,4,0,10" Padding="14">
+                        <VerticalStackLayout Spacing="8">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Grid.Column="0">
+                                    <Label Text="{Binding TripCode}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                    <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                    <Label Text="{Binding CustomerName}" FontSize="13" TextColor="{StaticResource TextSecondary}" />
+                                </VerticalStackLayout>
+                                <Border Grid.Column="1" BackgroundColor="#E8F5E9" StrokeThickness="0" StrokeShape="RoundRectangle 6" Padding="8,4" VerticalOptions="Start">
+                                    <Label Text="{Binding Status}" FontSize="11" FontAttributes="Bold" TextColor="#2E7D32" />
+                                </Border>
+                            </Grid>
+
+                            <!-- Financial Summary -->
+                            <Grid ColumnDefinitions="*,*,*" BackgroundColor="#F1F5F9" Padding="8" Margin="0,4">
+                                <VerticalStackLayout Grid.Column="0">
+                                    <Label Text="הכנסה" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                                    <Label Text="{Binding TotalRevenue, StringFormat='${0:N0}'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1">
+                                    <Label Text="עלות סוכנות" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                                    <Label Text="{Binding TotalCost, StringFormat='${0:N0}'}" FontSize="13" FontAttributes="Bold" TextColor="#C62828" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="2">
+                                    <Label Text="רווח גולמי" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                                    <Label Text="{Binding GrossProfit, StringFormat='${0:N0}'}" FontSize="13" FontAttributes="Bold" TextColor="#2E7D32" />
+                                </VerticalStackLayout>
+                            </Grid>
+
+                            <!-- Day by Day Visual Timeline -->
+                            <Label Text="לוח זמנים יומי (Timeline):" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" Margin="0,4,0,0" />
+                            <CollectionView ItemsSource="{Binding Days}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="dtos:TripDayDto">
+                                        <Grid ColumnDefinitions="70,*" Padding="0,2">
+                                            <Label Grid.Column="0" Text="{Binding DayNumber, StringFormat='Day {0}:'}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                            <Label Grid.Column="1" Text="{Binding Title}" FontSize="12" TextColor="{StaticResource TextPrimary}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
+

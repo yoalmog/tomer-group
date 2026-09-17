@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks Condition="'$(EnableMaui)' == 'true'">net8.0-android;net8.0-ios</TargetFrameworks>
+    <TargetFrameworks Condition="'$(EnableMaui)' != 'true'">net8.0</TargetFrameworks>
+    <OutputType Condition="'$(TargetFramework)' != 'net8.0'">Exe</OutputType>
+    <OutputType Condition="'$(TargetFramework)' == 'net8.0'">Library</OutputType>
+    <RootNamespace>TomerGroup.Mobile</RootNamespace>
+    <UseMaui Condition="'$(TargetFramework)' != 'net8.0'">true</UseMaui>
+    <SingleProject Condition="'$(TargetFramework)' != 'net8.0'">true</SingleProject>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <!-- Display name -->
+    <ApplicationTitle>Tomer Group</ApplicationTitle>
+
+    <!-- App Identifier -->
+    <ApplicationId>com.tomergroup.travel</ApplicationId>
+
+    <!-- Versions -->
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationVersion>1</ApplicationVersion>
+
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+    <AndroidPackageFormats>apk</AndroidPackageFormats>
+    <AndroidEnableProfiledAOT Condition="'$(Configuration)' == 'Release'">true</AndroidEnableProfiledAOT>
+    <AndroidLinkMode Condition="'$(Configuration)' == 'Release'">SdkOnly</AndroidLinkMode>
+    <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TomerGroup.Core\TomerGroup.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(UseMaui)' == 'true'">
+    <PackageReference Include="CommunityToolkit.Maui" Version="8.0.0" />
+  </ItemGroup>
+
+  <!-- In non-MAUI CLI fallback builds, exclude XAML files from MSBuild compilation while keeping all ViewModels, Services, and business logic compiled -->
+  <ItemGroup Condition="'$(UseMaui)' != 'true'">
+    <Compile Remove="**\*.xaml.cs" />
+    <None Include="**\*.xaml.cs" />
+    <None Include="**\*.xaml" />
+  </ItemGroup>
+
+</Project>
+

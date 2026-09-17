@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyAIAssistantPage"
+             Title="עוזר AI ומתכנן מסלולים"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Hero Banner -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
+                <VerticalStackLayout Spacing="6">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="🤖" FontSize="22" VerticalOptions="Center" />
+                        <Label Text="Tomer Group AI Assistant" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+                    <Label Text="גיבוש הצעות מסלול מותאמות אישית, מודל התאקלמות גובה אוטומטי, וניסוח מענה מהיר בווטסאפ. כל פעולה מחייבת אישור אנושי (Human-in-the-Loop)."
+                           TextColor="#B0C4DE" FontSize="13" LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Status Banner -->
+            <Border IsVisible="{Binding StatusMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                    BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 8" Padding="10,6">
+                <Label Text="{Binding StatusMessage}" TextColor="#0369A1" FontSize="13" FontAttributes="Bold" />
+            </Border>
+
+            <!-- Prompt Configuration Card -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="פרמטרים לבניית מסלול" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="יעד ראשי:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        <Entry Text="{Binding Destination}" FontSize="14" TextColor="{StaticResource PrimaryDark}" />
+                    </VerticalStackLayout>
+
+                    <Grid ColumnDefinitions="*,*">
+                        <VerticalStackLayout Spacing="4">
+                            <Label Text="מספר ימים:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                            <Entry Text="{Binding Days}" Keyboard="Numeric" FontSize="14" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1" Spacing="4">
+                            <Label Text="פרופיל מטייל:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                            <Entry Text="{Binding TravelerProfile}" FontSize="14" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,*">
+                        <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                            <CheckBox IsChecked="{Binding IsKosherRequired}" />
+                            <Label Text="כשרות חב&quot;ד" FontSize="13" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <HorizontalStackLayout Grid.Column="1" Spacing="8" VerticalOptions="Center">
+                            <CheckBox IsChecked="{Binding IsShabbatObservant}" />
+                            <Label Text="שומר שבת" FontSize="13" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <Button Text="גבש הצעת מסלול ב-AI ✨"
+                            Command="{Binding GenerateItineraryDraftCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}" HeightRequest="44" Margin="0,6,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Human-in-the-Loop Review Section -->
+            <VerticalStackLayout IsVisible="{Binding HasDraft}" Spacing="12">
+                <Border BackgroundColor="#FEF3C7" StrokeShape="RoundRectangle 8" Padding="12,8">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="{Binding DraftStatus}" TextColor="#92400E" FontSize="13" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentDraft.HebrewTitle}" TextColor="{StaticResource PrimaryDark}" FontSize="16" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentDraft.HebrewSummary}" TextColor="{StaticResource TextPrimary}" FontSize="13" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Day Draft Cards -->
+                <CollectionView ItemsSource="{Binding DraftDays}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,10">
+                                <VerticalStackLayout Spacing="6">
+                                    <Grid ColumnDefinitions="Auto,*,Auto">
+                                        <Border BackgroundColor="{StaticResource PrimaryLight}" StrokeShape="RoundRectangle 6" Padding="6,2">
+                                            <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" TextColor="{StaticResource PrimaryDark}" FontSize="12" FontAttributes="Bold" />
+                                        </Border>
+                                        <Label Grid.Column="1" Text="{Binding HebrewTitle}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="8,0,0,0" VerticalOptions="Center" />
+                                        <Border Grid.Column="2" BackgroundColor="#E2E8F0" StrokeShape="RoundRectangle 6" Padding="6,2">
+                                            <Label Text="{Binding AltitudeMeters, StringFormat='{0} מ\''}" TextColor="#334155" FontSize="11" FontAttributes="Bold" />
+                                        </Border>
+                                    </Grid>
+                                    <Label Text="{Binding HebrewDescription}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+                                    <Label Text="{Binding AcclimatizationNote, StringFormat='💡 התאקלמות: {0}'}" FontSize="12" TextColor="#059669" FontAttributes="Italic"
+                                           IsVisible="{Binding AcclimatizationNote, Converter={StaticResource StringNotEmptyConverter}}" />
+                                    <Label Text="{Binding KosherFoodNote, StringFormat='✡️ כשרות: {0}'}" FontSize="12" TextColor="{StaticResource Secondary}"
+                                           IsVisible="{Binding KosherFoodNote, Converter={StaticResource StringNotEmptyConverter}}" />
+                                    <Label Text="{Binding ShabbatNote, StringFormat='🕯️ שבת: {0}'}" FontSize="12" TextColor="#7C3AED"
+                                           IsVisible="{Binding ShabbatNote, Converter={StaticResource StringNotEmptyConverter}}" />
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- HITL Approval Buttons -->
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,6,0,0">
+                    <Button Grid.Column="0" Text="אשר הצעת מסלול ✓"
+                            Command="{Binding ApproveDraftCommand}"
+                            BackgroundColor="#10B981" TextColor="White" HeightRequest="44" FontAttributes="Bold" CornerRadius="8" />
+                    <Button Grid.Column="1" Text="דחה טיוטה"
+                            BackgroundColor="#EF4444" TextColor="White" HeightRequest="44" FontAttributes="Bold" CornerRadius="8" />
+                </Grid>
+            </VerticalStackLayout>
+
+            <!-- WhatsApp Response Drafting Helper -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="עוזר ניסוח הודעות ווטסאפ למטיילים" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                    <Label Text="מענה מהיר בעברית טבעית לנושאים תפעוליים שכיחים:" FontSize="13" TextColor="{StaticResource TextSecondary}" />
+
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="8" ColumnSpacing="8">
+                        <Button Grid.Row="0" Grid.Column="0" Text="מחלת גבהים (סורוצ'ה)"
+                                Command="{Binding DraftWhatsAppResponseCommand}" CommandParameter="AltitudeSickness"
+                                BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" FontSize="11" HeightRequest="36" CornerRadius="6" />
+                        <Button Grid.Row="0" Grid.Column="1" Text="סעודות שבת בחב&quot;ד"
+                                Command="{Binding DraftWhatsAppResponseCommand}" CommandParameter="ShabbatMeals"
+                                BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" FontSize="11" HeightRequest="36" CornerRadius="6" />
+                        <Button Grid.Row="1" Grid.Column="0" Text="עיכוב רכבת מאצ'ו פיצ'ו"
+                                Command="{Binding DraftWhatsAppResponseCommand}" CommandParameter="TrainDelay"
+                                BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" FontSize="11" HeightRequest="36" CornerRadius="6" />
+                        <Button Grid.Row="1" Grid.Column="1" Text="ציוד לטרק הסלקנטאי"
+                                Command="{Binding DraftWhatsAppResponseCommand}" CommandParameter="SalkantayGear"
+                                BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" FontSize="11" HeightRequest="36" CornerRadius="6" />
+                    </Grid>
+
+                    <Editor Text="{Binding WhatsAppDraftText}"
+                            IsVisible="{Binding WhatsAppDraftText, Converter={StaticResource StringNotEmptyConverter}}"
+                            HeightRequest="90" FontSize="13" Margin="0,4,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

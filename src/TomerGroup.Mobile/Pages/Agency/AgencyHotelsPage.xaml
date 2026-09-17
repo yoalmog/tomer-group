@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dto="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyHotelsPage"
+             Title="מלונות בפרו (Hotels Directory)"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <Grid RowDefinitions="Auto,*" Padding="16" RowSpacing="12">
+        <!-- Search bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="חיפוש מלון או עיר (קוסקו, עמק קדוש, לימה)..."
+                   Text="{Binding SearchQuery}" />
+
+        <!-- Hotels Collection -->
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Hotels}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:HotelDto">
+                    <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding HebrewName}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                <Label Text="{Binding Stars, StringFormat='⭐ {0} כוכבים'}" FontSize="13" TextColor="{StaticResource Secondary}" HorizontalOptions="EndAndExpand" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding Name}" FontSize="13" TextColor="{StaticResource TextSecondary}" />
+                            <Label Text="{Binding Destination, StringFormat='יעד: {0}'}" FontSize="12" TextColor="{StaticResource Primary}" />
+
+                            <HorizontalStackLayout Spacing="6" Margin="0,4,0,0">
+                                <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 6" Padding="6,3" IsVisible="{Binding HasOxygenEnrichedRooms}">
+                                    <Label Text="🫁 חמצן מועשר בחדר" TextColor="#0369A1" FontSize="10" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="#FEF3C7" StrokeShape="RoundRectangle 6" Padding="6,3" IsVisible="{Binding HasOxygenConcentrators}">
+                                    <Label Text="בלוני חמצן זמינים" TextColor="#92400E" FontSize="10" />
+                                </Border>
+                                <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 6" Padding="6,3" IsVisible="{Binding ShabbatFriendly}">
+                                    <Label Text="מפתח שבת מכני ✓" TextColor="#166534" FontSize="10" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="#EDE9FE" StrokeShape="RoundRectangle 6" Padding="6,3" IsVisible="{Binding WalkingDistanceToChabadCusco}">
+                                    <Label Text="הליכה לחב&quot;ד" TextColor="#6D28D9" FontSize="10" />
+                                </Border>
+                            </HorizontalStackLayout>
+
+                            <Label Text="{Binding Phone, StringFormat='טלפון: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>
+

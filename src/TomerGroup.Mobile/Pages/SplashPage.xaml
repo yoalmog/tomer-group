@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+             x:Class="TomerGroup.Mobile.Pages.SplashPage"
+             BackgroundColor="#1B365D">
+
+    <Grid VerticalOptions="Center" HorizontalOptions="Center" RowDefinitions="Auto,Auto,Auto" RowSpacing="20">
+        <!-- Andean Peak & Sun Branding Symbol -->
+        <Image Source="splash.png" WidthRequest="140" HeightRequest="140" HorizontalOptions="Center" />
+
+        <VerticalStackLayout Grid.Row="1" Spacing="6" HorizontalOptions="Center">
+            <Label Text="{Binding Brand.AgencyName}"
+                   TextColor="White"
+                   FontSize="32"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+            <Label Text="{Binding Tagline}"
+                   TextColor="#C28251"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <ActivityIndicator Grid.Row="2"
+                           IsRunning="{Binding IsBusy}"
+                           Color="#2D9CDB"
+                           WidthRequest="36"
+                           HeightRequest="36"
+                           HorizontalOptions="Center" />
+    </Grid>
+
+</ContentPage>
+

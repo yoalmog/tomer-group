@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+             x:Class="TomerGroup.Mobile.Pages.Customer.MyTripPage"
+             Title="{Binding Title}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Trip Overview Header -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource Primary}">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="{Binding CurrentTrip.TripCode}" FontSize="13" TextColor="{StaticResource SecondaryLight}" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentTrip.Title}" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="{Binding CurrentTrip.CustomerName}" FontSize="14" TextColor="#E2E8F0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Interactive Day-by-Day Timeline List -->
+            <CollectionView ItemsSource="{Binding Days}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardFrameStyle}">
+                            <VerticalStackLayout Spacing="10">
+                                <HorizontalStackLayout Spacing="10">
+                                    <Border BackgroundColor="{StaticResource Secondary}" Padding="8,4" StrokeShape="RoundRectangle 6">
+                                        <Label Text="{Binding DayNumber, StringFormat='DAY {0}'}" TextColor="White" FontSize="12" FontAttributes="Bold" />
+                                    </Border>
+                                    <Label Text="{Binding Title}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+
+                                <CollectionView ItemsSource="{Binding Activities}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="55,*" RowSpacing="4" Padding="0,4">
+                                                <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Secondary}" VerticalOptions="Start" />
+                                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                                    <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" />
+                                                    <Label Text="{Binding Location}" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+                                                </VerticalStackLayout>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

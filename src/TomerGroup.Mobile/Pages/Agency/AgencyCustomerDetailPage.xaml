@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyCustomerDetailPage"
+             x:DataType="vm:AgencyCustomerDetailViewModel"
+             Title="תיק מטייל / Traveler File"
+             BackgroundColor="{StaticResource Background}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Back Button Header -->
+            <Button Text="← חזור לרשימת המטיילים" Command="{Binding GoBackCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" HorizontalOptions="Start" />
+
+            <!-- Profile Summary Card -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource Primary}" Padding="20">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="{Binding Customer.HebrewName}" FontSize="24" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="{Binding Customer.PassportName}" FontSize="16" TextColor="{StaticResource SecondaryLight}" />
+                    <Label Text="{Binding Customer.Email}" FontSize="14" TextColor="#CBD5E1" />
+                    <Label Text="{Binding Customer.Phone}" FontSize="14" TextColor="White" FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Passport & Identity (Section 14 Sensitive Data Protection) -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Grid.Column="0" Text="פרטי דרכון וזיהוי (מאובטח)" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
+                        <Button Grid.Column="1" Text="{Binding IsPassportRevealed, Converter={x:Null}}" 
+                                Command="{Binding ToggleRevealPassportCommand}" 
+                                FontSize="12" BackgroundColor="{StaticResource Accent}" TextColor="White" HeightRequest="34" CornerRadius="6" Padding="10,0">
+                            <Button.Triggers>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsPassportRevealed}" Value="True">
+                                    <Setter Property="Text" Value="🔒 הסתר" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Button" Binding="{Binding IsPassportRevealed}" Value="False">
+                                    <Setter Property="Text" Value="👁️ חשוף דרכון (Audit Log)" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="140,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+                        <Label Grid.Row="0" Grid.Column="0" Text="מספר דרכון:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding DisplayPassportNumber}" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="תוקף דרכון:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Customer.PassportExpiration, StringFormat='{0:dd/MM/yyyy}'}" TextColor="{StaticResource TextPrimary}" />
+
+                        <Label Grid.Row="2" Grid.Column="0" Text="תעודת זהות:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                        <Label Grid.Row="2" Grid.Column="1" Text="{Binding Customer.MaskedIsraelId}" TextColor="{StaticResource TextPrimary}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Dietary & Medical Alerts -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="כשרות, תזונה והערות רפואיות" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+
+                    <Label Text="כשרות / תזונה:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="{Binding Customer.DietaryPreferences}" FontSize="14" TextColor="{StaticResource Secondary}" FontAttributes="Bold" />
+
+                    <Label Text="רפואי / גבהים / סורוצ'ה:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="{Binding Customer.MedicalNotes}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+
+                    <Label Text="ביטוח נסיעות וחילוץ:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+                    <Label Text="{Binding Customer.InsuranceCompany}" FontSize="13" TextColor="{StaticResource Primary}" />
+                    <Label Text="{Binding Customer.InsurancePolicyNumber, StringFormat='פוליסה: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Agency Internal Notes (Staff Only) -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="#FFFDE7">
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="📝 הערות סוכנות פנימיות (צוות בלבד):" FontSize="14" FontAttributes="Bold" TextColor="#F57F17" />
+                    <Label Text="{Binding Customer.Notes, FallbackValue='אין הערות מיוחדות'}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

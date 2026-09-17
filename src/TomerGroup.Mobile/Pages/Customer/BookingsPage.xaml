@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             x:Class="TomerGroup.Mobile.Pages.Customer.BookingsPage"
+             Title="ההזמנות והשוברים שלי"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="20" Padding="16">
+
+            <!-- Summary Hero Card -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="סטטוס הזמנות ותשלומים" TextColor="{StaticResource Secondary}" FontSize="14" FontAttributes="Bold" />
+                    <Label Text="כל השירותים והמלונות שלך מסודרים 🇵🇪" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                    <HorizontalStackLayout Spacing="16" Margin="0,8,0,0">
+                        <VerticalStackLayout>
+                            <Label Text="יתרה לתשלום:" TextColor="#B0C4DE" FontSize="12" />
+                            <Label Text="{Binding TotalOutstanding, StringFormat='${0:N0} USD'}" TextColor="White" FontSize="18" FontAttributes="Bold" />
+                        </VerticalStackLayout>
+                        <Border BackgroundColor="#10B981" StrokeShape="RoundRectangle 8" Padding="10,4" VerticalOptions="Center">
+                            <Label Text="✓ מאושר ומסודר" TextColor="White" FontSize="12" FontAttributes="Bold" />
+                        </Border>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Active Bookings Section -->
+            <Label Text="הזמנות חבילה פעילות" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+            <CollectionView ItemsSource="{Binding Bookings}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="8">
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding BookingCode}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                    <Label Text="{Binding Status}" TextColor="{StaticResource Primary}" FontSize="12" FontAttributes="Bold" HorizontalOptions="EndAndExpand" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding CustomerName}" FontSize="14" TextColor="{StaticResource TextSecondary}" />
+                                <Label Text="{Binding TotalAmount, StringFormat='סכום כולל: ${0:N0} USD'}" FontSize="14" FontAttributes="Bold" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Hotel Vouchers Section -->
+            <Label Text="שוברים למלונות (Hotel Vouchers)" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+            <CollectionView ItemsSource="{Binding HotelBookings}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="8">
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding HotelName}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding Destination, StringFormat='יעד: {0}'}" FontSize="13" TextColor="{StaticResource Secondary}" />
+                                <Label Text="{Binding RoomType, StringFormat='סוג חדר: {0}'}" FontSize="14" />
+                                <HorizontalStackLayout Spacing="8">
+                                    <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 6" Padding="8,4" IsVisible="{Binding OxygenRoomRequested}">
+                                        <Label Text="🫁 חדר מועשר בחמצן" TextColor="#0284C7" FontSize="11" FontAttributes="Bold" />
+                                    </Border>
+                                    <Border BackgroundColor="#F1F5F9" StrokeShape="RoundRectangle 6" Padding="8,4">
+                                        <Label Text="{Binding ConfirmationNumber, StringFormat='מספר אישור: {0}'}" TextColor="#334155" FontSize="11" />
+                                    </Border>
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding SpecialRequests, StringFormat='בקשות מיוחדות: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Transfers & Pickups Section -->
+            <Label Text="הסעות ואיסופים מתוזמנים" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+            <CollectionView ItemsSource="{Binding Transfers}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="{Binding HebrewServiceType}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                <Label Text="{Binding PickupLocation, StringFormat='איסוף מ: {0}'}" FontSize="13" />
+                                <Label Text="{Binding DropoffLocation, StringFormat='יעד: {0}'}" FontSize="13" />
+                                <Label Text="{Binding ScheduledPickupTime, StringFormat='שעה מתוכננת: {0:dd/MM/yyyy HH:mm}'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                <Label Text="{Binding DriverName, StringFormat='נהג: {0}'}" FontSize="13" />
+                                <Label Text="{Binding VehicleModel, StringFormat='רכב: {0} ({1})'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

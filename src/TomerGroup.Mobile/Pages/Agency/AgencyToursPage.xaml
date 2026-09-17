@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dto="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyToursPage"
+             Title="קטלוג טיולים וטרקים (Tours)"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+        <!-- Search bar -->
+        <SearchBar Grid.Row="0"
+                   Placeholder="חיפוש טיול, טרק או יעד..."
+                   Text="{Binding SearchQuery}" />
+
+        <!-- Category Chips -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+            <HorizontalStackLayout Spacing="8">
+                <Button Text="הכל" Command="{Binding SelectCategoryCommand}" CommandParameter="הכל" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+                <Button Text="טרקים" Command="{Binding SelectCategoryCommand}" CommandParameter="טרקים" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+                <Button Text="סיורי יום" Command="{Binding SelectCategoryCommand}" CommandParameter="סיורי יום" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+                <Button Text="תרבות" Command="{Binding SelectCategoryCommand}" CommandParameter="תרבות" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- Tours Collection -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Tours}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dto:TourDto">
+                    <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                <Label Text="{Binding HebrewName}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                <Label Text="{Binding AdultPrice, StringFormat='${0:N0} USD'}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="EndAndExpand" />
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding Name}" FontSize="13" TextColor="{StaticResource TextSecondary}" />
+                            <HorizontalStackLayout Spacing="8" Margin="0,4,0,0">
+                                <Border BackgroundColor="#FEF3C7" StrokeShape="RoundRectangle 6" Padding="8,4">
+                                    <Label Text="{Binding Duration, StringFormat='משך: {0}'}" TextColor="#92400E" FontSize="11" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 6" Padding="8,4">
+                                    <Label Text="{Binding AltitudeMaxMeters, StringFormat='גובה: {0} מטר'}" TextColor="#0369A1" FontSize="11" FontAttributes="Bold" />
+                                </Border>
+                                <Border BackgroundColor="#DCFCE7" StrokeShape="RoundRectangle 6" Padding="8,4" IsVisible="{Binding KosherFoodAvailable}">
+                                    <Label Text="כשרות חב&quot;ד ✓" TextColor="#166534" FontSize="11" FontAttributes="Bold" />
+                                </Border>
+                            </HorizontalStackLayout>
+                            <Label Text="{Binding KosherCertificationDetails}" FontSize="11" TextColor="{StaticResource TextSecondary}" IsVisible="{Binding KosherFoodAvailable}" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>
+

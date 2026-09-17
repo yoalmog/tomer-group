@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyReportsPage"
+             Title="דוחות ניהול ורווחיות"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Hero Banner -->
+            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
+                <VerticalStackLayout Spacing="8">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="לוח בקרה ודוחות מנהלים 📊" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Border Grid.Column="1" BackgroundColor="{StaticResource Secondary}" StrokeShape="RoundRectangle 8" Padding="8,4">
+                            <Label Text="Tomer Group Cusco" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                        </Border>
+                    </Grid>
+                    <Label Text="מדדי הכנסות, עלויות תפעול ישירות, רווחיות גולמית, פילוח יעדים ונפח מטיילים ישראלים בעונת התיירות."
+                           TextColor="#B0C4DE" FontSize="13" LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Export Status -->
+            <Border IsVisible="{Binding ExportStatusMessage, Converter={StaticResource StringNotEmptyConverter}}"
+                    BackgroundColor="#E0F2FE" StrokeShape="RoundRectangle 8" Padding="10,6">
+                <Label Text="{Binding ExportStatusMessage}" TextColor="#0369A1" FontSize="13" FontAttributes="Bold" />
+            </Border>
+
+            <!-- Top 4 Financial KPI Cards -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                <!-- Revenue -->
+                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="סך הכנסות (USD)" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                        <Label Text="{Binding TotalRevenue, StringFormat='${0:N0}'}" FontSize="18" FontAttributes="Bold" TextColor="#10B981" />
+                        <Label Text="מכירות חבילות וסיורים" FontSize="10" TextColor="{StaticResource TextSecondary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Expenses -->
+                <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="עלויות ישירות (USD)" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                        <Label Text="{Binding TotalExpenses, StringFormat='${0:N0}'}" FontSize="18" FontAttributes="Bold" TextColor="#EF4444" />
+                        <Label Text="מלונות, רכבות ומדריכים" FontSize="10" TextColor="{StaticResource TextSecondary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Net Profit -->
+                <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="רווח גולמי (USD)" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                        <Label Text="{Binding NetProfit, StringFormat='${0:N0}'}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                        <Label Text="הכנסות בניכוי עלויות" FontSize="10" TextColor="{StaticResource TextSecondary}" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Margin % -->
+                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CardFrameStyle}">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="אחוז רווחיות" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                        <Label Text="{Binding ProfitMarginPercentage, StringFormat='{0:F1}%'}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        <Label Text="Gross Profit Margin" FontSize="10" TextColor="{StaticResource TextSecondary}" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- Operational Volume Highlights -->
+            <Border Style="{StaticResource CardFrameStyle}">
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="4">
+                    <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                        <Label Text="{Binding ActiveTripsCount}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" HorizontalTextAlignment="Center" />
+                        <Label Text="טיולים פעילים" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label Text="{Binding CompletedTripsCount}" FontSize="16" FontAttributes="Bold" TextColor="#10B981" HorizontalTextAlignment="Center" />
+                        <Label Text="הושלמו" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                        <Label Text="{Binding TotalTravelersCount}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalTextAlignment="Center" />
+                        <Label Text="מטיילים" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center">
+                        <Label Text="{Binding TotalHotelNightsBooked}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalTextAlignment="Center" />
+                        <Label Text="לילות מלון" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Destination Volume Section -->
+            <Label Text="פילוח נפח והכנסות לפי יעד" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+            <CollectionView ItemsSource="{Binding DestinationBreakdowns}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,8">
+                            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                <Label Grid.Row="0" Grid.Column="0" Text="{Binding HebrewDestination}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding RevenueUsd, StringFormat='${0:N0} USD'}" FontSize="14" FontAttributes="Bold" TextColor="#10B981" />
+                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding TripsCount, StringFormat='{0} טיולים • {1}% מנפח ההזמנות', ConverterParameter={Binding PercentageOfTotal}}" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                                <Label Grid.Row="1" Grid.Column="1" Text="{Binding TravelersCount, StringFormat='{0} מטיילים'}" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Export Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,16">
+                <Button Grid.Column="0" Text="ייצא דוח אקסל (CSV) 📄"
+                        Command="{Binding ExportReportCommand}" CommandParameter="csv"
+                        BackgroundColor="{StaticResource Primary}" TextColor="White" HeightRequest="44" FontSize="12" CornerRadius="8" FontAttributes="Bold" />
+                <Button Grid.Column="1" Text="ייצא דוח מנהלים (PDF) 📑"
+                        Command="{Binding ExportReportCommand}" CommandParameter="pdf"
+                        BackgroundColor="{StaticResource Secondary}" TextColor="White" HeightRequest="44" FontSize="12" CornerRadius="8" FontAttributes="Bold" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+

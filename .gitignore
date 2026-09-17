@@ -1,0 +1,30 @@
+## Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+
+## Visual Studio & Rider files
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+.idea/
+*.suo
+
+## MAUI & Mobile
+*.apk
+*.aab
+*.ipa
+.DS_Store
+Thumbs.db

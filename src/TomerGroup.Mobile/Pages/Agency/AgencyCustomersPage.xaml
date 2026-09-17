@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dtos="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyCustomersPage"
+             x:DataType="vm:AgencyCustomersViewModel"
+             Title="מטיילים / Travelers Directory"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="16" RowSpacing="12">
+
+        <!-- Header Stats Banner -->
+        <Border Grid.Row="0" Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource Primary}" Padding="16">
+            <Grid ColumnDefinitions="*,*,*,*">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="סה&quot;כ מטיילים" TextColor="#CBD5E1" FontSize="11" />
+                    <Label Text="{Binding Stats.TotalTravelers, FallbackValue='4'}" TextColor="White" FontSize="20" FontAttributes="Bold" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="1">
+                    <Label Text="בפרו כעת" TextColor="#CBD5E1" FontSize="11" />
+                    <Label Text="{Binding Stats.ActiveInPeru, FallbackValue='2'}" TextColor="{StaticResource Accent}" FontSize="20" FontAttributes="Bold" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2">
+                    <Label Text="כשרות" TextColor="#CBD5E1" FontSize="11" />
+                    <Label Text="{Binding Stats.KosherTravelersCount, FallbackValue='2'}" TextColor="{StaticResource Secondary}" FontSize="20" FontAttributes="Bold" />
+                </VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="3">
+                    <Label Text="דרכון &lt; 6 חודשים" TextColor="#CBD5E1" FontSize="11" />
+                    <Label Text="{Binding Stats.ExpiringPassportCount, FallbackValue='1'}" TextColor="#EF5350" FontSize="20" FontAttributes="Bold" />
+                </VerticalStackLayout>
+            </Grid>
+        </Border>
+
+        <!-- Search Bar -->
+        <Border Grid.Row="1" Stroke="{StaticResource Accent}" StrokeThickness="1" StrokeShape="RoundRectangle 8" Padding="4,0" BackgroundColor="White">
+            <Grid ColumnDefinitions="*,Auto">
+                <Entry Grid.Column="0" 
+                       Text="{Binding SearchQuery}" 
+                       Placeholder="חיפוש לפי שם, עברית, טלפון, דרכון..." 
+                       ClearButtonVisibility="WhileEditing" 
+                       ReturnCommand="{Binding SearchCommand}" />
+                <Button Grid.Column="1" Text="🔍" Command="{Binding SearchCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" WidthRequest="44" HeightRequest="44" />
+            </Grid>
+        </Border>
+
+        <!-- Filter Chips Bar -->
+        <HorizontalStackLayout Grid.Row="2" Spacing="8">
+            <Button Text="הכל (All)" Command="{Binding ApplyFilterCommand}" CommandParameter="All" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+            <Button Text="🇵🇪 בפרו כעת" Command="{Binding ApplyFilterCommand}" CommandParameter="InPeru" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="#2E7D32" TextColor="White" />
+            <Button Text="🍷 שומרי כשרות" Command="{Binding ApplyFilterCommand}" CommandParameter="Kosher" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="{StaticResource Secondary}" TextColor="White" />
+            <Button Text="⚠️ דרכון קרוב לפקיעה" Command="{Binding ApplyFilterCommand}" CommandParameter="Expiring" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="#C62828" TextColor="White" />
+        </HorizontalStackLayout>
+
+        <!-- Travelers List -->
+        <CollectionView Grid.Row="3" ItemsSource="{Binding Customers}" SelectionMode="None">
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Spacing="10" HorizontalOptions="Center" VerticalOptions="Center" Padding="40">
+                    <Label Text="👤" FontSize="48" HorizontalTextAlignment="Center" />
+                    <Label Text="לא נמצאו מטיילים התואמים לחיפוש" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="dtos:CustomerSummaryDto">
+                    <Border Style="{StaticResource CardFrameStyle}" Margin="0,4,0,8" Padding="14">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                            <!-- Initials Avatar Badge -->
+                            <Border Grid.Column="0" Stroke="{StaticResource Secondary}" StrokeThickness="2" BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 24" WidthRequest="48" HeightRequest="48" VerticalOptions="Center">
+                                <Label Text="{Binding AvatarInitials}" FontSize="18" FontAttributes="Bold" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                            </Border>
+
+                            <!-- Traveler Details -->
+                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                <HorizontalStackLayout Spacing="8">
+                                    <Label Text="{Binding HebrewName}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                                    <Border IsVisible="{Binding IsActiveInPeru}" BackgroundColor="#E8F5E9" StrokeThickness="0" StrokeShape="RoundRectangle 4" Padding="6,2">
+                                        <Label Text="בפרו כעת" FontSize="10" FontAttributes="Bold" TextColor="#2E7D32" />
+                                    </Border>
+                                </HorizontalStackLayout>
+                                <Label Text="{Binding FullName}" FontSize="13" TextColor="{StaticResource TextSecondary}" />
+                                <Label Text="{Binding WhatsApp}" FontSize="12" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                                <Label Text="{Binding DietaryPreferences}" FontSize="11" TextColor="{StaticResource Secondary}" />
+                            </VerticalStackLayout>
+
+                            <!-- Actions -->
+                            <VerticalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center">
+                                <Button Text="💬 וואטסאפ" FontSize="11" BackgroundColor="#25D366" TextColor="White" HeightRequest="32" CornerRadius="6" Padding="8,0" />
+                                <Label Text="{Binding MaskedPassportNumber}" FontSize="11" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="End" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
+
+</ContentPage>
+

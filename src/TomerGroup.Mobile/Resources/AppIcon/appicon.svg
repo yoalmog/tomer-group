@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#1B365D"/>
+  <!-- Stylized Andes Mountain Peak & Incan Sun in Terracotta/Gold -->
+  <path d="M96 384 L256 160 L416 384 Z" fill="#C28251"/>
+  <path d="M192 384 L256 280 L320 384 Z" fill="#FFFFFF" opacity="0.9"/>
+  <circle cx="256" cy="110" r="36" fill="#2D9CDB"/>
+</svg>

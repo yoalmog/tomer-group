@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dto="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyManifestPage"
+             Title="דף משימות יומי (Daily Mission Sheet)"
+             BackgroundColor="{StaticResource BackgroundColor}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="16" RowSpacing="12">
+        <!-- Date Header Banner -->
+        <Border Grid.Row="0" Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
+            <VerticalStackLayout Spacing="4">
+                <Label Text="דף משימות שטח מבצעי — פרו 🇵🇪" TextColor="{StaticResource Secondary}" FontSize="14" FontAttributes="Bold" />
+                <Label Text="{Binding SelectedDate, StringFormat='משימות ליום: {0:dddd, dd/MM/yyyy}'}" TextColor="White" FontSize="16" FontAttributes="Bold" />
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Tabs -->
+        <HorizontalStackLayout Grid.Row="1" Spacing="8">
+            <Button Text="סיורים ומדריכים (Guides)" Command="{Binding SelectTabCommand}" CommandParameter="מדריכים" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+            <Button Text="הסעות ונהגים (Transfers)" Command="{Binding SelectTabCommand}" CommandParameter="הסעות" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+        </HorizontalStackLayout>
+
+        <!-- Manifest Content -->
+        <Grid Grid.Row="2">
+            <!-- Guides Manifest -->
+            <CollectionView ItemsSource="{Binding GuideAssignments}" IsVisible="{Binding ActiveTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='מדריכים'}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:GuideManifestItemDto">
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                    <Label Text="{Binding Title}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="8,0,0,0" />
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding Location, StringFormat='מיקום: {0}'}" FontSize="13" />
+                                <Label Text="{Binding CustomerName, StringFormat='מטייל: {0}'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                
+                                <Border BackgroundColor="#FEF3C7" StrokeShape="RoundRectangle 6" Padding="8,4" IsVisible="{Binding DietaryRestrictions, Converter={StaticResource NotNullOrEmptyConverter}}">
+                                    <Label Text="{Binding DietaryRestrictions, StringFormat='העדפת כשרות: {0}'}" TextColor="#92400E" FontSize="11" FontAttributes="Bold" />
+                                </Border>
+
+                                <Border BackgroundColor="#FEE2E2" StrokeShape="RoundRectangle 6" Padding="8,4" IsVisible="{Binding MedicalNotes, Converter={StaticResource NotNullOrEmptyConverter}}">
+                                    <Label Text="{Binding MedicalNotes, StringFormat='הערה רפואית: {0}'}" TextColor="#991B1B" FontSize="11" FontAttributes="Bold" />
+                                </Border>
+
+                                <Label Text="{Binding Instructions, StringFormat='הנחיות: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Transfers Manifest -->
+            <CollectionView ItemsSource="{Binding DriverTransfers}" IsVisible="{Binding ActiveTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='הסעות'}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dto:DriverManifestItemDto">
+                        <Border Style="{StaticResource CardFrameStyle}" Margin="0,0,0,12">
+                            <VerticalStackLayout Spacing="6">
+                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding ScheduledPickupTime, StringFormat='{0:HH:mm}'}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                    <Label Text="{Binding HebrewServiceType}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" Margin="8,0,0,0" />
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding PickupLocation, StringFormat='איסוף: {0}'}" FontSize="13" />
+                                <Label Text="{Binding DropoffLocation, StringFormat='הורדה: {0}'}" FontSize="13" />
+                                <Label Text="{Binding FlightOrTrainNumber, StringFormat='טיסה/רכבת: {0}'}" FontSize="12" TextColor="{StaticResource Secondary}" IsVisible="{Binding FlightOrTrainNumber, Converter={StaticResource NotNullOrEmptyConverter}}" />
+                                <Label Text="{Binding CustomerName, StringFormat='מטייל: {0} ({1} נוסעים)'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                                <Label Text="{Binding VehicleModel, StringFormat='רכב: {0} ({1})'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                            </VerticalStackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </Grid>
+
+</ContentPage>
+
