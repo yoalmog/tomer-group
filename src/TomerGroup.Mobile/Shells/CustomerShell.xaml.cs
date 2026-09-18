@@ -60,17 +60,24 @@ public partial class CustomerShell : Microsoft.Maui.Controls.Shell
     private void UpdateTabs()
     {
         if (_localization == null) return;
-        TabHome.Title = _localization.GetString(LocalizationKeys.NavHome);
-        TabExplore.Title = _localization.CurrentLanguage switch
+        try
         {
-            "en" => "Explore",
-            "es" => "Explorar",
-            _ => "גלה"
-        };
-        TabMyTrip.Title = _localization.GetString(LocalizationKeys.NavMyTrip);
-        TabBookings.Title = _localization.GetString(LocalizationKeys.NavBookings);
-        TabProfile.Title = _localization.GetString(LocalizationKeys.NavProfile);
-        FlowDirection = _localization.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+            TabHome.Title = _localization.GetString(LocalizationKeys.NavHome);
+            TabExplore.Title = _localization.CurrentLanguage switch
+            {
+                "en" => "Explore",
+                "es" => "Explorar",
+                _ => "גלה"
+            };
+            TabMyTrip.Title = _localization.GetString(LocalizationKeys.NavMyTrip);
+            TabBookings.Title = _localization.GetString(LocalizationKeys.NavBookings);
+            TabProfile.Title = _localization.GetString(LocalizationKeys.NavProfile);
+            FlowDirection = _localization.IsRightToLeft ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[CustomerShell.UpdateTabs] Warning: {ex.Message}");
+        }
     }
 }
 #endif

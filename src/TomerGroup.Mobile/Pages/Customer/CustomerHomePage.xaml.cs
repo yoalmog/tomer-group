@@ -16,7 +16,14 @@ public partial class CustomerHomePage : Microsoft.Maui.Controls.ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.InitializeAsync();
+        try
+        {
+            await _viewModel.InitializeAsync();
+        }
+        catch (System.Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[CustomerHomePage.OnAppearing] Error: {ex.Message}");
+        }
     }
 }
 #endif

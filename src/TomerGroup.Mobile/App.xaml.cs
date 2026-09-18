@@ -1,5 +1,6 @@
 #if ANDROID || IOS || MACCATALYST || WINDOWS || USE_MAUI
 using TomerGroup.Mobile.Pages;
+using TomerGroup.Mobile.Pages.Customer;
 using TomerGroup.Mobile.Services;
 using TomerGroup.Mobile.Shells;
 
@@ -26,23 +27,40 @@ public partial class App : Microsoft.Maui.Controls.Application
     {
         MainThread.BeginInvokeOnMainThread(() =>
         {
-            switch (shellName)
+            try
             {
-                case "CustomerShell":
-                    MainPage = _serviceProvider.GetRequiredService<CustomerShell>();
-                    break;
-                case "AgencyShell":
-                    MainPage = _serviceProvider.GetRequiredService<AgencyShell>();
-                    break;
-                case "Login":
-                    MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<LoginPage>());
-                    break;
-                case "ForgotPassword":
-                    MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<ForgotPasswordPage>());
-                    break;
-                default:
-                    MainPage = _serviceProvider.GetRequiredService<SplashPage>();
-                    break;
+                switch (shellName)
+                {
+                    case "CustomerShell":
+                        MainPage = _serviceProvider.GetRequiredService<CustomerShell>();
+                        break;
+                    case "AgencyShell":
+                        MainPage = _serviceProvider.GetRequiredService<AgencyShell>();
+                        break;
+                    case "Login":
+                        MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<LoginPage>());
+                        break;
+                    case "ForgotPassword":
+                        MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<ForgotPasswordPage>());
+                        break;
+                    default:
+                        MainPage = _serviceProvider.GetRequiredService<SplashPage>();
+                        break;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[App.OnShellChanged] Error activating '{shellName}': {ex}");
+                try
+                {
+                    // Fallback to CustomerHomePage in a NavigationPage to ensure user is never stranded on a crash
+                    var homePage = _serviceProvider.GetRequiredService<CustomerHomePage>();
+                    MainPage = new Microsoft.Maui.Controls.NavigationPage(homePage);
+                }
+                catch (System.Exception fallbackEx)
+                {
+                    System.Diagnostics.Debug.WriteLine($"[App.OnShellChanged] Secondary fallback error: {fallbackEx}");
+                }
             }
         });
     }

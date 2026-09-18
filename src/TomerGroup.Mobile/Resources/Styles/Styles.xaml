@@ -32,6 +32,12 @@
         <Setter Property="FontAttributes" Value="Bold" />
     </Style>
 
+    <Style x:Key="SubHeadlineStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="TextColor" Value="{StaticResource Secondary}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
     <Style x:Key="SectionTitleStyle" TargetType="Label">
         <Setter Property="FontSize" Value="19" />
         <Setter Property="FontAttributes" Value="Bold" />
