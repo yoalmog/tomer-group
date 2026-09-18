@@ -55,7 +55,9 @@
                         </VerticalStackLayout>
                     </Border>
 
-                    <Button Text="View itinerary" Style="{StaticResource PrimaryButtonStyle}"/>
+                    <Button Text="View itinerary"
+                            Command="{Binding ViewItineraryCommand}"
+                            Style="{StaticResource PrimaryButtonStyle}"/>
                 </VerticalStackLayout>
             </Border>
 

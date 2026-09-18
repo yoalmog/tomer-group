@@ -138,4 +138,24 @@ public partial class AgencyCustomersViewModel : ObservableObject
         if (customer == null) return;
         await _navigationService.NavigateToAsync($"AgencyCustomerDetail?id={customer.Id}");
     }
+
+    [RelayCommand]
+    public async Task OpenWhatsAppAsync(string? phone)
+    {
+        if (string.IsNullOrWhiteSpace(phone)) return;
+        try
+        {
+            var cleanedPhone = phone.Replace(" ", "").Replace("-", "").Replace("+", "");
+            var uri = new Uri($"https://wa.me/{cleanedPhone}");
+#if ANDROID || IOS || MACCATALYST || WINDOWS || USE_MAUI
+            await Microsoft.Maui.ApplicationModel.Launcher.Default.OpenAsync(uri);
+#else
+            await Task.CompletedTask;
+#endif
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[AgencyCustomersViewModel.OpenWhatsApp] Error: {ex.Message}");
+        }
+    }
 }

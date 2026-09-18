@@ -151,29 +151,6 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            // Offline / local fallback for authorized admin login when backend API is unreachable
-            var normalizedEmail = email.Trim().ToLowerInvariant();
-            if (normalizedEmail == "tomergroupe@gmail.com" && password == "123456")
-            {
-                var adminFallbackToken = "mock_admin_token_" + Guid.NewGuid().ToString("N");
-                SetAuthToken(adminFallbackToken);
-                return ApiResponse<LoginResponseDto>.Ok(new LoginResponseDto
-                {
-                    Token = adminFallbackToken,
-                    RefreshToken = "mock_admin_refresh_" + Guid.NewGuid().ToString("N"),
-                    ExpiresAt = DateTime.UtcNow.AddDays(7),
-                    User = new UserInfoDto
-                    {
-                        Id = Guid.Parse("11111111-2222-3333-4444-555555555555"),
-                        Email = "tomergroupe@gmail.com",
-                        FirstName = "Tomer",
-                        LastName = "Group Admin",
-                        Role = "Admin",
-                        PreferredLanguage = "he"
-                    }
-                }, "Logged in as Admin (Tomer Group)");
-            }
-
             return ApiResponse<LoginResponseDto>.Fail($"Connection error: {ex.Message}");
         }
     }

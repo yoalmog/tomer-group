@@ -165,10 +165,10 @@ public partial class MyDayViewModel : BaseViewModel
 
         if (string.IsNullOrWhiteSpace(target))
         {
-            target = "Cusco, Peru";
+            target = "Cusco";
         }
 
-        await _mapService.OpenDestinationAsync(target);
+        await Navigation.NavigateToAsync($"TrekMap?trekName={Uri.EscapeDataString(target)}");
     }
 
     [RelayCommand]

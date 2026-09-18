@@ -101,4 +101,17 @@ public partial class AgencyTripsViewModel : ObservableObject
             // Non-blocking
         }
     }
+
+    [RelayCommand]
+    public async Task AddTripAsync()
+    {
+        await _navigationService.NavigateToAsync("PlanTrip");
+    }
+
+    [RelayCommand]
+    public async Task SelectTripAsync(TripDto? trip)
+    {
+        if (trip == null) return;
+        await _navigationService.NavigateToAsync($"TripSummary?tripId={trip.Id}");
+    }
 }

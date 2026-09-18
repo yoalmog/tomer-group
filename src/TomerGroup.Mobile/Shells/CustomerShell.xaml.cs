@@ -44,6 +44,7 @@ public partial class CustomerShell : Microsoft.Maui.Controls.Shell
         Routing.RegisterRoute("TransferDetails", typeof(TransferDetailsPage));
         Routing.RegisterRoute("BookingDashboard", typeof(BookingDashboardPage));
         Routing.RegisterRoute("LuxuryBranding", typeof(LuxuryBrandingPage));
+        Routing.RegisterRoute("TrekMap", typeof(TrekMapPage));
 
         if (_localization != null)
         {

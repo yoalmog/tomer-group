@@ -273,4 +273,13 @@ public partial class ExploreViewModel : BaseViewModel
     {
         await Navigation.NavigateToAsync("More");
     }
+
+    [RelayCommand]
+    public async Task OpenTrekMapAsync(string? trekName = null)
+    {
+        var route = string.IsNullOrWhiteSpace(trekName)
+            ? "TrekMap"
+            : $"TrekMap?trekName={Uri.EscapeDataString(trekName)}";
+        await Navigation.NavigateToAsync(route);
+    }
 }

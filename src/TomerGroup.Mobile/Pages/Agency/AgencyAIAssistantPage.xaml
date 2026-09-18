@@ -109,6 +109,7 @@
                             Command="{Binding ApproveDraftCommand}"
                             BackgroundColor="#10B981" TextColor="White" HeightRequest="44" FontAttributes="Bold" CornerRadius="8" />
                     <Button Grid.Column="1" Text="דחה טיוטה"
+                            Command="{Binding RejectDraftCommand}"
                             BackgroundColor="#EF4444" TextColor="White" HeightRequest="44" FontAttributes="Bold" CornerRadius="8" />
                 </Grid>
             </VerticalStackLayout>

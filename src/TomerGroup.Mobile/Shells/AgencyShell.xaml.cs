@@ -11,6 +11,7 @@ public partial class AgencyShell : Microsoft.Maui.Controls.Shell
         InitializeComponent();
 
         Routing.RegisterRoute("AgencyCustomerDetail", typeof(AgencyCustomerDetailPage));
+        Routing.RegisterRoute("TrekMap", typeof(TomerGroup.Mobile.Pages.Customer.TrekMapPage));
     }
 }
 #endif

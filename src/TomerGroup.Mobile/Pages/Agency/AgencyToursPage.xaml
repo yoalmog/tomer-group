@@ -46,6 +46,16 @@
                                 </Border>
                             </HorizontalStackLayout>
                             <Label Text="{Binding KosherCertificationDetails}" FontSize="11" TextColor="{StaticResource TextSecondary}" IsVisible="{Binding KosherFoodAvailable}" />
+                            <Button Text="🗺️ צפה במפת המסלול"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyToursViewModel}}, Path=OpenTrekMapCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="{StaticResource Primary}"
+                                    TextColor="White"
+                                    CornerRadius="6"
+                                    HeightRequest="36"
+                                    FontSize="12"
+                                    FontAttributes="Bold"
+                                    Margin="0,4,0,0" />
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>

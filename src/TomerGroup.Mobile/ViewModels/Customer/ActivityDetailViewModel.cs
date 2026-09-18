@@ -107,7 +107,7 @@ public partial class ActivityDetailViewModel : BaseViewModel
     public async Task OpenMapAsync()
     {
         var target = !string.IsNullOrWhiteSpace(Location) ? Location : Destination;
-        await _mapService.OpenDestinationAsync(target);
+        await Navigation.NavigateToAsync($"TrekMap?trekName={Uri.EscapeDataString(target)}");
     }
 
     [RelayCommand]

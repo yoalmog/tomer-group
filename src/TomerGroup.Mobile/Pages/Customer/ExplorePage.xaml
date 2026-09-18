@@ -133,6 +133,18 @@
                                             <Label Text="✨ חוויות מרכזיות" FontSize="11" TextColor="#334155" FontAttributes="Bold" />
                                         </Border>
                                     </FlexLayout>
+
+                                    <!-- Interactive Trek Map Action -->
+                                    <Button Text="צפה במפת מסלול אינטראקטיבית 🗺️"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ExploreViewModel}}, Path=OpenTrekMapCommand}"
+                                            CommandParameter="{Binding Title}"
+                                            BackgroundColor="{StaticResource Primary}"
+                                            TextColor="White"
+                                            CornerRadius="20"
+                                            HeightRequest="40"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            Margin="0,6,0,0" />
                                 </VerticalStackLayout>
                             </VerticalStackLayout>
                         </Border>

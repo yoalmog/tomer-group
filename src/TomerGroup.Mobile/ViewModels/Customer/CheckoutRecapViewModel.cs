@@ -1,13 +1,52 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using TomerGroup.Core.Interfaces;
+using TomerGroup.Core.Localization;
+using TomerGroup.Mobile.Services;
+
 namespace TomerGroup.Mobile.ViewModels.Customer;
 
-public class CheckoutRecapViewModel
+public partial class CheckoutRecapViewModel : BaseViewModel
 {
-    public string TripName { get; } = "Cusco & Sacred Valley";
-    public string ConfirmationCode { get; } = "TG-PRU-2048";
-    public string TotalAmount { get; } = "$2,890";
-    public string DepositAmount { get; } = "$1,200";
-    public string ExtrasLabel { get; } = "3 premium additions";
-    public string StatusText { get; } = "Payment secured and itinerary locked in.";
-    public string TravelerSummary { get; } = "2 adults • 1 suite • Flexible dates";
-    public string NextStep { get; } = "Your advisor will send vouchers and final confirmations within 30 minutes.";
+    [ObservableProperty]
+    private string _tripName = "Cusco & Sacred Valley";
+
+    [ObservableProperty]
+    private string _confirmationCode = string.Empty;
+
+    [ObservableProperty]
+    private string _totalAmount = "$2,890";
+
+    [ObservableProperty]
+    private string _depositAmount = "$500";
+
+    [ObservableProperty]
+    private string _extrasLabel = "3 premium additions";
+
+    [ObservableProperty]
+    private string _statusText = "Payment confirmed and itinerary locked in.";
+
+    [ObservableProperty]
+    private string _travelerSummary = "Personalized Peru Tour";
+
+    [ObservableProperty]
+    private string _nextStep = "Your advisor will send vouchers and final confirmations.";
+
+    public CheckoutRecapViewModel()
+        : this(new LocalizationService(), new NavigationService())
+    {
+    }
+
+    public CheckoutRecapViewModel(ILocalizationService localization, INavigationService navigation)
+        : base(localization, navigation)
+    {
+        Title = Localize(LocalizationKeys.NavBookings);
+        ConfirmationCode = "TG-" + DateTime.UtcNow.ToString("yyMM") + "-" + new Random().Next(1000, 9999);
+    }
+
+    [RelayCommand]
+    public async Task ViewItineraryAsync()
+    {
+        await Navigation.NavigateToAsync("//MyTrip");
+    }
 }

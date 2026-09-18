@@ -216,4 +216,11 @@ public partial class AgencyToursViewModel : ObservableObject
             }
         };
     }
+
+    [RelayCommand]
+    public async Task OpenTrekMapAsync(TourDto? tour)
+    {
+        var target = tour != null ? tour.Name : "Salkantay";
+        await _navigationService.NavigateToAsync($"TrekMap?trekName={Uri.EscapeDataString(target)}");
+    }
 }

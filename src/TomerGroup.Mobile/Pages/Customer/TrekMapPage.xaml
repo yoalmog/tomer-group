@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
+             xmlns:models="clr-namespace:TomerGroup.Core.Models;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Customer.TrekMapPage"
+             x:DataType="vm:TrekMapViewModel"
+             BackgroundColor="#FAF9FB"
+             NavigationPage.HasNavigationBar="False">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!-- 1. Top Navigation & Route Selector Header -->
+        <Border Grid.Row="0" BackgroundColor="#0A0A0C" StrokeThickness="0" Padding="14,10">
+            <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
+                <Button Grid.Column="0"
+                        Text="← חזור"
+                        Command="{Binding GoBackCommand}"
+                        BackgroundColor="Transparent"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="14"
+                        HeightRequest="36"
+                        Padding="0" />
+
+                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
+                    <Label Text="{Binding SelectedRoute.HebrewName}"
+                           TextColor="White"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding SelectedRoute.Region, StringFormat='אזור: {0}'}"
+                           TextColor="#CBD5E1"
+                           FontSize="11"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+
+                <Button Grid.Column="2"
+                        Text="📍 מיקומי"
+                        Command="{Binding LocateMeCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="16"
+                        FontSize="11"
+                        FontAttributes="Bold"
+                        HeightRequest="32"
+                        Padding="10,0" />
+            </Grid>
+        </Border>
+
+        <!-- 2. Trek Switcher Chips -->
+        <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" BackgroundColor="#181820" Padding="10,6">
+            <HorizontalStackLayout BindableLayout.ItemsSource="{Binding AvailableRoutes}" Spacing="8">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="models:TrekRoute">
+                        <Border StrokeShape="RoundRectangle 14" StrokeThickness="0" BackgroundColor="#2D2D3A" Padding="12,6">
+                            <Label Text="{Binding HebrewName}" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TrekMapViewModel}}, Path=SelectRouteCommand}" CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </HorizontalStackLayout>
+        </ScrollView>
+
+        <!-- 3. Interactive Leaflet / OSM Map WebView with Touch Navigation -->
+        <Grid Grid.Row="2">
+            <WebView x:Name="MapWebView" HorizontalOptions="Fill" VerticalOptions="Fill">
+                <WebView.Source>
+                    <HtmlWebViewSource Html="{Binding MapHtml}" />
+                </WebView.Source>
+            </WebView>
+
+            <!-- Floating Action Bar Over Map -->
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,16" Spacing="10">
+                <Button Text="📈 פרופיל גבהים"
+                        Command="{Binding ToggleElevationProfileCommand}"
+                        BackgroundColor="#0A0A0C"
+                        TextColor="White"
+                        CornerRadius="20"
+                        FontSize="12"
+                        FontAttributes="Bold"
+                        HeightRequest="38"
+                        Padding="14,0" />
+
+                <Button Text="🗺️ פתח במפות ניווט"
+                        Command="{Binding OpenExternalMapCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White"
+                        CornerRadius="20"
+                        FontSize="12"
+                        FontAttributes="Bold"
+                        HeightRequest="38"
+                        Padding="14,0" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- 4. Key Metrics & Elevation Profile Bottom Bar -->
+        <Border Grid.Row="3" BackgroundColor="White" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 0" Padding="16,12">
+            <VerticalStackLayout Spacing="8">
+                <!-- Metrics Summary Strip -->
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6">
+                    <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="2">
+                        <Label Text="מרחק" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding SelectedRoute.TotalDistanceKm, StringFormat='{0} ק״מ'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
+                        <Label Text="רום שיא" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding SelectedRoute.MaxElevationMeters, StringFormat='{0} מ\''}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="2">
+                        <Label Text="טיפוס מצטבר" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding SelectedRoute.ElevationGainMeters, StringFormat='+{0} מ\''}" FontSize="13" FontAttributes="Bold" TextColor="#059669" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center" Spacing="2">
+                        <Label Text="משך משוער" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding SelectedRoute.EstimatedDurationDays, StringFormat='{0} ימים'}" FontSize="13" FontAttributes="Bold" TextColor="#7C3AED" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+
+                <!-- Expandable Elevation Profile Strip -->
+                <VerticalStackLayout IsVisible="{Binding ShowElevationProfile}" Spacing="6" Margin="0,4,0,0">
+                    <Label Text="נקודות ציון וגבהים במסלול:" FontSize="11" TextColor="#64748B" FontAttributes="Bold" />
+                    <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                        <HorizontalStackLayout BindableLayout.ItemsSource="{Binding SelectedRoute.Waypoints}" Spacing="8">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="models:TrekWaypoint">
+                                    <Border BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="8,4">
+                                        <VerticalStackLayout Spacing="2">
+                                            <Label Text="{Binding HebrewName}" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                            <Label Text="{Binding ElevationMeters, StringFormat='{0} מטר'}" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                                        </VerticalStackLayout>
+                                    </Border>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </HorizontalStackLayout>
+                    </ScrollView>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+
+    </Grid>
+
+</ContentPage>
+

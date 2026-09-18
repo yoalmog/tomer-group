@@ -18,7 +18,9 @@
                         <Label Text="בונה מסלולים / Itinerary Builder" FontSize="18" FontAttributes="Bold" TextColor="White" />
                         <Label Text="צפה בלוחות זמנים, ימי טיול ורווחיות" FontSize="12" TextColor="{StaticResource SecondaryLight}" />
                     </VerticalStackLayout>
-                    <Button Grid.Column="1" Text="+ טיול חדש" BackgroundColor="{StaticResource Secondary}" TextColor="White" CornerRadius="6" HeightRequest="36" Padding="12,0" FontAttributes="Bold" />
+                    <Button Grid.Column="1" Text="+ טיול חדש"
+                            Command="{Binding AddTripCommand}"
+                            BackgroundColor="{StaticResource Secondary}" TextColor="White" CornerRadius="6" HeightRequest="36" Padding="12,0" FontAttributes="Bold" />
                 </Grid>
 
                 <!-- Peru Destinations Carousel/Chips -->

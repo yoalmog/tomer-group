@@ -41,13 +41,16 @@ public static class MauiProgram
         var navService = new NavigationService();
         builder.Services.AddSingleton<NavigationService>(navService);
         builder.Services.AddSingleton<INavigationService>(navService);
+        builder.Services.AddSingleton<IGpxService, GpxService>();
         builder.Services.AddSingleton<IOfflineSyncManager, OfflineSyncManager>();
 
-        // Configure HTTP client for API communication
-        builder.Services.AddHttpClient<IApiClient, ApiClient>(client =>
+        builder.Services.AddSingleton<IApiConfiguration, ApiConfiguration>();
+
+        // Configure HTTP client for API communication using platform-aware endpoint
+        builder.Services.AddHttpClient<IApiClient, ApiClient>((sp, client) =>
         {
-            // Connects to local ASP.NET Core API
-            client.BaseAddress = new Uri("http://localhost:5000/");
+            var apiConfig = sp.GetRequiredService<IApiConfiguration>();
+            client.BaseAddress = apiConfig.BaseAddress;
             client.Timeout = TimeSpan.FromSeconds(15);
         });
 
@@ -81,6 +84,7 @@ public static class MauiProgram
         builder.Services.AddTransient<CustomerAIAssistantViewModel>();
         builder.Services.AddTransient<PackingListViewModel>();
         builder.Services.AddTransient<TripMemoriesViewModel>();
+        builder.Services.AddTransient<TrekMapViewModel>();
         builder.Services.AddTransient<AgencyDashboardViewModel>();
         builder.Services.AddTransient<AgencySettingsViewModel>();
         builder.Services.AddTransient<AgencyCustomersViewModel>();
@@ -108,6 +112,7 @@ public static class MauiProgram
         builder.Services.AddTransient<CustomerAIAssistantPage>();
         builder.Services.AddTransient<PackingListPage>();
         builder.Services.AddTransient<TripMemoriesPage>();
+        builder.Services.AddTransient<TrekMapPage>();
         builder.Services.AddTransient<PlanTripPage>();
         builder.Services.AddTransient<BookingConfirmationPage>();
         builder.Services.AddTransient<AddOnsPage>();

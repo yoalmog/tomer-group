@@ -148,6 +148,31 @@ public partial class AgencyAIAssistantViewModel : ObservableObject
     }
 
     [RelayCommand]
+    public async Task RejectDraftAsync()
+    {
+        if (CurrentDraft == null) return;
+
+        IsBusy = true;
+        try
+        {
+            HasDraft = false;
+            IsDraftApproved = false;
+            DraftDays.Clear();
+            DraftStatus = "הטיוטה נדחתה לבקשת המנהל. ניתן להפיק טיוטה חדשה עם הנחיות מעודכנות.";
+            StatusMessage = "הטיוטה הוסרה.";
+            await Task.CompletedTask;
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"שגיאה בדחיית הטיוטה: {ex.Message}";
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    [RelayCommand]
     public async Task DraftWhatsAppResponseAsync(string topic)
     {
         IsBusy = true;

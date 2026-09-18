@@ -84,7 +84,10 @@
 
                             <!-- Actions -->
                             <VerticalStackLayout Grid.Column="2" Spacing="6" VerticalOptions="Center">
-                                <Button Text="💬 וואטסאפ" FontSize="11" BackgroundColor="#25D366" TextColor="White" HeightRequest="32" CornerRadius="6" Padding="8,0" />
+                                <Button Text="💬 וואטסאפ"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyCustomersViewModel}}, Path=OpenWhatsAppCommand}"
+                                        CommandParameter="{Binding WhatsApp}"
+                                        FontSize="11" BackgroundColor="#25D366" TextColor="White" HeightRequest="32" CornerRadius="6" Padding="8,0" />
                                 <Label Text="{Binding MaskedPassportNumber}" FontSize="11" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="End" />
                             </VerticalStackLayout>
                         </Grid>
