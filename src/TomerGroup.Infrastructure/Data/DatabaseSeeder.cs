@@ -33,6 +33,7 @@ public static class DatabaseSeeder
         if (!await context.Users.AnyAsync())
         {
             var (adminHash, adminSalt) = hasher.HashPassword("TomerAdmin2026!");
+            var (tomerGroupAdminHash, tomerGroupAdminSalt) = hasher.HashPassword("123456");
             var (managerHash, managerSalt) = hasher.HashPassword("TomerManager2026!");
             var (salesHash, salesSalt) = hasher.HashPassword("TomerSales2026!");
             var (opsHash, opsSalt) = hasher.HashPassword("TomerOps2026!");
@@ -49,6 +50,18 @@ public static class DatabaseSeeder
                 FirstName = "Yossi",
                 LastName = "Cohen",
                 Phone = "+51 984 111 222",
+                Role = UserRole.Admin,
+                PreferredLanguage = "he"
+            };
+
+            var tomerGroupAdminUser = new User
+            {
+                Email = "tomergroupe@gmail.com",
+                PasswordHash = tomerGroupAdminHash,
+                Salt = tomerGroupAdminSalt,
+                FirstName = "Tomer",
+                LastName = "Group",
+                Phone = "+51 984 231 961",
                 Role = UserRole.Admin,
                 PreferredLanguage = "he"
             };
@@ -125,7 +138,7 @@ public static class DatabaseSeeder
                 PreferredLanguage = "es"
             };
 
-            var staffUsers = new List<User> { adminUser, managerUser, salesUser, opsUser, financeUser, guideUser, driverUser };
+            var staffUsers = new List<User> { adminUser, tomerGroupAdminUser, managerUser, salesUser, opsUser, financeUser, guideUser, driverUser };
             await context.Users.AddRangeAsync(staffUsers);
             await context.SaveChangesAsync();
 

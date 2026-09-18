@@ -76,10 +76,23 @@
                             HorizontalOptions="End"
                             Padding="0" />
 
-                    <Button Text="התחבר עכשיו"
+                    <Button Text="{Binding SignInButtonText}"
                             Command="{Binding LoginCommand}"
                             Style="{StaticResource BrandButtonStyle}"
                             HeightRequest="48"
+                            Margin="0,4,0,0" />
+
+                    <!-- Quick Admin Login Shortcut -->
+                    <Button Text="{Binding AdminQuickFillText}"
+                            Command="{Binding FillAdminCredentialsCommand}"
+                            BackgroundColor="#F1F5F9"
+                            TextColor="{StaticResource Secondary}"
+                            BorderColor="{StaticResource Primary}"
+                            BorderWidth="1"
+                            CornerRadius="20"
+                            HeightRequest="36"
+                            FontSize="12"
+                            FontAttributes="Bold"
                             Margin="0,4,0,0" />
                 </VerticalStackLayout>
             </Border>

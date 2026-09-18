@@ -2,10 +2,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Moq;
+using TomerGroup.Core.DTOs;
 using TomerGroup.Core.Interfaces;
 using TomerGroup.Core.Localization;
 using TomerGroup.Infrastructure.Services;
 using TomerGroup.Mobile.Services;
+using TomerGroup.Mobile.ViewModels;
 using TomerGroup.Mobile.ViewModels.Customer;
 using Xunit;
 
@@ -109,8 +111,10 @@ public class Phase17ExperienceAndAITests
         var vm = new PackingListViewModel(_localization, mockNav.Object, mockStorage.Object);
 
         Assert.NotEmpty(vm.PackingItems);
-        Assert.Contains(vm.PackingItems, i => i.Name.Contains("Passport"));
-        Assert.Contains(vm.PackingItems, i => i.Name.Contains("Rain Jacket"));
+        // Default is Hebrew
+        Assert.Contains(vm.PackingItems, i => i.Name.Contains("דרכון"));
+        Assert.Contains(vm.PackingItems, i => i.Name.Contains("מעיל גשם"));
+        Assert.Contains("נארזו", vm.ProgressText);
 
         // Toggle first item
         var first = vm.PackingItems[0];
@@ -121,10 +125,74 @@ public class Phase17ExperienceAndAITests
         Assert.True(vm.ProgressValue > 0.0);
 
         // Add custom item
-        vm.NewItemName = "Trekking Poles";
+        vm.NewItemName = "מקלות הליכה";
         vm.AddCustomItem();
 
-        Assert.Contains(vm.PackingItems, i => i.Name == "Trekking Poles" && i.Category == "Custom");
+        Assert.Contains(vm.PackingItems, i => i.Name == "מקלות הליכה" && i.Category == "אישי");
+    }
+
+    [Fact]
+    public void PackingListViewModel_LanguageSwitching_UpdatesItemsAndTitles()
+    {
+        var mockNav = new Mock<INavigationService>();
+        var mockStorage = new Mock<ISecureStorageService>();
+
+        var vm = new PackingListViewModel(_localization, mockNav.Object, mockStorage.Object);
+
+        // 1. Check Hebrew
+        _localization.SetLanguage("he");
+        Assert.Equal("רשימת ציוד לפרו", vm.PageTitle);
+        Assert.Contains(vm.PackingItems, i => i.Name.Contains("דרכון"));
+
+        // 2. Switch to English
+        _localization.SetLanguage("en");
+        Assert.Equal("PERU PACKING LIST", vm.PageTitle);
+        Assert.Contains(vm.PackingItems, i => i.Name.Contains("Passport"));
+        Assert.Contains("packed", vm.ProgressText);
+
+        // 3. Switch to Spanish
+        _localization.SetLanguage("es");
+        Assert.Equal("LISTA DE EQUIPAJE PERÚ", vm.PageTitle);
+        Assert.Contains(vm.PackingItems, i => i.Name.Contains("Pasaporte"));
+        Assert.Contains("empacados", vm.ProgressText);
+
+        // Restore Hebrew
+        _localization.SetLanguage("he");
+    }
+
+    [Fact]
+    public async Task LoginViewModel_AdminCredentials_EntersAndAuthenticates()
+    {
+        var mockNav = new Mock<INavigationService>();
+        var mockApi = new Mock<IApiClient>();
+        var mockStorage = new Mock<ISecureStorageService>();
+
+        mockApi.Setup(a => a.LoginAsync("tomergroupe@gmail.com", "123456"))
+            .ReturnsAsync(ApiResponse<LoginResponseDto>.Ok(new LoginResponseDto
+            {
+                Token = "valid_admin_token",
+                User = new UserInfoDto
+                {
+                    Email = "tomergroupe@gmail.com",
+                    Role = "Admin",
+                    FirstName = "Tomer",
+                    LastName = "Group"
+                }
+            }));
+
+        var vm = new LoginViewModel(_localization, mockNav.Object, mockApi.Object, mockStorage.Object);
+
+        // Act: Quick Fill Admin Credentials
+        vm.FillAdminCredentials();
+        Assert.Equal("tomergroupe@gmail.com", vm.Email);
+        Assert.Equal("123456", vm.Password);
+
+        // Act: Perform Login
+        await vm.LoginAsync();
+
+        // Assert: Navigates to Agency/Admin Shell
+        mockNav.Verify(n => n.NavigateToAgencyShellAsync(), Times.Once);
+        mockApi.Verify(a => a.SetAuthToken("valid_admin_token"), Times.Once);
     }
 
     [Fact]

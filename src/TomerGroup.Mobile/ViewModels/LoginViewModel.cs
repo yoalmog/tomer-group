@@ -37,6 +37,20 @@ public partial class LoginViewModel : BaseViewModel
 
     public List<string> AvailableLanguages => new() { "he", "en", "es" };
 
+    public string SignInButtonText => CurrentLanguage switch
+    {
+        "en" => "Sign In",
+        "es" => "Iniciar Sesión",
+        _ => "התחבר עכשיו / Sign In"
+    };
+
+    public string AdminQuickFillText => CurrentLanguage switch
+    {
+        "en" => "Admin Login (tomergroupe@gmail.com)",
+        "es" => "Acceso Admin (tomergroupe@gmail.com)",
+        _ => "התחברות מנהל (tomergroupe@gmail.com)"
+    };
+
     public LoginViewModel(
         ILocalizationService localization,
         INavigationService navigation,
@@ -47,6 +61,21 @@ public partial class LoginViewModel : BaseViewModel
         _apiClient = apiClient;
         _secureStorage = secureStorage;
         Title = Localize(LocalizationKeys.Login);
+    }
+
+    [RelayCommand]
+    public void FillAdminCredentials()
+    {
+        IsPhoneLoginMode = false;
+        Email = "tomergroupe@gmail.com";
+        Password = "123456";
+        ErrorMessage = null;
+        StatusInfo = CurrentLanguage switch
+        {
+            "en" => "Admin credentials populated. Tap Sign In to enter.",
+            "es" => "Credenciales de administrador cargadas. Pulse Iniciar Sesión.",
+            _ => "פרטי מנהל הוזנו. לחץ 'התחבר עכשיו' לכניסה למערכת."
+        };
     }
 
     [RelayCommand]
@@ -64,6 +93,8 @@ public partial class LoginViewModel : BaseViewModel
         Localization.SetLanguage(lang);
         RefreshDirection();
         Title = Localize(LocalizationKeys.Login);
+        OnPropertyChanged(nameof(SignInButtonText));
+        OnPropertyChanged(nameof(AdminQuickFillText));
     }
 
     [RelayCommand]

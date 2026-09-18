@@ -12,6 +12,10 @@ public partial class MoreViewModel : BaseViewModel
 {
     private readonly ISecureStorageService _secureStorage;
     private readonly IOfflineSyncManager _syncManager;
+    private readonly IApiClient? _apiClient;
+
+    [ObservableProperty]
+    private bool _isAuthenticated;
 
     [ObservableProperty]
     private string _agencyPhone = "+51 84 231961";
@@ -35,18 +39,39 @@ public partial class MoreViewModel : BaseViewModel
         ILocalizationService localization,
         INavigationService navigation,
         ISecureStorageService secureStorage,
-        IOfflineSyncManager syncManager)
+        IOfflineSyncManager syncManager,
+        IApiClient? apiClient = null)
         : base(localization, navigation)
     {
         _secureStorage = secureStorage;
         _syncManager = syncManager;
+        _apiClient = apiClient;
+        _isAuthenticated = _apiClient?.IsAuthenticated ?? false;
         Title = Localize(LocalizationKeys.NavMore);
     }
 
     protected override void OnLanguageChanged()
     {
         Title = Localize(LocalizationKeys.NavMore);
+        OnPropertyChanged(nameof(OfficeLocationLabel));
+        OnPropertyChanged(nameof(WhatsAppButtonText));
+        OnPropertyChanged(nameof(EmergencyLinePrefix));
+        OnPropertyChanged(nameof(ChabadSectionTitle));
+        OnPropertyChanged(nameof(ChabadDescription));
+        OnPropertyChanged(nameof(OfflineSyncTitle));
+        OnPropertyChanged(nameof(OfflineSyncDescription));
+        OnPropertyChanged(nameof(OfflineSyncButtonText));
+        OnPropertyChanged(nameof(LanguageSectionTitle));
+        OnPropertyChanged(nameof(SignInButtonText));
+        OnPropertyChanged(nameof(SignOutButtonText));
     }
+
+    public string SignInButtonText => CurrentLanguage switch
+    {
+        "en" => "Sign In / Log In",
+        "es" => "Iniciar Sesión",
+        _ => "התחבר לחשבון / Sign In"
+    };
 
     public string SelectedLanguage => CurrentLanguage;
 
@@ -177,10 +202,21 @@ public partial class MoreViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    public async Task OpenSignInAsync()
+    {
+        await Navigation.NavigateToLoginAsync();
+    }
+
+    [RelayCommand]
     public async Task SignOutAsync()
     {
+        if (_apiClient != null)
+        {
+            _apiClient.SetAuthToken(null);
+        }
         await _secureStorage.RemoveAsync("auth_token");
         await _secureStorage.RemoveAsync("refresh_token");
+        IsAuthenticated = false;
         await Navigation.NavigateToCustomerShellAsync();
     }
 }

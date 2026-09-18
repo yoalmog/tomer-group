@@ -21,7 +21,7 @@
 
                 <!-- Unauthenticated Sign In Button OR Notification Bell -->
                 <HorizontalStackLayout Grid.Column="2" Spacing="8" VerticalOptions="Center">
-                    <Button Text="התחבר"
+                    <Button Text="{Binding SignInButtonText}"
                             Command="{Binding OpenLoginCommand}"
                             IsVisible="{Binding IsAuthenticated, Converter={StaticResource InvertedBoolConverter}}"
                             BackgroundColor="{StaticResource Primary}"
@@ -91,7 +91,7 @@
                                     FontAttributes="Bold" />
 
                             <Button Grid.Column="1"
-                                    Text="התחבר לטיול שלי"
+                                    Text="{Binding HeroSignInButtonText}"
                                     Command="{Binding OpenLoginCommand}"
                                     BackgroundColor="#33000000"
                                     BorderColor="White"

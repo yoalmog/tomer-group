@@ -101,10 +101,26 @@ public partial class CustomerHomeViewModel : BaseViewModel
         UpdateLocalizedTexts();
     }
 
+    public string SignInButtonText => CurrentLanguage switch
+    {
+        "en" => "Sign In",
+        "es" => "Iniciar Sesión",
+        _ => "התחבר / Sign In"
+    };
+
+    public string HeroSignInButtonText => CurrentLanguage switch
+    {
+        "en" => "Sign In to My Trip",
+        "es" => "Iniciar Sesión en Mi Viaje",
+        _ => "התחבר לטיול שלי"
+    };
+
     private void UpdateLocalizedTexts()
     {
         AgencyContactPhone = LocalizationService.FormatPhoneNumber(Brand.ContactPhone);
         EmergencyPhone = LocalizationService.FormatPhoneNumber(Brand.EmergencyContact);
+        OnPropertyChanged(nameof(SignInButtonText));
+        OnPropertyChanged(nameof(HeroSignInButtonText));
     }
 
     protected override void OnLanguageChanged()

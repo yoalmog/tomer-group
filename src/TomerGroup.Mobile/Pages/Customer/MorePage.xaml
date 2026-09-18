@@ -69,9 +69,24 @@
                 </VerticalStackLayout>
             </Border>
 
-            <!-- Sign Out -->
-            <Button Text="{Binding SignOutButtonText}" Command="{Binding SignOutCommand}" BackgroundColor="#EF4444" TextColor="White"
-                    FontAttributes="Bold" CornerRadius="10" HeightRequest="46" Margin="0,8,0,16" />
+            <!-- Sign In (Unauthenticated) -->
+            <Button Text="{Binding SignInButtonText}"
+                    Command="{Binding OpenSignInCommand}"
+                    IsVisible="{Binding IsAuthenticated, Converter={StaticResource InvertedBoolConverter}}"
+                    Style="{StaticResource BrandButtonStyle}"
+                    HeightRequest="46"
+                    Margin="0,8,0,16" />
+
+            <!-- Sign Out (Authenticated) -->
+            <Button Text="{Binding SignOutButtonText}"
+                    Command="{Binding SignOutCommand}"
+                    IsVisible="{Binding IsAuthenticated}"
+                    BackgroundColor="#EF4444"
+                    TextColor="White"
+                    FontAttributes="Bold"
+                    CornerRadius="10"
+                    HeightRequest="46"
+                    Margin="0,8,0,16" />
 
         </VerticalStackLayout>
     </ScrollView>
