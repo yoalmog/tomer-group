@@ -2,73 +2,252 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
+             xmlns:dtos="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
              x:Class="TomerGroup.Mobile.Pages.Agency.AgencyDashboardPage"
-             Title="{Binding Title}">
+             x:DataType="vm:AgencyDashboardViewModel"
+             Title="מרכז מבצעים / Operations Center"
+             BackgroundColor="#0F1015">
 
     <ScrollView>
         <VerticalStackLayout Spacing="16" Padding="16">
 
-            <!-- Operations Metrics Grid -->
-            <Label Text="תפעול יומי / Daily Operations" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-            
-            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" RowSpacing="10" ColumnSpacing="10">
-                <Border Grid.Row="0" Grid.Column="0" Style="{StaticResource CardFrameStyle}">
-                    <VerticalStackLayout>
-                        <Label Text="נחיתות היום" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
-                        <Label Text="{Binding TodayArrivals}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+            <!-- ZONE 1: TOP GLOBAL SEARCH BAR -->
+            <Border StrokeThickness="1" Stroke="#2D3139" BackgroundColor="#171922" Padding="10,6">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                    <Label Text="🔍" FontSize="16" VerticalOptions="Center" />
+                    <Entry Grid.Column="1"
+                           Placeholder="חיפוש מהיר (שם לקוח, הזמנה, טרק, מדריך, נהג)..."
+                           PlaceholderColor="#64748B"
+                           TextColor="White"
+                           Text="{Binding SearchQuery}"
+                           ReturnCommand="{Binding PerformSearchCommand}"
+                           VerticalOptions="Center" />
+                    <Button Grid.Column="2"
+                            Text="חפש"
+                            Command="{Binding PerformSearchCommand}"
+                            BackgroundColor="#BC225E"
+                            TextColor="White"
+                            HeightRequest="36"
+                            Padding="12,0"
+                            CornerRadius="6" />
+                </Grid>
+            </Border>
+
+            <!-- Live Search Results Dropdown -->
+            <VerticalStackLayout IsVisible="{Binding HasSearchResults}" Spacing="6">
+                <Grid ColumnDefinitions="*,Auto">
+                    <Label Text="תוצאות חיפוש מהיר / Global Search Results" FontSize="13" FontAttributes="Bold" TextColor="#CBD5E1" />
+                    <Button Grid.Column="1" Text="סגור ✕" Command="{Binding ClearSearchCommand}" BackgroundColor="Transparent" TextColor="#94A3B8" HeightRequest="26" Padding="4,0" FontSize="11" />
+                </Grid>
+                <CollectionView ItemsSource="{Binding SearchResults}" HeightRequest="180">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="dtos:AdminSearchItemDto">
+                            <Border StrokeThickness="1" Stroke="#2A2E3D" BackgroundColor="#1A1D27" Padding="10,8" Margin="0,2">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="6" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyDashboardViewModel}}, Path=SelectSearchResultCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                    <Border BackgroundColor="#242838" Padding="6,2" VerticalOptions="Center">
+                                        <Border.StrokeShape><RoundRectangle CornerRadius="4" /></Border.StrokeShape>
+                                        <Label Text="{Binding Category}" FontSize="10" FontAttributes="Bold" TextColor="#E11D68" />
+                                    </Border>
+                                    <VerticalStackLayout Grid.Column="1">
+                                        <Label Text="{Binding Title}" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                                        <Label Text="{Binding Subtitle}" FontSize="11" TextColor="#94A3B8" />
+                                    </VerticalStackLayout>
+                                    <Label Grid.Column="2" Text="{Binding Status}" FontSize="11" TextColor="#10B981" VerticalOptions="Center" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+
+            <!-- ZONE 2: OPERATIONS SUMMARY CARDS -->
+            <Label Text="תמונת מצב יומית / Operations Pulse" FontSize="16" FontAttributes="Bold" TextColor="White" />
+
+            <Grid ColumnDefinitions="*,*,*,*" RowDefinitions="Auto,Auto" RowSpacing="10" ColumnSpacing="8">
+                <!-- Card 1: Today Arrivals -->
+                <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="נחיתות" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding TodayArrivals}" FontSize="20" FontAttributes="Bold" TextColor="#38BDF8" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Border Grid.Row="0" Grid.Column="1" Style="{StaticResource CardFrameStyle}">
-                    <VerticalStackLayout>
-                        <Label Text="עזיבות היום" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
-                        <Label Text="{Binding TodayDepartures}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                <!-- Card 2: Today Departures -->
+                <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="עזיבות" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding TodayDepartures}" FontSize="20" FontAttributes="Bold" TextColor="#F59E0B" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Border Grid.Row="1" Grid.Column="0" Style="{StaticResource CardFrameStyle}">
-                    <VerticalStackLayout>
-                        <Label Text="סיורים פעילים" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
-                        <Label Text="{Binding TodayTours}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                <!-- Card 3: Active Trips -->
+                <Border Grid.Row="0" Grid.Column="2" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="טיולים פעילים" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding ActiveTrips}" FontSize="20" FontAttributes="Bold" TextColor="#10B981" />
                     </VerticalStackLayout>
                 </Border>
 
-                <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource CardFrameStyle}">
-                    <VerticalStackLayout>
-                        <Label Text="מטיילים בפרו" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
-                        <Label Text="{Binding ActiveTravelers}" FontSize="24" FontAttributes="Bold" TextColor="{StaticResource Accent}" />
+                <!-- Card 4: Upcoming Trips -->
+                <Border Grid.Row="0" Grid.Column="3" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="טיולים קרובים" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding UpcomingTrips}" FontSize="20" FontAttributes="Bold" TextColor="#A78BFA" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Card 5: Pending Bookings -->
+                <Border Grid.Row="1" Grid.Column="0" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="הזמנות ממתינות" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding PendingBookings}" FontSize="20" FontAttributes="Bold" TextColor="#FB7185" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Card 6: Pending Payments -->
+                <Border Grid.Row="1" Grid.Column="1" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="תשלומים פתוחים" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding PendingPayments}" FontSize="20" FontAttributes="Bold" TextColor="#F43F5E" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Card 7: Open Support -->
+                <Border Grid.Row="1" Grid.Column="2" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="פניות שירות" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding OpenSupportRequests}" FontSize="20" FontAttributes="Bold" TextColor="#E11D68" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Card 8: Open Tasks -->
+                <Border Grid.Row="1" Grid.Column="3" BackgroundColor="#1A1E2B" StrokeThickness="1" Stroke="#2A3045" Padding="8">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="משימות צוות" FontSize="11" TextColor="#94A3B8" />
+                        <Label Text="{Binding OpenTasks}" FontSize="20" FontAttributes="Bold" TextColor="#F97316" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>
 
-            <!-- Financial Performance Card (Section 22 & 23) -->
-            <Label Text="ביצועים פיננסיים / Financials" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+            <!-- ZONE 3: CRITICAL ALERTS -->
+            <Label Text="התראות מבצעיות דחופות / Critical Alerts" FontSize="16" FontAttributes="Bold" TextColor="#F43F5E" />
 
-            <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource Primary}">
-                <VerticalStackLayout Spacing="10">
-                    <Grid ColumnDefinitions="*,*,*">
-                        <VerticalStackLayout>
-                            <Label Text="הכנסות" TextColor="#CBD5E1" FontSize="12" />
-                            <Label Text="{Binding Revenue, StringFormat='${0:N0}'}" TextColor="White" FontSize="18" FontAttributes="Bold" />
-                        </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="1">
-                            <Label Text="הוצאות" TextColor="#CBD5E1" FontSize="12" />
-                            <Label Text="{Binding Expenses, StringFormat='${0:N0}'}" TextColor="#FCA5A5" FontSize="18" FontAttributes="Bold" />
-                        </VerticalStackLayout>
-                        <VerticalStackLayout Grid.Column="2">
-                            <Label Text="רווח גולמי" TextColor="{StaticResource SecondaryLight}" FontSize="12" FontAttributes="Bold" />
-                            <Label Text="{Binding GrossProfit, StringFormat='${0:N0}'}" TextColor="{StaticResource SecondaryLight}" FontSize="20" FontAttributes="Bold" />
-                        </VerticalStackLayout>
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
+            <CollectionView ItemsSource="{Binding CriticalAlerts}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:AdminAlertItemDto">
+                        <Border StrokeThickness="1" Stroke="#7F1D1D" BackgroundColor="#2D1217" Padding="12" Margin="0,3">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                                <Label Text="⚠️" FontSize="20" VerticalOptions="Center" />
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Label Text="{Binding Title}" FontSize="13" FontAttributes="Bold" TextColor="#FECACA" />
+                                    <Label Text="{Binding Description}" FontSize="11" TextColor="#FCA5A5" />
+                                </VerticalStackLayout>
+                                <Button Grid.Column="2"
+                                        Text="טפל ↗"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyDashboardViewModel}}, Path=NavigateToAlertCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#E11D68"
+                                        TextColor="White"
+                                        HeightRequest="30"
+                                        FontSize="11"
+                                        Padding="10,0"
+                                        CornerRadius="4"
+                                        VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="אין התראות דחופות — הכל תקין במבצעים" FontSize="12" TextColor="#10B981" HorizontalOptions="Center" Margin="10" />
+                </CollectionView.EmptyView>
+            </CollectionView>
 
-            <!-- Actions -->
-            <Button Text="רענון נתונים" Command="{Binding RefreshMetricsCommand}" Style="{StaticResource PrimaryButtonStyle}" />
-            <Button Text="התנתק" Command="{Binding LogoutCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+            <!-- ZONE 4: TODAY'S OPERATIONS SCHEDULE -->
+            <Label Text="לוח פעילות יומי / Today's Operations Schedule" FontSize="16" FontAttributes="Bold" TextColor="White" />
+
+            <CollectionView ItemsSource="{Binding TodaySchedule}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:OperationalScheduleItemDto">
+                        <Border StrokeThickness="1" Stroke="#2A3045" BackgroundColor="#171A24" Padding="12" Margin="0,3">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                            <Grid ColumnDefinitions="60,*,Auto" ColumnSpacing="10">
+                                <VerticalStackLayout VerticalOptions="Center">
+                                    <Label Text="{Binding Time}" FontSize="14" FontAttributes="Bold" TextColor="#38BDF8" />
+                                    <Label Text="{Binding EventType}" FontSize="10" TextColor="#94A3B8" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Label Text="{Binding Title}" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                                    <Label Text="{Binding CustomerName, StringFormat='לקוח: {0}'}" FontSize="11" TextColor="#CBD5E1" />
+                                    <Label Text="{Binding AssignedPerson, StringFormat='אחראי: {0}'}" FontSize="11" TextColor="#A78BFA" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="2" Text="{Binding Status}" FontSize="11" TextColor="#10B981" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Label Text="אין אירועים או הסעות מתוזמנות להיום" FontSize="12" TextColor="#94A3B8" HorizontalOptions="Center" Margin="10" />
+                </CollectionView.EmptyView>
+            </CollectionView>
+
+            <!-- ZONE 5: RECENT ACTIVITY AUDIT LOG -->
+            <Label Text="יומן פעילות אחרונה / Live Audit Feed" FontSize="16" FontAttributes="Bold" TextColor="White" />
+
+            <CollectionView ItemsSource="{Binding RecentActivities}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:AdminActivityFeedItemDto">
+                        <Border StrokeThickness="1" Stroke="#222634" BackgroundColor="#131620" Padding="10,8" Margin="0,2">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Description}" FontSize="12" TextColor="#E2E8F0" />
+                                    <Label Text="{Binding UserEmail, StringFormat='בוצע ע&quot;י: {0}'}" FontSize="10" TextColor="#64748B" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Timestamp, StringFormat='{0:HH:mm}'}" FontSize="10" TextColor="#94A3B8" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- ACTION BAR -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,20">
+                <Button Text="רענן נתונים ↻"
+                        Command="{Binding RefreshMetricsCommand}"
+                        BackgroundColor="#BC225E"
+                        TextColor="White"
+                        HeightRequest="44"
+                        CornerRadius="8"
+                        FontAttributes="Bold" />
+                <Button Grid.Column="1"
+                        Text="התנתק"
+                        Command="{Binding LogoutCommand}"
+                        BackgroundColor="#262A38"
+                        TextColor="#94A3B8"
+                        HeightRequest="44"
+                        CornerRadius="8" />
+            </Grid>
 
         </VerticalStackLayout>
     </ScrollView>
 
 </ContentPage>
-

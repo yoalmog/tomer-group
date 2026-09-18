@@ -15,7 +15,7 @@
                 <BoxView Color="#4D000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
 
                 <!-- Back Button -->
-                <Button Text="← חזרה למסלול"
+                <Button Text="{Binding BackButtonText}"
                         Command="{Binding GoBackCommand}"
                         BackgroundColor="#CC0A0A0C"
                         TextColor="White"
@@ -31,7 +31,7 @@
                 <!-- Bottom Title on Photo -->
                 <VerticalStackLayout VerticalOptions="End" Margin="20" Spacing="4">
                     <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3" HorizontalOptions="Start">
-                        <Label Text="חוויה מאושרת" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                        <Label Text="{Binding ConfirmedBadgeText}" TextColor="White" FontSize="11" FontAttributes="Bold" />
                     </Border>
                     <Label Text="{Binding ActivityTitle}" FontSize="24" FontAttributes="Bold" TextColor="White" />
                 </VerticalStackLayout>
@@ -44,9 +44,9 @@
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                     <Border Grid.Column="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 16" Padding="14">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="⏰ שעת התחלה" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                            <Label Text="{Binding StartTimeLabel}" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
                             <Label Text="{Binding StartTime}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                            <Label Text="{Binding Duration, StringFormat='משך משוער: {0}'}" FontSize="11" TextColor="#94A3B8" />
+                            <Label Text="{Binding EstimatedDurationText}" FontSize="11" TextColor="#94A3B8" />
                         </VerticalStackLayout>
                     </Border>
 
@@ -56,8 +56,8 @@
                         </Border.GestureRecognizers>
                         <VerticalStackLayout Spacing="4">
                             <Grid ColumnDefinitions="*,Auto">
-                                <Label Grid.Column="0" Text="📍 מיקום" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
-                                <Label Grid.Column="1" Text="נווט במפה 🗺️" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                                <Label Grid.Column="0" Text="{Binding LocationLabel}" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                                <Label Grid.Column="1" Text="{Binding NavigateMapText}" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
                             </Grid>
                             <Label Text="{Binding Location}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" MaxLines="2" LineBreakMode="TailTruncation" />
                         </VerticalStackLayout>
@@ -72,7 +72,7 @@
                             <Label Text="👤" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
                         <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                            <Label Text="מדריך מוסמך מטעם Tomer Group" FontSize="11" TextColor="#166534" FontAttributes="Bold" />
+                            <Label Text="{Binding CertifiedGuideLabel}" FontSize="11" TextColor="#166534" FontAttributes="Bold" />
                             <Label Text="{Binding GuideName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                         </VerticalStackLayout>
                     </Grid>
@@ -81,7 +81,7 @@
                 <!-- Meeting Point & Instructions -->
                 <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White">
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="נקודת מפגש ואיסוף" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                        <Label Text="{Binding MeetingPointTitle}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                         <Label Text="{Binding MeetingPoint}" FontSize="13" TextColor="#475569" LineHeight="1.3" />
                     </VerticalStackLayout>
                 </Border>
@@ -89,7 +89,7 @@
                 <!-- Description -->
                 <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White">
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="תיאור הפעילות" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                        <Label Text="{Binding DescriptionTitle}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                         <Label Text="{Binding Description}" FontSize="13" TextColor="#475569" LineHeight="1.4" />
                     </VerticalStackLayout>
                 </Border>
@@ -97,7 +97,7 @@
                 <!-- What to bring -->
                 <Border BackgroundColor="#FFFBEB" Stroke="#FDE68A" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="🎒 מה להביא איתך?" FontSize="14" FontAttributes="Bold" TextColor="#92400E" />
+                        <Label Text="{Binding WhatToBringTitle}" FontSize="14" FontAttributes="Bold" TextColor="#92400E" />
                         <Label Text="{Binding WhatToBring}" FontSize="12" TextColor="#78350F" LineHeight="1.3" />
                     </VerticalStackLayout>
                 </Border>
@@ -105,13 +105,13 @@
                 <!-- Altitude Notes -->
                 <Border BackgroundColor="#EFF6FF" Stroke="#BFDBFE" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="🏔️ דגשי גובה ובריאות" FontSize="14" FontAttributes="Bold" TextColor="#1E40AF" />
+                        <Label Text="{Binding AltitudeNotesTitle}" FontSize="14" FontAttributes="Bold" TextColor="#1E40AF" />
                         <Label Text="{Binding AltitudeNotes}" FontSize="12" TextColor="#1E3A8A" LineHeight="1.3" />
                     </VerticalStackLayout>
                 </Border>
 
                 <!-- Support Hotline Action -->
-                <Button Text="שאלה על הפעילות? דברו איתנו בוואטסאפ 💬"
+                <Button Text="{Binding SupportButtonText}"
                         Command="{Binding ContactSupportCommand}"
                         Style="{StaticResource BrandButtonStyle}"
                         Margin="0,8,0,0" />
@@ -121,4 +121,3 @@
     </ScrollView>
 
 </ContentPage>
-

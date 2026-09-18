@@ -14,7 +14,7 @@
         <Border Grid.Row="0" BackgroundColor="#0A0A0C" StrokeThickness="0" Padding="14,10">
             <Grid ColumnDefinitions="Auto,*,Auto" VerticalOptions="Center">
                 <Button Grid.Column="0"
-                        Text="← חזור"
+                        Text="{Binding BackButtonText}"
                         Command="{Binding GoBackCommand}"
                         BackgroundColor="Transparent"
                         TextColor="White"
@@ -24,19 +24,19 @@
                         Padding="0" />
 
                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
-                    <Label Text="{Binding SelectedRoute.HebrewName}"
+                    <Label Text="{Binding SelectedRoute.DisplayName}"
                            TextColor="White"
                            FontSize="15"
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
-                    <Label Text="{Binding SelectedRoute.Region, StringFormat='אזור: {0}'}"
+                    <Label Text="{Binding SelectedRoute.Region}"
                            TextColor="#CBD5E1"
                            FontSize="11"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
                 <Button Grid.Column="2"
-                        Text="📍 מיקומי"
+                        Text="{Binding LocateMeButtonText}"
                         Command="{Binding LocateMeCommand}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
@@ -54,7 +54,7 @@
                 <BindableLayout.ItemTemplate>
                     <DataTemplate x:DataType="models:TrekRoute">
                         <Border StrokeShape="RoundRectangle 14" StrokeThickness="0" BackgroundColor="#2D2D3A" Padding="12,6">
-                            <Label Text="{Binding HebrewName}" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                            <Label Text="{Binding DisplayName}" TextColor="White" FontSize="11" FontAttributes="Bold" />
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TrekMapViewModel}}, Path=SelectRouteCommand}" CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
@@ -74,7 +74,7 @@
 
             <!-- Floating Action Bar Over Map -->
             <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="End" Margin="0,0,0,16" Spacing="10">
-                <Button Text="📈 פרופיל גבהים"
+                <Button Text="{Binding ElevationProfileButtonText}"
                         Command="{Binding ToggleElevationProfileCommand}"
                         BackgroundColor="#0A0A0C"
                         TextColor="White"
@@ -84,7 +84,7 @@
                         HeightRequest="38"
                         Padding="14,0" />
 
-                <Button Text="🗺️ פתח במפות ניווט"
+                <Button Text="{Binding ExternalMapButtonText}"
                         Command="{Binding OpenExternalMapCommand}"
                         BackgroundColor="{StaticResource Primary}"
                         TextColor="White"
@@ -102,37 +102,37 @@
                 <!-- Metrics Summary Strip -->
                 <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="6">
                     <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center" Spacing="2">
-                        <Label Text="מרחק" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
-                        <Label Text="{Binding SelectedRoute.TotalDistanceKm, StringFormat='{0} ק״מ'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+                        <Label Text="{Binding DistanceMetricLabel}" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding DistanceFormatted}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
-                        <Label Text="רום שיא" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
-                        <Label Text="{Binding SelectedRoute.MaxElevationMeters, StringFormat='{0} מ\''}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                        <Label Text="{Binding MaxAltitudeMetricLabel}" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding MaxElevationFormatted}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center" Spacing="2">
-                        <Label Text="טיפוס מצטבר" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
-                        <Label Text="{Binding SelectedRoute.ElevationGainMeters, StringFormat='+{0} מ\''}" FontSize="13" FontAttributes="Bold" TextColor="#059669" HorizontalOptions="Center" />
+                        <Label Text="{Binding ElevationGainMetricLabel}" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding ElevationGainFormatted}" FontSize="13" FontAttributes="Bold" TextColor="#059669" HorizontalOptions="Center" />
                     </VerticalStackLayout>
 
                     <VerticalStackLayout Grid.Column="3" HorizontalOptions="Center" Spacing="2">
-                        <Label Text="משך משוער" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
-                        <Label Text="{Binding SelectedRoute.EstimatedDurationDays, StringFormat='{0} ימים'}" FontSize="13" FontAttributes="Bold" TextColor="#7C3AED" HorizontalOptions="Center" />
+                        <Label Text="{Binding DurationMetricLabel}" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+                        <Label Text="{Binding DurationFormatted}" FontSize="13" FontAttributes="Bold" TextColor="#7C3AED" HorizontalOptions="Center" />
                     </VerticalStackLayout>
                 </Grid>
 
                 <!-- Expandable Elevation Profile Strip -->
                 <VerticalStackLayout IsVisible="{Binding ShowElevationProfile}" Spacing="6" Margin="0,4,0,0">
-                    <Label Text="נקודות ציון וגבהים במסלול:" FontSize="11" TextColor="#64748B" FontAttributes="Bold" />
+                    <Label Text="{Binding WaypointsTitle}" FontSize="11" TextColor="#64748B" FontAttributes="Bold" />
                     <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                         <HorizontalStackLayout BindableLayout.ItemsSource="{Binding SelectedRoute.Waypoints}" Spacing="8">
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate x:DataType="models:TrekWaypoint">
                                     <Border BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 10" Padding="8,4">
                                         <VerticalStackLayout Spacing="2">
-                                            <Label Text="{Binding HebrewName}" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
-                                            <Label Text="{Binding ElevationMeters, StringFormat='{0} מטר'}" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+                                            <Label Text="{Binding DisplayName}" FontSize="11" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                            <Label Text="{Binding FormattedElevation}" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
                                         </VerticalStackLayout>
                                     </Border>
                                 </DataTemplate>

@@ -288,10 +288,6 @@ public partial class ProfileViewModel : BaseViewModel
         }
     }
 
-    protected override void OnLanguageChanged()
-    {
-        Title = Localize(LocalizationKeys.NavProfile);
-    }
 
     // Localized dynamic UI labels for ProfilePage
     public string GatewayTitle => CurrentLanguage switch
@@ -350,6 +346,76 @@ public partial class ProfileViewModel : BaseViewModel
         _ => "🍽️ העדפות קולינריה וכשרות"
     };
 
+    public string NoDietaryPreferencesText => CurrentLanguage switch
+    {
+        "en" => "No special dietary preferences set yet",
+        "es" => "Sin preferencias especiales establecidas aún",
+        _ => "לא הוגדרו עדיין העדפות כשרות מיוחדות"
+    };
+
+    public string DietaryPickerTitle => CurrentLanguage switch
+    {
+        "en" => "Select dietary & kosher preference",
+        "es" => "Seleccionar preferencia culinaria y kosher",
+        _ => "בחר העדפת כשרות ותזונה"
+    };
+
+    public string PassportSectionTitle => CurrentLanguage switch
+    {
+        "en" => "🛂 Passport Details for Permits",
+        "es" => "🛂 Datos de Pasaporte para Permisos",
+        _ => "🛂 פרטי דרכון לאישורי כניסה"
+    };
+
+    public string PassportRevealButtonText => CurrentLanguage switch
+    {
+        "en" => "👁️ Show",
+        "es" => "👁️ Mostrar",
+        _ => "👁️ הצג"
+    };
+
+    public string PassportNoticeText => CurrentLanguage switch
+    {
+        "en" => "Passport is used to issue Machu Picchu sanctuary permits and train tickets.",
+        "es" => "El pasaporte se utiliza para emitir permisos de Machu Picchu y billetes de tren.",
+        _ => "הדרכון משמש להנפקת אישורי שמורת מאצ'ו פיצ'ו וכרטיסי רכבת."
+    };
+
+    public string ContactNameLabel => CurrentLanguage switch
+    {
+        "en" => "Contact Name:",
+        "es" => "Nombre de Contacto:",
+        _ => "שם איש קשר:"
+    };
+
+    public string EmergencyPhoneLabel => CurrentLanguage switch
+    {
+        "en" => "Emergency Phone:",
+        "es" => "Teléfono de Emergencia:",
+        _ => "טלפון לשעת חירום:"
+    };
+
+    public string ContactNamePlaceholder => CurrentLanguage switch
+    {
+        "en" => "Full name of emergency contact",
+        "es" => "Nombre completo del contacto de emergencia",
+        _ => "שם מלא של איש הקשר"
+    };
+
+    public string EmergencyPhonePlaceholder => CurrentLanguage switch
+    {
+        "en" => "Emergency phone (including country code)",
+        "es" => "Teléfono de emergencia (con código de país)",
+        _ => "טלפון איש הקשר (כולל קידומת בינלאומית)"
+    };
+
+    public string SaveProfileButtonText => CurrentLanguage switch
+    {
+        "en" => "Save Profile Changes ✓",
+        "es" => "Guardar Cambios del Perfil ✓",
+        _ => "שמור שינויים בפרופיל ✓"
+    };
+
     public string EmergencySectionTitle => CurrentLanguage switch
     {
         "en" => "🚨 Emergency Contact",
@@ -384,6 +450,34 @@ public partial class ProfileViewModel : BaseViewModel
         "es" => "Cerrar Sesión",
         _ => "התנתק מהחשבון"
     };
+
+    protected override void OnLanguageChanged()
+    {
+        Title = Localize(LocalizationKeys.NavProfile);
+        OnPropertyChanged(nameof(GatewayTitle));
+        OnPropertyChanged(nameof(GatewayDescription));
+        OnPropertyChanged(nameof(BenefitItinerary));
+        OnPropertyChanged(nameof(BenefitVouchers));
+        OnPropertyChanged(nameof(BenefitWallet));
+        OnPropertyChanged(nameof(BenefitPreferences));
+        OnPropertyChanged(nameof(LoginButtonText));
+        OnPropertyChanged(nameof(DietarySectionTitle));
+        OnPropertyChanged(nameof(NoDietaryPreferencesText));
+        OnPropertyChanged(nameof(DietaryPickerTitle));
+        OnPropertyChanged(nameof(PassportSectionTitle));
+        OnPropertyChanged(nameof(PassportRevealButtonText));
+        OnPropertyChanged(nameof(PassportNoticeText));
+        OnPropertyChanged(nameof(EmergencySectionTitle));
+        OnPropertyChanged(nameof(ContactNameLabel));
+        OnPropertyChanged(nameof(EmergencyPhoneLabel));
+        OnPropertyChanged(nameof(ContactNamePlaceholder));
+        OnPropertyChanged(nameof(EmergencyPhonePlaceholder));
+        OnPropertyChanged(nameof(SaveProfileButtonText));
+        OnPropertyChanged(nameof(LanguageSectionTitle));
+        OnPropertyChanged(nameof(SupportTitle));
+        OnPropertyChanged(nameof(SupportSubtitle));
+        OnPropertyChanged(nameof(LogoutButtonText));
+    }
 
     [RelayCommand]
     public async Task LogoutAsync()

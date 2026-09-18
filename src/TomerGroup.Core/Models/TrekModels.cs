@@ -46,6 +46,17 @@ public class TrekWaypoint
     public string Description { get; set; } = string.Empty;
     public string HebrewDescription { get; set; } = string.Empty;
     public int DayNumber { get; set; } = 1;
+
+    public string DisplayName => (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() == "he"
+        ? (string.IsNullOrWhiteSpace(HebrewName) ? Name : HebrewName)
+        : (string.IsNullOrWhiteSpace(Name) ? HebrewName : Name);
+
+    public string FormattedElevation => (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() switch
+    {
+        "en" => $"{ElevationMeters:N0} m",
+        "es" => $"{ElevationMeters:N0} m",
+        _ => $"{ElevationMeters:N0} מטר"
+    };
 }
 
 public class ElevationPoint
@@ -81,6 +92,10 @@ public class TrekRoute
     public List<TrekCoordinate> Coordinates { get; set; } = new();
     public List<TrekWaypoint> Waypoints { get; set; } = new();
     public List<ElevationPoint> ElevationProfile { get; set; } = new();
+
+    public string DisplayName => (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() == "he"
+        ? (string.IsNullOrWhiteSpace(HebrewName) ? Name : HebrewName)
+        : (string.IsNullOrWhiteSpace(Name) ? HebrewName : Name);
 }
 
 public static class TrekCatalog

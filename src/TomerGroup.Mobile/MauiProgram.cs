@@ -97,6 +97,11 @@ public static class MauiProgram
         builder.Services.AddTransient<AgencyFinanceViewModel>();
         builder.Services.AddTransient<AgencyAIAssistantViewModel>();
         builder.Services.AddTransient<AgencyReportsViewModel>();
+        builder.Services.AddTransient<AgencyBookingsViewModel>();
+        builder.Services.AddTransient<AgencyCustomer360ViewModel>();
+        builder.Services.AddTransient<AgencyTrekEditorViewModel>();
+        builder.Services.AddTransient<AgencySupportViewModel>();
+        builder.Services.AddTransient<AgencyTasksViewModel>();
 
         // Register Shells and Pages
         builder.Services.AddTransient<CustomerShell>();
@@ -135,6 +140,11 @@ public static class MauiProgram
         builder.Services.AddTransient<AgencySettingsPage>();
         builder.Services.AddTransient<AgencyCustomersPage>();
         builder.Services.AddTransient<AgencyCustomerDetailPage>();
+        builder.Services.AddTransient<AgencyCustomer360Page>();
+        builder.Services.AddTransient<AgencyBookingsPage>();
+        builder.Services.AddTransient<AgencyTrekEditorPage>();
+        builder.Services.AddTransient<AgencySupportPage>();
+        builder.Services.AddTransient<AgencyTasksPage>();
         builder.Services.AddTransient<AgencyTripsPage>();
         builder.Services.AddTransient<AgencyToursPage>();
         builder.Services.AddTransient<AgencyHotelsPage>();

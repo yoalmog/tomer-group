@@ -41,6 +41,10 @@ public class TomerDbContext : DbContext
     public DbSet<PackingItem> PackingItems => Set<PackingItem>();
     public DbSet<TripMemory> TripMemories => Set<TripMemory>();
     public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<SupportTicket> SupportTickets => Set<SupportTicket>();
+    public DbSet<SupportTicketMessage> SupportTicketMessages => Set<SupportTicketMessage>();
+    public DbSet<StaffTask> StaffTasks => Set<StaffTask>();
+    public DbSet<TrekRouteEntity> TrekRoutes => Set<TrekRouteEntity>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -294,6 +298,77 @@ public class TomerDbContext : DbContext
                 .HasConversion(stringListConverter)
                 .Metadata.SetValueComparer(stringListComparer);
             entity.HasQueryFilter(r => !r.IsDeleted);
+        });
+
+        // Admin Operations Entities
+        modelBuilder.Entity<SupportTicket>(entity =>
+        {
+            entity.HasOne(t => t.Customer)
+                .WithMany()
+                .HasForeignKey(t => t.CustomerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(t => t.Trip)
+                .WithMany()
+                .HasForeignKey(t => t.TripId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(t => t.AssignedStaffUser)
+                .WithMany()
+                .HasForeignKey(t => t.AssignedStaffUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasMany(t => t.Messages)
+                .WithOne(m => m.SupportTicket)
+                .HasForeignKey(m => m.SupportTicketId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasQueryFilter(t => !t.IsDeleted);
+        });
+
+        modelBuilder.Entity<SupportTicketMessage>(entity =>
+        {
+            entity.HasOne(m => m.SenderUser)
+                .WithMany()
+                .HasForeignKey(m => m.SenderUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasQueryFilter(m => !m.IsDeleted);
+        });
+
+        modelBuilder.Entity<StaffTask>(entity =>
+        {
+            entity.HasOne(st => st.Customer)
+                .WithMany()
+                .HasForeignKey(st => st.CustomerId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(st => st.Trip)
+                .WithMany()
+                .HasForeignKey(st => st.TripId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(st => st.AssignedStaffUser)
+                .WithMany()
+                .HasForeignKey(st => st.AssignedStaffUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasOne(st => st.CreatedByUser)
+                .WithMany()
+                .HasForeignKey(st => st.CreatedByUserId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasQueryFilter(st => !st.IsDeleted);
+        });
+
+        modelBuilder.Entity<TrekRouteEntity>(entity =>
+        {
+            entity.HasOne(tr => tr.Tour)
+                .WithMany()
+                .HasForeignKey(tr => tr.TourId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasQueryFilter(tr => !tr.IsDeleted);
         });
     }
 

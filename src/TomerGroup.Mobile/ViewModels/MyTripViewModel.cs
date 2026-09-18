@@ -58,6 +58,108 @@ public partial class MyTripViewModel : BaseViewModel
     [ObservableProperty]
     private string _emptyDescription = "מסלול הטיול האישי שלך ב-Tomer Group יופיע כאן ברגע שצוות הסוכנות יקים עבורך את תוכנית המסע.";
 
+    public string PageTitle => CurrentLanguage switch
+    {
+        "en" => "My Trip",
+        "es" => "Mi Viaje",
+        _ => "הטיול שלי"
+    };
+
+    public string GatewayTitle => CurrentLanguage switch
+    {
+        "en" => "Your Journey Awaits",
+        "es" => "Tu Viaje te Espera",
+        _ => "המסע שלך ממתין לך"
+    };
+
+    public string GatewayDescription => CurrentLanguage switch
+    {
+        "en" => "Sign in to view your day-by-day itinerary, pickup times, guide details, and private Andean transfers.",
+        "es" => "Inicia sesión para ver tu itinerario detallado día a día, horarios de recogida, guías y traslados privados en los Andes.",
+        _ => "התחבר כדי לצפות במסלול הטיול המפורט יום אחרי יום, זמני האיסוף, פרטי המדריכים וההעברות הפרטיות בהרי האנדים."
+    };
+
+    public string SignInButtonText => CurrentLanguage switch
+    {
+        "en" => "Sign In Now",
+        "es" => "Iniciar Sesión",
+        _ => "התחבר עכשיו"
+    };
+
+    public string ContinueExploringText => CurrentLanguage switch
+    {
+        "en" => "Explore Destinations ←",
+        "es" => "Explorar Destinos ←",
+        _ => "המשך לגלות יעדים ←"
+    };
+
+    public string ContactSpecialistText => CurrentLanguage switch
+    {
+        "en" => "Contact Destination Specialist 💬",
+        "es" => "Contactar a Especialistas 💬",
+        _ => "צור קשר עם מומחי היעד 💬"
+    };
+
+    public string ConfirmedTripBadge => CurrentLanguage switch
+    {
+        "en" => "CONFIRMED TRIP",
+        "es" => "VIAJE CONFIRMADO",
+        _ => "טיול מאושר"
+    };
+
+    public string ItineraryDaysTitle => CurrentLanguage switch
+    {
+        "en" => "Itinerary Days",
+        "es" => "Días del Itinerario",
+        _ => "ימי המסלול"
+    };
+
+    public string TimelineTitle => CurrentLanguage switch
+    {
+        "en" => "Schedule & Activities",
+        "es" => "Horario y Actividades",
+        _ => "לוח זמנים ופעילויות"
+    };
+
+    public string StartTimeLabel => CurrentLanguage switch
+    {
+        "en" => "Start",
+        "es" => "Inicio",
+        _ => "התחלה"
+    };
+
+    private void UpdateEmptyTexts()
+    {
+        EmptyTitle = CurrentLanguage switch
+        {
+            "en" => "No Active Trip Yet",
+            "es" => "Sin Viaje Activo Aún",
+            _ => "אין עדיין טיול פעיל"
+        };
+        EmptyDescription = CurrentLanguage switch
+        {
+            "en" => "Your personalized Tomer Group itinerary will appear here once configured by the agency team.",
+            "es" => "Tu itinerario personalizado de Tomer Group aparecerá aquí una vez configurado por la agencia.",
+            _ => "מסלול הטיול האישי שלך ב-Tomer Group יופיע כאן ברגע שצוות הסוכנות יקים עבורך את תוכנית המסע."
+        };
+    }
+
+    protected override void OnLanguageChanged()
+    {
+        Title = Localize(LocalizationKeys.NavMyTrip);
+        UpdateEmptyTexts();
+        OnPropertyChanged(nameof(PageTitle));
+        OnPropertyChanged(nameof(GatewayTitle));
+        OnPropertyChanged(nameof(GatewayDescription));
+        OnPropertyChanged(nameof(SignInButtonText));
+        OnPropertyChanged(nameof(ContinueExploringText));
+        OnPropertyChanged(nameof(ContactSpecialistText));
+        OnPropertyChanged(nameof(ConfirmedTripBadge));
+        OnPropertyChanged(nameof(ItineraryDaysTitle));
+        OnPropertyChanged(nameof(TimelineTitle));
+        OnPropertyChanged(nameof(StartTimeLabel));
+    }
+
     public MyTripViewModel(
         ILocalizationService localization,
         INavigationService navigation,
@@ -69,6 +171,7 @@ public partial class MyTripViewModel : BaseViewModel
         _imageService = imageService;
         Title = Localize(LocalizationKeys.NavMyTrip);
         TripCoverImage = _imageService.GetMachuPicchuImage();
+        UpdateEmptyTexts();
     }
 
     [RelayCommand]

@@ -121,6 +121,13 @@ public class TripDayDto
     public string Title { get; set; } = string.Empty;
     public string Destination { get; set; } = string.Empty;
     public List<ActivityDto> Activities { get; set; } = new();
+
+    public string FormattedDayNumber => (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() switch
+    {
+        "en" => $"Day {DayNumber}",
+        "es" => $"Día {DayNumber}",
+        _ => $"יום {DayNumber}"
+    };
 }
 
 public class ActivityDto
@@ -139,6 +146,24 @@ public class ActivityDto
     public string? GuideName { get; set; }
     public string? GuidePhone { get; set; }
     public ActivityStatus Status { get; set; }
+
+    public string FormattedGuideName => string.IsNullOrWhiteSpace(GuideName)
+        ? string.Empty
+        : (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() switch
+        {
+            "en" => $"👤 Guide: {GuideName}",
+            "es" => $"👤 Guía: {GuideName}",
+            _ => $"👤 מדריך: {GuideName}"
+        };
+
+    public string FormattedDriverName => string.IsNullOrWhiteSpace(DriverName)
+        ? string.Empty
+        : (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() switch
+        {
+            "en" => $"🚗 Driver: {DriverName}",
+            "es" => $"🚗 Conductor: {DriverName}",
+            _ => $"🚗 נהג: {DriverName}"
+        };
 }
 
 public class CreateTripDto

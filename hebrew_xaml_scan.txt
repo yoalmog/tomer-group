@@ -1,0 +1,331 @@
+ForgotPasswordPage.xaml:13: <Label Text="איפוס סיסמה"
+ForgotPasswordPage.xaml:29: <Label Text="הזן את כתובת הדואר האלקטרוני שלך:" FontSize="13" FontAttributes="Bold" />
+ForgotPasswordPage.xaml:31: <Button Text="שלח קוד איפוס" Command="{Binding RequestResetTokenCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+ForgotPasswordPage.xaml:36: <Label Text="קוד איפוס / Reset Token:" FontSize="13" FontAttributes="Bold" />
+ForgotPasswordPage.xaml:39: <Label Text="סיסמה חדשה / New Password:" FontSize="13" FontAttributes="Bold" />
+ForgotPasswordPage.xaml:42: <Label Text="אימות סיסמה / Confirm Password:" FontSize="13" FontAttributes="Bold" />
+ForgotPasswordPage.xaml:45: <Button Text="החלף סיסמה והתחבר" Command="{Binding SubmitNewPasswordCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+ForgotPasswordPage.xaml:52: <Button Text="חזרה להתחברות" Command="{Binding BackToLoginCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+LoginPage.xaml:13: <Button Text="✕ חזרה לגלות"
+LoginPage.xaml:35: <Button Grid.Column="0" Text="אימייל וסיסמה"
+LoginPage.xaml:42: <Button Grid.Column="1" Text="קוד ב-SMS"
+LoginPage.xaml:54: <Label Text="כניסה לאזור האישי" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" />
+LoginPage.xaml:57: <Label Text="כתובת אימייל" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+LoginPage.xaml:64: <Label Text="סיסמה" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+LoginPage.xaml:70: <Button Text="שכחת סיסמה?"
+LoginPage.xaml:91: <Label Text="כניסה באמצעות SMS" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" />
+LoginPage.xaml:94: <Label Text="מספר טלפון נייד" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+LoginPage.xaml:100: <Button Text="שלח קוד אימות 📲"
+LoginPage.xaml:107: <Label Text="קוד אימות בן 6 ספרות" FontSize="12" FontAttributes="Bold" TextColor="#475569" />
+LoginPage.xaml:112: <Button Text="אמת קוד והתחבר ✓"
+LoginPage.xaml:133: <Button Text="המשך לגלות יעדים כאורח ←"
+LoginPage.xaml:143: <Label Text="צוות Tomer Group זמין 24/7 לכל סיוע" FontSize="11" TextColor="#94A3B8" HorizontalOptions="Center" />
+AgencyAIAssistantPage.xaml:6: Title="עוזר AI ומתכנן מסלולים"
+AgencyAIAssistantPage.xaml:19: <Label Text="גיבוש הצעות מסלול מותאמות אישית, מודל התאקלמות גובה אוטומטי, וניסוח מענה מהיר בווטסאפ. כל פעולה מחייבת אישור אנושי (Human-in-the-Loop)."
+AgencyAIAssistantPage.xaml:33: <Label Text="פרמטרים לבניית מסלול" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+AgencyAIAssistantPage.xaml:36: <Label Text="יעד ראשי:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyAIAssistantPage.xaml:42: <Label Text="מספר ימים:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyAIAssistantPage.xaml:46: <Label Text="פרופיל מטייל:" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyAIAssistantPage.xaml:54: <Label Text="כשרות חב&quot;ד" FontSize="13" VerticalOptions="Center" />
+AgencyAIAssistantPage.xaml:58: <Label Text="שומר שבת" FontSize="13" VerticalOptions="Center" />
+AgencyAIAssistantPage.xaml:62: <Button Text="גבש הצעת מסלול ב-AI ✨"
+AgencyAIAssistantPage.xaml:86: <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" TextColor="{StaticResource PrimaryDark}" FontSize="12" FontAttributes="Bold" />
+AgencyAIAssistantPage.xaml:90: <Label Text="{Binding AltitudeMeters, StringFormat='{0} מ\''}" TextColor="#334155" FontSize="11" FontAttributes="Bold" />
+AgencyAIAssistantPage.xaml:94: <Label Text="{Binding AcclimatizationNote, StringFormat='💡 התאקלמות: {0}'}" FontSize="12" TextColor="#059669" FontAttributes="Italic"
+AgencyAIAssistantPage.xaml:96: <Label Text="{Binding KosherFoodNote, StringFormat='✡️ כשרות: {0}'}" FontSize="12" TextColor="{StaticResource Secondary}"
+AgencyAIAssistantPage.xaml:98: <Label Text="{Binding ShabbatNote, StringFormat='🕯️ שבת: {0}'}" FontSize="12" TextColor="#7C3AED"
+AgencyAIAssistantPage.xaml:108: <Button Grid.Column="0" Text="אשר הצעת מסלול ✓"
+AgencyAIAssistantPage.xaml:111: <Button Grid.Column="1" Text="דחה טיוטה"
+AgencyAIAssistantPage.xaml:120: <Label Text="עוזר ניסוח הודעות ווטסאפ למטיילים" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+AgencyAIAssistantPage.xaml:121: <Label Text="מענה מהיר בעברית טבעית לנושאים תפעוליים שכיחים:" FontSize="13" TextColor="{StaticResource TextSecondary}" />
+AgencyAIAssistantPage.xaml:124: <Button Grid.Row="0" Grid.Column="0" Text="מחלת גבהים (סורוצ'ה)"
+AgencyAIAssistantPage.xaml:127: <Button Grid.Row="0" Grid.Column="1" Text="סעודות שבת בחב&quot;ד"
+AgencyAIAssistantPage.xaml:130: <Button Grid.Row="1" Grid.Column="0" Text="עיכוב רכבת מאצ'ו פיצ'ו"
+AgencyAIAssistantPage.xaml:133: <Button Grid.Row="1" Grid.Column="1" Text="ציוד לטרק הסלקנטאי"
+AgencyCustomerDetailPage.xaml:7: Title="תיק מטייל / Traveler File"
+AgencyCustomerDetailPage.xaml:14: <Button Text="← חזור לרשימת המטיילים" Command="{Binding GoBackCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" HorizontalOptions="Start" />
+AgencyCustomerDetailPage.xaml:30: <Label Grid.Column="0" Text="פרטי דרכון וזיהוי (מאובטח)" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
+AgencyCustomerDetailPage.xaml:36: <Setter Property="Text" Value="🔒 הסתר" />
+AgencyCustomerDetailPage.xaml:39: <Setter Property="Text" Value="👁️ חשוף דרכון (Audit Log)" />
+AgencyCustomerDetailPage.xaml:46: <Label Grid.Row="0" Grid.Column="0" Text="מספר דרכון:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+AgencyCustomerDetailPage.xaml:49: <Label Grid.Row="1" Grid.Column="0" Text="תוקף דרכון:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+AgencyCustomerDetailPage.xaml:52: <Label Grid.Row="2" Grid.Column="0" Text="תעודת זהות:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+AgencyCustomerDetailPage.xaml:61: <Label Text="כשרות, תזונה והערות רפואיות" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+AgencyCustomerDetailPage.xaml:63: <Label Text="כשרות / תזונה:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+AgencyCustomerDetailPage.xaml:66: <Label Text="רפואי / גבהים / סורוצ'ה:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+AgencyCustomerDetailPage.xaml:69: <Label Text="ביטוח נסיעות וחילוץ:" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" />
+AgencyCustomerDetailPage.xaml:71: <Label Text="{Binding Customer.InsurancePolicyNumber, StringFormat='פוליסה: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyCustomerDetailPage.xaml:78: <Label Text="📝 הערות סוכנות פנימיות (צוות בלבד):" FontSize="14" FontAttributes="Bold" TextColor="#F57F17" />
+AgencyCustomerDetailPage.xaml:79: <Label Text="{Binding Customer.Notes, FallbackValue='אין הערות מיוחדות'}" FontSize="13" TextColor="{StaticResource TextPrimary}" />
+AgencyCustomersPage.xaml:8: Title="מטיילים / Travelers Directory"
+AgencyCustomersPage.xaml:17: <Label Text="סה&quot;כ מטיילים" TextColor="#CBD5E1" FontSize="11" />
+AgencyCustomersPage.xaml:21: <Label Text="בפרו כעת" TextColor="#CBD5E1" FontSize="11" />
+AgencyCustomersPage.xaml:25: <Label Text="כשרות" TextColor="#CBD5E1" FontSize="11" />
+AgencyCustomersPage.xaml:29: <Label Text="דרכון &lt; 6 חודשים" TextColor="#CBD5E1" FontSize="11" />
+AgencyCustomersPage.xaml:40: Placeholder="חיפוש לפי שם, עברית, טלפון, דרכון..."
+AgencyCustomersPage.xaml:49: <Button Text="הכל (All)" Command="{Binding ApplyFilterCommand}" CommandParameter="All" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="{StaticResource Primary}" TextColor="White" />
+AgencyCustomersPage.xaml:50: <Button Text="🇵🇪 בפרו כעת" Command="{Binding ApplyFilterCommand}" CommandParameter="InPeru" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="#2E7D32" TextColor="White" />
+AgencyCustomersPage.xaml:51: <Button Text="🍷 שומרי כשרות" Command="{Binding ApplyFilterCommand}" CommandParameter="Kosher" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="{StaticResource Secondary}" TextColor="White" />
+AgencyCustomersPage.xaml:52: <Button Text="⚠️ דרכון קרוב לפקיעה" Command="{Binding ApplyFilterCommand}" CommandParameter="Expiring" HeightRequest="34" CornerRadius="17" FontSize="12" Padding="12,0" BackgroundColor="#C62828" TextColor="White" />
+AgencyCustomersPage.xaml:60: <Label Text="לא נמצאו מטיילים התואמים לחיפוש" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+AgencyCustomersPage.xaml:77: <Label Text="בפרו כעת" FontSize="10" FontAttributes="Bold" TextColor="#2E7D32" />
+AgencyCustomersPage.xaml:87: <Button Text="💬 וואטסאפ"
+AgencyDashboardPage.xaml:12: <Label Text="תפעול יומי / Daily Operations" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+AgencyDashboardPage.xaml:17: <Label Text="נחיתות היום" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+AgencyDashboardPage.xaml:24: <Label Text="עזיבות היום" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+AgencyDashboardPage.xaml:31: <Label Text="סיורים פעילים" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+AgencyDashboardPage.xaml:38: <Label Text="מטיילים בפרו" FontSize="12" TextColor="{StaticResource TextSecondaryLight}" />
+AgencyDashboardPage.xaml:45: <Label Text="ביצועים פיננסיים / Financials" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+AgencyDashboardPage.xaml:51: <Label Text="הכנסות" TextColor="#CBD5E1" FontSize="12" />
+AgencyDashboardPage.xaml:55: <Label Text="הוצאות" TextColor="#CBD5E1" FontSize="12" />
+AgencyDashboardPage.xaml:59: <Label Text="רווח גולמי" TextColor="{StaticResource SecondaryLight}" FontSize="12" FontAttributes="Bold" />
+AgencyDashboardPage.xaml:67: <Button Text="רענון נתונים" Command="{Binding RefreshMetricsCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+AgencyDashboardPage.xaml:68: <Button Text="התנתק" Command="{Binding LogoutCommand}" Style="{StaticResource SecondaryButtonStyle}" />
+AgencyFinancePage.xaml:7: Title="פיננסים ותקבולים (Financials &amp; Payments)"
+AgencyFinancePage.xaml:16: <Label Text="דוח רווחיות והכנסות סוכנות" TextColor="{StaticResource Secondary}" FontSize="14" FontAttributes="Bold" />
+AgencyFinancePage.xaml:20: <Label Text="סך הכנסות (Revenue):" TextColor="#B0C4DE" FontSize="11" />
+AgencyFinancePage.xaml:24: <Label Text="נגבה בפועל (Collected):" TextColor="#B0C4DE" FontSize="11" />
+AgencyFinancePage.xaml:28: <Label Text="יתרת חוב לקוחות:" TextColor="#B0C4DE" FontSize="11" />
+AgencyFinancePage.xaml:32: <Label Text="רווח גולמי ומרווח:" TextColor="#B0C4DE" FontSize="11" />
+AgencyFinancePage.xaml:33: <Label Text="{Binding MarginPercentage, StringFormat='{0:F1}% רווח'}" TextColor="{StaticResource Secondary}" FontSize="18" FontAttributes="Bold" />
+AgencyFinancePage.xaml:40: <Label Text="תשלומים וקבלות אחרונות" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+AgencyFinancePage.xaml:50: <Label Text="{Binding CustomerName, StringFormat='לקוח: {0}'}" FontSize="14" FontAttributes="Bold" />
+AgencyFinancePage.xaml:51: <Label Text="{Binding BookingCode, StringFormat='הזמנה: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyFinancePage.xaml:56: <Label Text="{Binding ReferenceNumber, StringFormat='אסמכתא: {0}'}" FontSize="11" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" />
+AgencyHotelsPage.xaml:7: Title="מלונות בפרו (Hotels Directory)"
+AgencyHotelsPage.xaml:13: Placeholder="חיפוש מלון או עיר (קוסקו, עמק קדוש, לימה)..."
+AgencyHotelsPage.xaml:24: <Label Text="{Binding Stars, StringFormat='⭐ {0} כוכבים'}" FontSize="13" TextColor="{StaticResource Secondary}" HorizontalOptions="EndAndExpand" />
+AgencyHotelsPage.xaml:27: <Label Text="{Binding Destination, StringFormat='יעד: {0}'}" FontSize="12" TextColor="{StaticResource Primary}" />
+AgencyHotelsPage.xaml:31: <Label Text="🫁 חמצן מועשר בחדר" TextColor="#0369A1" FontSize="10" FontAttributes="Bold" />
+AgencyHotelsPage.xaml:34: <Label Text="בלוני חמצן זמינים" TextColor="#92400E" FontSize="10" />
+AgencyHotelsPage.xaml:37: <Label Text="מפתח שבת מכני ✓" TextColor="#166534" FontSize="10" FontAttributes="Bold" />
+AgencyHotelsPage.xaml:40: <Label Text="הליכה לחב&quot;ד" TextColor="#6D28D9" FontSize="10" />
+AgencyHotelsPage.xaml:44: <Label Text="{Binding Phone, StringFormat='טלפון: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyManifestPage.xaml:7: Title="דף משימות יומי (Daily Mission Sheet)"
+AgencyManifestPage.xaml:14: <Label Text="דף משימות שטח מבצעי — פרו 🇵🇪" TextColor="{StaticResource Secondary}" FontSize="14" FontAttributes="Bold" />
+AgencyManifestPage.xaml:15: <Label Text="{Binding SelectedDate, StringFormat='משימות ליום: {0:dddd, dd/MM/yyyy}'}" TextColor="White" FontSize="16" FontAttributes="Bold" />
+AgencyManifestPage.xaml:21: <Button Text="סיורים ומדריכים (Guides)" Command="{Binding SelectTabCommand}" CommandParameter="מדריכים" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+AgencyManifestPage.xaml:22: <Button Text="הסעות ונהגים (Transfers)" Command="{Binding SelectTabCommand}" CommandParameter="הסעות" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+AgencyManifestPage.xaml:28: <CollectionView ItemsSource="{Binding GuideAssignments}" IsVisible="{Binding ActiveTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='מדריכים'}">
+AgencyManifestPage.xaml:38: <Label Text="{Binding Location, StringFormat='מיקום: {0}'}" FontSize="13" />
+AgencyManifestPage.xaml:39: <Label Text="{Binding CustomerName, StringFormat='מטייל: {0}'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+AgencyManifestPage.xaml:42: <Label Text="{Binding DietaryRestrictions, StringFormat='העדפת כשרות: {0}'}" TextColor="#92400E" FontSize="11" FontAttributes="Bold" />
+AgencyManifestPage.xaml:46: <Label Text="{Binding MedicalNotes, StringFormat='הערה רפואית: {0}'}" TextColor="#991B1B" FontSize="11" FontAttributes="Bold" />
+AgencyManifestPage.xaml:49: <Label Text="{Binding Instructions, StringFormat='הנחיות: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyManifestPage.xaml:57: <CollectionView ItemsSource="{Binding DriverTransfers}" IsVisible="{Binding ActiveTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='הסעות'}">
+AgencyManifestPage.xaml:67: <Label Text="{Binding PickupLocation, StringFormat='איסוף: {0}'}" FontSize="13" />
+AgencyManifestPage.xaml:68: <Label Text="{Binding DropoffLocation, StringFormat='הורדה: {0}'}" FontSize="13" />
+AgencyManifestPage.xaml:69: <Label Text="{Binding FlightOrTrainNumber, StringFormat='טיסה/רכבת: {0}'}" FontSize="12" TextColor="{StaticResource Secondary}" IsVisible="{Binding FlightOrTrainNumber, Converter={StaticResource NotNullOrEmptyConverter}}" />
+AgencyManifestPage.xaml:70: <Label Text="{Binding CustomerName, StringFormat='מטייל: {0} ({1} נוסעים)'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+AgencyManifestPage.xaml:71: <Label Text="{Binding VehicleModel, StringFormat='רכב: {0} ({1})'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:6: Title="דוחות ניהול ורווחיות"
+AgencyReportsPage.xaml:16: <Label Text="לוח בקרה ודוחות מנהלים 📊" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+AgencyReportsPage.xaml:21: <Label Text="מדדי הכנסות, עלויות תפעול ישירות, רווחיות גולמית, פילוח יעדים ונפח מטיילים ישראלים בעונת התיירות."
+AgencyReportsPage.xaml:37: <Label Text="סך הכנסות (USD)" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:39: <Label Text="מכירות חבילות וסיורים" FontSize="10" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:46: <Label Text="עלויות ישירות (USD)" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:48: <Label Text="מלונות, רכבות ומדריכים" FontSize="10" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:55: <Label Text="רווח גולמי (USD)" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:57: <Label Text="הכנסות בניכוי עלויות" FontSize="10" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:64: <Label Text="אחוז רווחיות" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:76: <Label Text="טיולים פעילים" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+AgencyReportsPage.xaml:80: <Label Text="הושלמו" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+AgencyReportsPage.xaml:84: <Label Text="מטיילים" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+AgencyReportsPage.xaml:88: <Label Text="לילות מלון" FontSize="10" TextColor="{StaticResource TextSecondary}" HorizontalTextAlignment="Center" />
+AgencyReportsPage.xaml:94: <Label Text="פילוח נפח והכנסות לפי יעד" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+AgencyReportsPage.xaml:102: <Label Grid.Row="1" Grid.Column="0" Text="{Binding TripsCount, StringFormat='{0} טיולים • {1}% מנפח ההזמנות', ConverterParameter={Binding PercentageOfTotal}}" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:103: <Label Grid.Row="1" Grid.Column="1" Text="{Binding TravelersCount, StringFormat='{0} מטיילים'}" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyReportsPage.xaml:112: <Button Grid.Column="0" Text="ייצא דוח אקסל (CSV) 📄"
+AgencyReportsPage.xaml:115: <Button Grid.Column="1" Text="ייצא דוח מנהלים (PDF) 📑"
+AgencySettingsPage.xaml:11: <Label Text="הגדרות מותג ותצורה / Brand Settings" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+AgencySettingsPage.xaml:15: <Label Text="שם הסוכנות / Agency Name" FontSize="13" FontAttributes="Bold" />
+AgencySettingsPage.xaml:18: <Label Text="סלוגן / Tagline" FontSize="13" FontAttributes="Bold" />
+AgencySettingsPage.xaml:21: <Label Text="טלפון סוכנות / Contact Phone" FontSize="13" FontAttributes="Bold" />
+AgencySettingsPage.xaml:24: <Label Text="וואטסאפ / WhatsApp Support" FontSize="13" FontAttributes="Bold" />
+AgencySettingsPage.xaml:27: <Button Text="שמור הגדרות מותג" Command="{Binding SaveBrandingCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+AgencySettingsPage.xaml:32: <Label Text="שפת ממשק / System Language" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+AgencySettingsPage.xaml:34: <Button Text="עברית (RTL)" Command="{Binding ChangeLanguageCommand}" CommandParameter="he" Style="{StaticResource SecondaryButtonStyle}" />
+AgencyStaffDirectoryPage.xaml:7: Title="צוות שטח וצי רכבים (Guides &amp; Drivers)"
+AgencyStaffDirectoryPage.xaml:13: Placeholder="חיפוש מדריך, נהג, רישיון או שפה..."
+AgencyStaffDirectoryPage.xaml:18: <Button Text="מדריכים מוסמכים (Guides)" Command="{Binding SelectTabCommand}" CommandParameter="מדריכים" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+AgencyStaffDirectoryPage.xaml:19: <Button Text="נהגים מקצועיים (Drivers)" Command="{Binding SelectTabCommand}" CommandParameter="נהגים" HeightRequest="38" CornerRadius="19" Padding="16,0" FontSize="13" />
+AgencyStaffDirectoryPage.xaml:25: <CollectionView ItemsSource="{Binding Guides}" IsVisible="{Binding SelectedRoleTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='מדריכים'}">
+AgencyStaffDirectoryPage.xaml:42: <Label Text="מגיש עזרה ראשונה בגובה ✓" TextColor="#166534" FontSize="10" FontAttributes="Bold" />
+AgencyStaffDirectoryPage.xaml:45: <Label Text="{Binding DailyRate, StringFormat='${0:N0}/יום'}" TextColor="#92400E" FontSize="10" FontAttributes="Bold" />
+AgencyStaffDirectoryPage.xaml:57: <CollectionView ItemsSource="{Binding Drivers}" IsVisible="{Binding SelectedRoleTab, Converter={StaticResource StringEqualsConverter}, ConverterParameter='נהגים'}">
+AgencyStaffDirectoryPage.xaml:66: <Label Text="{Binding LicenseNumber, StringFormat='רישיון: {0}'}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+AgencyStaffDirectoryPage.xaml:67: <Label Text="{Binding LicenseCategory, StringFormat='קטגוריה: {0}'}" FontSize="12" TextColor="{StaticResource Primary}" />
+AgencyStaffDirectoryPage.xaml:70: <Label Text="צי רכבים: Mercedes-Benz Sprinter 2024 (X4T-892) - 19 מקומות" TextColor="#065F46" FontSize="11" />
+AgencyToursPage.xaml:7: Title="קטלוג טיולים וטרקים (Tours)"
+AgencyToursPage.xaml:13: Placeholder="חיפוש טיול, טרק או יעד..."
+AgencyToursPage.xaml:19: <Button Text="הכל" Command="{Binding SelectCategoryCommand}" CommandParameter="הכל" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+AgencyToursPage.xaml:20: <Button Text="טרקים" Command="{Binding SelectCategoryCommand}" CommandParameter="טרקים" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+AgencyToursPage.xaml:21: <Button Text="סיורי יום" Command="{Binding SelectCategoryCommand}" CommandParameter="סיורי יום" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+AgencyToursPage.xaml:22: <Button Text="תרבות" Command="{Binding SelectCategoryCommand}" CommandParameter="תרבות" HeightRequest="36" CornerRadius="18" Padding="14,0" FontSize="12" />
+AgencyToursPage.xaml:39: <Label Text="{Binding Duration, StringFormat='משך: {0}'}" TextColor="#92400E" FontSize="11" FontAttributes="Bold" />
+AgencyToursPage.xaml:42: <Label Text="{Binding AltitudeMaxMeters, StringFormat='גובה: {0} מטר'}" TextColor="#0369A1" FontSize="11" FontAttributes="Bold" />
+AgencyToursPage.xaml:45: <Label Text="כשרות חב&quot;ד ✓" TextColor="#166534" FontSize="11" FontAttributes="Bold" />
+AgencyToursPage.xaml:49: <Button Text="🗺️ צפה במפת המסלול"
+AgencyTripsPage.xaml:8: Title="ניהול טיולים / Itinerary Builder"
+AgencyTripsPage.xaml:18: <Label Text="בונה מסלולים / Itinerary Builder" FontSize="18" FontAttributes="Bold" TextColor="White" />
+AgencyTripsPage.xaml:19: <Label Text="צפה בלוחות זמנים, ימי טיול ורווחיות" FontSize="12" TextColor="{StaticResource SecondaryLight}" />
+AgencyTripsPage.xaml:21: <Button Grid.Column="1" Text="+ טיול חדש"
+AgencyTripsPage.xaml:27: <Label Text="יעדים מרכזיים בפרו:" FontSize="11" TextColor="#CBD5E1" FontAttributes="Bold" />
+AgencyTripsPage.xaml:70: <Label Text="הכנסה" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyTripsPage.xaml:74: <Label Text="עלות סוכנות" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyTripsPage.xaml:78: <Label Text="רווח גולמי" FontSize="11" TextColor="{StaticResource TextSecondary}" />
+AgencyTripsPage.xaml:84: <Label Text="לוח זמנים יומי (Timeline):" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" Margin="0,4,0,0" />
+ActivityDetailPage.xaml:18: <Button Text="← חזרה למסלול"
+ActivityDetailPage.xaml:34: <Label Text="חוויה מאושרת" TextColor="White" FontSize="11" FontAttributes="Bold" />
+ActivityDetailPage.xaml:47: <Label Text="⏰ שעת התחלה" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+ActivityDetailPage.xaml:49: <Label Text="{Binding Duration, StringFormat='משך משוער: {0}'}" FontSize="11" TextColor="#94A3B8" />
+ActivityDetailPage.xaml:59: <Label Grid.Column="0" Text="📍 מיקום" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+ActivityDetailPage.xaml:60: <Label Grid.Column="1" Text="נווט במפה 🗺️" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+ActivityDetailPage.xaml:75: <Label Text="מדריך מוסמך מטעם Tomer Group" FontSize="11" TextColor="#166534" FontAttributes="Bold" />
+ActivityDetailPage.xaml:84: <Label Text="נקודת מפגש ואיסוף" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+ActivityDetailPage.xaml:92: <Label Text="תיאור הפעילות" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+ActivityDetailPage.xaml:100: <Label Text="🎒 מה להביא איתך?" FontSize="14" FontAttributes="Bold" TextColor="#92400E" />
+ActivityDetailPage.xaml:108: <Label Text="🏔️ דגשי גובה ובריאות" FontSize="14" FontAttributes="Bold" TextColor="#1E40AF" />
+ActivityDetailPage.xaml:114: <Button Text="שאלה על הפעילות? דברו איתנו בוואטסאפ 💬"
+BookingDetailPage.xaml:18: <Button Text="← חזרה להזמנות"
+BookingDetailPage.xaml:52: <Label Text="מספר אישור רשמי / VOUCHER CODE" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" CharacterSpacing="1" />
+BookingDetailPage.xaml:66: <Label Text="📅 תאריכי השירות" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+BookingDetailPage.xaml:73: <Label Text="👥 נוסעים" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+BookingDetailPage.xaml:82: <Label Text="ספק שירות ומיקום" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+BookingDetailPage.xaml:91: <Label Text="✨ בקשות ודגשים שאושרו" FontSize="14" FontAttributes="Bold" TextColor="#166534" />
+BookingDetailPage.xaml:99: <Label Text="📋 הנחיות שימוש בשובר" FontSize="13" FontAttributes="Bold" TextColor="#475569" />
+BookingDetailPage.xaml:105: <Button Text="צור קשר עם מוקד ההזמנות 💬"
+BookingsPage.xaml:6: Title="ההזמנות והשוברים שלי"
+BookingsPage.xaml:24: <Label Text="ההזמנות והשוברים שלך" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+BookingsPage.xaml:25: <Label Text="התחבר כדי לצפות בכל שוברי המלונות, אישורי הרכבות וההעברות הפרטיות שאושרו עבורך בפרו."
+BookingsPage.xaml:28: <Button Text="התחבר לצפייה בהזמנות"
+BookingsPage.xaml:34: <Button Text="המשך לגלות יעדים ←"
+BookingsPage.xaml:59: <Button Text="צור קשר עם הסוכנות 💬"
+BookingsPage.xaml:77: <Label Text="סטטוס שירותים והזמנות" FontSize="12" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+BookingsPage.xaml:78: <Label Text="כל ההזמנות והמלונות שלך מסודרים" FontSize="16" FontAttributes="Bold" TextColor="White" />
+BookingsPage.xaml:79: <Label Text="שוברי שירות מקוריים זמינים גם ללא חיבור אינטרנט" FontSize="11" TextColor="#94A3B8" />
+BookingsPage.xaml:83: <Label Text="✓ מאושר" TextColor="White" FontSize="11" FontAttributes="Bold" />
+BookingsPage.xaml:92: <Label Text="שירותים ושוברי נסיעה" FontSize="17" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+BookingsPage.xaml:124: <Label Text="{Binding ConfirmationCode, StringFormat='אישור: {0}'}" FontSize="11" TextColor="#64748B" />
+BookingsPage.xaml:128: Text="פרטים ושובר ←"
+CustomerHomePage.xaml:66: <Button Text="לצפייה במסלול הטיול המלא"
+CustomerHomePage.xaml:84: Text="גלה יעדים וחוויות"
+CustomerHomePage.xaml:115: <Label Text="הפעילות הבאה שלך" FontSize="13" TextColor="#64748B" FontAttributes="Bold" />
+CustomerHomePage.xaml:125: <Label Text="שעה" FontSize="10" TextColor="{StaticResource TomerRoseDark}" HorizontalOptions="Center" />
+CustomerHomePage.xaml:136: <Button Text="פרטי פעילות והנחיות"
+CustomerHomePage.xaml:151: <Label Text="התקדמות במסע" FontSize="13" TextColor="#64748B" FontAttributes="Bold" />
+CustomerHomePage.xaml:168: <Label Text="המסלול" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+CustomerHomePage.xaml:180: <Label Text="הזמנות" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+CustomerHomePage.xaml:192: <Label Text="מסמכים" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+CustomerHomePage.xaml:204: <Label Text="גלה עוד" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+CustomerHomePage.xaml:221: <Label Text="היום שלי" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
+CustomerHomePage.xaml:232: <Label Text="עוזר טיולים AI" FontSize="12" FontAttributes="Bold" TextColor="#166534" VerticalOptions="Center" />
+CustomerHomePage.xaml:243: <Label Text="רשימת ציוד" FontSize="12" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center" />
+CustomerHomePage.xaml:254: <Label Text="יומן חוויות" FontSize="12" FontAttributes="Bold" TextColor="#6B21A8" VerticalOptions="Center" />
+CustomerHomePage.xaml:267: <Label Text="יעדי הדגל בפרו" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" VerticalOptions="Center" />
+CustomerHomePage.xaml:268: <Button Grid.Column="1" Text="צפה בהכל ←" Command="{Binding OpenExploreCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" FontSize="12" FontAttributes="Bold" Padding="0" />
+CustomerHomePage.xaml:280: <Label Text="3,400 מטר" TextColor="White" FontSize="10" FontAttributes="Bold" />
+CustomerHomePage.xaml:284: <Label Text="קוסקו (Cusco)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+CustomerHomePage.xaml:285: <Label Text="בירת אימפריית האינקה, כיכר פלאזה דה ארמס, שווקים ובית חב&quot;ד" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+CustomerHomePage.xaml:300: <Label Text="פלא עולם" TextColor="White" FontSize="10" FontAttributes="Bold" />
+CustomerHomePage.xaml:304: <Label Text="מאצ'ו פיצ'ו (Machu Picchu)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+CustomerHomePage.xaml:305: <Label Text="מצודת האינקה הנסתרת בעננים, רכבות פנורמיות ווואינה פיצ'ו" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+CustomerHomePage.xaml:320: <Label Text="2,870 מטר" TextColor="White" FontSize="10" FontAttributes="Bold" />
+CustomerHomePage.xaml:324: <Label Text="העמק הקדוש (Sacred Valley)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+CustomerHomePage.xaml:325: <Label Text="מבצר אויאנטייטמבו, טרסות מוראי, מכרות המלח במאראס ומלונות בוטיק" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+CustomerHomePage.xaml:340: <Label Text="3,812 מטר" TextColor="White" FontSize="10" FontAttributes="Bold" />
+CustomerHomePage.xaml:344: <Label Text="אגם טיטיקקה (Lake Titicaca)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+CustomerHomePage.xaml:345: <Label Text="האיים הצפים של האורוס, תרבות ילידית ושקיעות מרהיבות" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+CustomerHomePage.xaml:358: <Label Text="חוויית השירות של Tomer Group" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" Margin="0,8,0,0" />
+CustomerHomePage.xaml:363: <Label Text="🫁 התאקלמות לגובה" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+CustomerHomePage.xaml:364: <Label Text="חדרים מועשרים בחמצן במלונות קוסקו ותכנון מסלול הדרגתי מותאם אישית." FontSize="11" TextColor="#64748B" LineHeight="1.3" />
+CustomerHomePage.xaml:370: <Label Text="✡️ כשרות ושבת" FontSize="13" FontAttributes="Bold" TextColor="#166534" />
+CustomerHomePage.xaml:371: <Label Text="סיוע בתיאום ארוחות שבת כשרות בקוסקו ולימה עם בתי חב&quot;ד המקומיים." FontSize="11" TextColor="#64748B" LineHeight="1.3" />
+CustomerHomePage.xaml:386: <Label Text="מוקד שירות וסיוע 24/7 בפרו" FontSize="14" FontAttributes="Bold" TextColor="White" />
+CustomerHomePage.xaml:387: <Label Text="צוות השטח שלנו זמין עבורכם בכל שעה בוואטסאפ ובטלפון" FontSize="11" TextColor="#CBD5E1" />
+DocumentsPage.xaml:6: Title="ארנק המסמכים שלי"
+DocumentsPage.xaml:24: <Label Text="ארנק מסמכים ואישורים דיגיטלי" FontSize="22" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+DocumentsPage.xaml:25: <Label Text="התחבר כדי לגשת לאישורי הכניסה למאצ'ו פיצ'ו, שוברי הרכבות והמלונות השמורים במכשירך וזמינים לצפייה גם ללא קליטה באנדים."
+DocumentsPage.xaml:28: <Button Text="התחבר לארנק המסמכים"
+DocumentsPage.xaml:34: <Button Text="המשך לגלות יעדים ←"
+DocumentsPage.xaml:59: <Button Text="צור קשר עם הסוכנות 💬"
+DocumentsPage.xaml:78: <Label Text="ארנק כרטיסים ואישורי כניסה" FontSize="16" FontAttributes="Bold" TextColor="White" />
+DocumentsPage.xaml:79: <Label Text="אישורי מאצ'ו פיצ'ו ורכבות זמינים לצפייה אופליין" FontSize="11" TextColor="#94A3B8" />
+DocumentsPage.xaml:83: <Label Text="✓ אופליין זמין" TextColor="White" FontSize="11" FontAttributes="Bold" />
+DocumentsPage.xaml:100: <Button Text="הכל" Command="{Binding FilterByCategoryCommand}" CommandParameter="הכל"
+DocumentsPage.xaml:102: <Button Text="אישורי כניסה וטרקים" Command="{Binding FilterByCategoryCommand}" CommandParameter="אישורים"
+DocumentsPage.xaml:104: <Button Text="שוברי שירות ומלונות" Command="{Binding FilterByCategoryCommand}" CommandParameter="שוברים"
+DocumentsPage.xaml:106: <Button Text="מסמכים אישיים וביטוח" Command="{Binding FilterByCategoryCommand}" CommandParameter="אישי"
+DocumentsPage.xaml:127: <Label Text="{Binding Circuit, StringFormat='מסלול: {0}'}" FontSize="11" TextColor="{StaticResource Primary}"
+DocumentsPage.xaml:141: <Label Text="{Binding PermitPassportNumber, StringFormat='מותאם לדרכון: {0}'}"
+DocumentsPage.xaml:148: <Button Grid.Column="0" Text="פתח / שמור ⬇️"
+DocumentsPage.xaml:153: <Button Grid.Column="1" Text="שתף בווטסאפ 📲"
+ExplorePage.xaml:19: <Label Text="גלה את פרו" FontSize="20" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+ExplorePage.xaml:20: <Label Text="יעדים, טרקים וחוויות בלתי נשכחות" FontSize="12" TextColor="#64748B" />
+ExplorePage.xaml:27: <Button Text="הכל"
+ExplorePage.xaml:29: CommandParameter="הכל"
+ExplorePage.xaml:38: <Button Text="טרקים באנדים 🥾"
+ExplorePage.xaml:40: CommandParameter="טרקים"
+ExplorePage.xaml:49: <Button Text="קוסקו והעמק הקדוש"
+ExplorePage.xaml:51: CommandParameter="קוסקו והעמק הקדוש"
+ExplorePage.xaml:60: <Button Text="מאצ'ו פיצ'ו"
+ExplorePage.xaml:62: CommandParameter="מאצ'ו פיצ'ו"
+ExplorePage.xaml:71: <Button Text="הרי האנדים"
+ExplorePage.xaml:73: CommandParameter="הרי האנדים"
+ExplorePage.xaml:82: <Button Text="יער האמזונס"
+ExplorePage.xaml:84: CommandParameter="יער האמזונס"
+ExplorePage.xaml:133: <Label Text="✨ חוויות מרכזיות" FontSize="11" TextColor="#334155" FontAttributes="Bold" />
+ExplorePage.xaml:138: <Button Text="צפה במפת מסלול אינטראקטיבית 🗺️"
+ExplorePage.xaml:156: <Label Text="טיפים חיוניים למטייל בפרו" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" Margin="0,8,0,0" />
+ExplorePage.xaml:177: <Label Text="מתכננים את הטיול שלכם לפרו?" FontSize="18" FontAttributes="Bold" TextColor="White" />
+ExplorePage.xaml:178: <Label Text="מומחי היעד של Tomer Group ירכיבו עבורכם מסלול אישי מותאם במדויק כולל מלונות, העברות והדרכה בעברית."
+ExplorePage.xaml:180: <Button Text="דברו עם צוות המומחים שלנו 💬"
+MorePage.xaml:59: <Button Grid.Column="0" Text="עברית" Command="{Binding ChangeLanguageCommand}" CommandParameter="he"
+MyTripPage.xaml:6: Title="הטיול שלי"
+MyTripPage.xaml:24: <Label Text="המסע שלך ממתין לך" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+MyTripPage.xaml:25: <Label Text="התחבר כדי לצפות במסלול הטיול המפורט יום אחרי יום, זמני האיסוף, פרטי המדריכים וההעברות הפרטיות בהרי האנדים."
+MyTripPage.xaml:28: <Button Text="התחבר עכשיו"
+MyTripPage.xaml:34: <Button Text="המשך לגלות יעדים ←"
+MyTripPage.xaml:59: <Button Text="צור קשר עם מומחי היעד 💬"
+MyTripPage.xaml:94: <Label Text="ימי המסלול" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
+MyTripPage.xaml:112: <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+MyTripPage.xaml:147: <Label Text="לוח זמנים ופעילויות" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+MyTripPage.xaml:157: <Label Text="התחלה" FontSize="10" TextColor="#94A3B8" HorizontalOptions="Center" />
+MyTripPage.xaml:173: <Label Text="{Binding GuideName, StringFormat='👤 מדריך: {0}'}" TextColor="#166534" FontSize="11" FontAttributes="Bold" />
+MyTripPage.xaml:179: <Label Text="{Binding DriverName, StringFormat='🚗 נהג: {0}'}" TextColor="#1E40AF" FontSize="11" FontAttributes="Bold" />
+NotificationsPage.xaml:6: Title="הודעות ועדכונים"
+NotificationsPage.xaml:16: <Label Text="מרכז עדכונים והתרעות 🔔" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+NotificationsPage.xaml:19: <Label Text="{Binding UnreadCount, StringFormat='{0} חדשות'}" TextColor="White" FontSize="11" FontAttributes="Bold" />
+NotificationsPage.xaml:22: <Label Text="עדכוני זמני איסוף נהג, הנפקת כרטיסי כניסה, שינויי מסלול והודעות דחופות מצוות קוסקו."
+NotificationsPage.xaml:26: <Button Text="💬 מוקד ווטסאפ קוסקו (חירום וסיוע 24/7)"
+NotificationsPage.xaml:40: <Button Grid.Column="0" Text="הכל" Command="{Binding FilterByStatusCommand}" CommandParameter="הכל"
+NotificationsPage.xaml:42: <Button Grid.Column="1" Text="לא נקראו" Command="{Binding FilterByStatusCommand}" CommandParameter="לא נקראו"
+NotificationsPage.xaml:44: <Button Grid.Column="2" Text="סמן הכל כנקרא ✓" Command="{Binding MarkAllAsReadCommand}"
+NotificationsPage.xaml:72: <Button Grid.Column="1" Text="סמן כנקרא ✓"
+ProfilePage.xaml:105: <Label Text="לא הוגדרו עדיין העדפות כשרות מיוחדות" FontSize="13" TextColor="#94A3B8"
+ProfilePage.xaml:110: <Picker Title="בחר העדפת כשרות ותזונה"
+ProfilePage.xaml:125: <Label Text="🛂 פרטי דרכון לאישורי כניסה" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" VerticalOptions="Center" />
+ProfilePage.xaml:128: Text="👁️ הצג"
+ProfilePage.xaml:139: <Label Text="הדרכון משמש להנפקת אישורי שמורת מאצ'ו פיצ'ו וכרטיסי רכבת." FontSize="11" TextColor="#64748B" />
+ProfilePage.xaml:152: <Label Text="שם איש קשר:" FontSize="11" TextColor="#64748B" />
+ProfilePage.xaml:156: <Label Text="טלפון לשעת חירום:" FontSize="11" TextColor="#64748B" />
+ProfilePage.xaml:163: <Entry Placeholder="שם מלא של איש הקשר" Text="{Binding EmergencyContactName}" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+ProfilePage.xaml:164: <Entry Placeholder="טלפון איש הקשר (כולל קידומת בינלאומית)" Text="{Binding EmergencyContactPhone}" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+ProfilePage.xaml:170: <Button Text="שמור שינויים בפרופיל ✓"
+ProfilePage.xaml:186: <Button Grid.Column="0" Text="עברית" Command="{Binding ChangeLanguageCommand}" CommandParameter="he"
+TrekMapPage.xaml:17: Text="← חזור"
+TrekMapPage.xaml:32: <Label Text="{Binding SelectedRoute.Region, StringFormat='אזור: {0}'}"
+TrekMapPage.xaml:39: Text="📍 מיקומי"
+TrekMapPage.xaml:77: <Button Text="📈 פרופיל גבהים"
+TrekMapPage.xaml:87: <Button Text="🗺️ פתח במפות ניווט"
+TrekMapPage.xaml:105: <Label Text="מרחק" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+TrekMapPage.xaml:106: <Label Text="{Binding SelectedRoute.TotalDistanceKm, StringFormat='{0} ק״מ'}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+TrekMapPage.xaml:110: <Label Text="רום שיא" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+TrekMapPage.xaml:111: <Label Text="{Binding SelectedRoute.MaxElevationMeters, StringFormat='{0} מ\''}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+TrekMapPage.xaml:115: <Label Text="טיפוס מצטבר" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+TrekMapPage.xaml:116: <Label Text="{Binding SelectedRoute.ElevationGainMeters, StringFormat='+{0} מ\''}" FontSize="13" FontAttributes="Bold" TextColor="#059669" HorizontalOptions="Center" />
+TrekMapPage.xaml:120: <Label Text="משך משוער" FontSize="10" TextColor="#64748B" HorizontalOptions="Center" />
+TrekMapPage.xaml:121: <Label Text="{Binding SelectedRoute.EstimatedDurationDays, StringFormat='{0} ימים'}" FontSize="13" FontAttributes="Bold" TextColor="#7C3AED" HorizontalOptions="Center" />
+TrekMapPage.xaml:127: <Label Text="נקודות ציון וגבהים במסלול:" FontSize="11" TextColor="#64748B" FontAttributes="Bold" />
+TrekMapPage.xaml:135: <Label Text="{Binding ElevationMeters, StringFormat='{0} מטר'}" FontSize="10" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
+Total occurrences: 330

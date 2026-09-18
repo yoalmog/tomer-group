@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using TomerGroup.Core.DTOs;
 using TomerGroup.Core.Interfaces;
 using TomerGroup.Core.Localization;
+using TomerGroup.Core.Models;
 using TomerGroup.Mobile.Services;
 using TomerGroup.Mobile.ViewModels;
 using TomerGroup.Mobile.ViewModels.Agency;
@@ -192,6 +194,68 @@ public class Phase16MobileNavigationTests
         // Sign out returns to Public Home (CustomerShell)
         await vm.SignOutAsync();
         Assert.Equal("CustomerShell", nav.CurrentShell);
+    }
+
+    [Fact]
+    public async Task SplashViewModel_AlwaysNavigatesToCustomerShell_NeverLogin()
+    {
+        var nav = new NavigationService();
+        var mockApi = new Mock<IApiClient>();
+        mockApi.Setup(a => a.GetBrandingAsync())
+            .ReturnsAsync(ApiResponse<BrandSettings>.Ok(BrandSettings.CreateDefault()));
+
+        var loc = new LocalizationService();
+        var vm = new SplashViewModel(loc, nav, mockApi.Object);
+
+        // Act
+        await vm.InitializeAsync();
+
+        // Assert: ALWAYS launches to CustomerShell, NEVER Login
+        Assert.Equal("CustomerShell", nav.CurrentShell);
+        Assert.NotEqual("Login", nav.CurrentShell);
+    }
+
+    [Fact]
+    public async Task SplashViewModel_WhenVideoDisabledInBrand_FallsBackToStaticMode()
+    {
+        var nav = new NavigationService();
+        var mockApi = new Mock<IApiClient>();
+        var brand = BrandSettings.CreateDefault();
+        brand.SplashVideoEnabled = false;
+
+        mockApi.Setup(a => a.GetBrandingAsync())
+            .ReturnsAsync(ApiResponse<BrandSettings>.Ok(brand));
+
+        var loc = new LocalizationService();
+        var vm = new SplashViewModel(loc, nav, mockApi.Object);
+
+        // Act
+        await vm.InitializeAsync();
+
+        // Assert
+        Assert.False(vm.IsVideoAvailable);
+        Assert.False(vm.IsVideoPlaying);
+        Assert.Equal("CustomerShell", nav.CurrentShell);
+    }
+
+    [Fact]
+    public void BrandSettings_ContainsSplashVideoConfigurations()
+    {
+        var settings = BrandSettings.CreateDefault();
+
+        Assert.True(settings.SplashVideoEnabled);
+        Assert.Equal("1.0", settings.SplashVideoVersion);
+        Assert.Null(settings.SplashVideoUrl);
+
+        settings.SplashVideoUrl = "https://tomergroup.com/assets/video.mp4";
+        settings.SplashVideoVersion = "2.0";
+        settings.SplashVideoStartDate = DateTime.UtcNow;
+        settings.SplashVideoEndDate = DateTime.UtcNow.AddMonths(1);
+
+        Assert.Equal("https://tomergroup.com/assets/video.mp4", settings.SplashVideoUrl);
+        Assert.Equal("2.0", settings.SplashVideoVersion);
+        Assert.NotNull(settings.SplashVideoStartDate);
+        Assert.NotNull(settings.SplashVideoEndDate);
     }
 }
 

@@ -40,6 +40,13 @@ public class BrandSettings
         { "WhatsAppGroup", "https://chat.whatsapp.com/tomergroup_cusco" }
     };
 
+    // Cinematic Splash Video Configuration
+    public bool SplashVideoEnabled { get; set; } = true;
+    public string? SplashVideoUrl { get; set; }
+    public string SplashVideoVersion { get; set; } = "1.0";
+    public DateTime? SplashVideoStartDate { get; set; }
+    public DateTime? SplashVideoEndDate { get; set; }
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 

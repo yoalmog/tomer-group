@@ -14,8 +14,23 @@
     Shell.NavBarHasShadow="False"
     FlyoutBackgroundColor="#121218">
 
-    <FlyoutItem Title="Dashboard" Icon="dashboard_icon.png" FlyoutIcon="dashboard_icon.png">
+    <FlyoutItem Title="Operations Dashboard" Icon="dashboard_icon.png" FlyoutIcon="dashboard_icon.png">
         <ShellContent ContentTemplate="{DataTemplate agency:AgencyDashboardPage}" Route="AgencyDashboard" />
+    </FlyoutItem>
+    <FlyoutItem Title="Bookings &amp; Payments" Icon="finance_icon.png" FlyoutIcon="finance_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyBookingsPage}" Route="AgencyBookings" />
+    </FlyoutItem>
+    <FlyoutItem Title="Customer 360°" Icon="customers_icon.png" FlyoutIcon="customers_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyCustomer360Page}" Route="AgencyCustomer360" />
+    </FlyoutItem>
+    <FlyoutItem Title="Trek &amp; Map Editor" Icon="tours_icon.png" FlyoutIcon="tours_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyTrekEditorPage}" Route="AgencyTrekEditor" />
+    </FlyoutItem>
+    <FlyoutItem Title="Support &amp; Tickets" Icon="ai_icon.png" FlyoutIcon="ai_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencySupportPage}" Route="AgencySupport" />
+    </FlyoutItem>
+    <FlyoutItem Title="Staff Operational Tasks" Icon="manifest_icon.png" FlyoutIcon="manifest_icon.png">
+        <ShellContent ContentTemplate="{DataTemplate agency:AgencyTasksPage}" Route="AgencyTasks" />
     </FlyoutItem>
     <FlyoutItem Title="Travelers / Customers" Icon="customers_icon.png" FlyoutIcon="customers_icon.png">
         <ShellContent ContentTemplate="{DataTemplate agency:AgencyCustomersPage}" Route="AgencyCustomers" />

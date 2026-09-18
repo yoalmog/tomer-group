@@ -135,7 +135,7 @@ public class AdminBackendTests
         Assert.Equal(3200m, response.Data.TotalRevenue);
         Assert.Equal(1400m, response.Data.TotalExpenses);
         Assert.Equal(1800m, response.Data.GrossProfit);
-        Assert.Equal(56.25m, response.Data.MarginPercentage);
+        Assert.Equal(56.25, response.Data.MarginPercentage);
         Assert.Single(response.Data.RecentActivities);
     }
 

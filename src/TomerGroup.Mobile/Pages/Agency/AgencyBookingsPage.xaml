@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dtos="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyBookingsPage"
+             x:DataType="vm:AgencyBookingsViewModel"
+             Title="ניהול הזמנות / Bookings Management"
+             BackgroundColor="#0F1015">
+
+    <Grid>
+        <ScrollView>
+            <VerticalStackLayout Spacing="14" Padding="16">
+
+                <!-- Search & Filters -->
+                <Border StrokeThickness="1" Stroke="#2D3139" BackgroundColor="#171922" Padding="8,4">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8" /></Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Entry Placeholder="חיפוש הזמנה לפי קוד או שם..."
+                               PlaceholderColor="#64748B"
+                               TextColor="White"
+                               Text="{Binding SearchQuery}"
+                               ReturnCommand="{Binding PerformSearchCommand}" />
+                        <Button Grid.Column="1" Text="סנן" Command="{Binding PerformSearchCommand}" BackgroundColor="#BC225E" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" />
+                    </Grid>
+                </Border>
+
+                <!-- Status Filter Chips -->
+                <HorizontalStackLayout Spacing="8">
+                    <Button Text="הכל" Command="{Binding SetStatusFilterCommand}" CommandParameter="All" BackgroundColor="#2A3045" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="16" FontSize="11" />
+                    <Button Text="ממתין" Command="{Binding SetStatusFilterCommand}" CommandParameter="Pending" BackgroundColor="#2A3045" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="16" FontSize="11" />
+                    <Button Text="מאושר" Command="{Binding SetStatusFilterCommand}" CommandParameter="Confirmed" BackgroundColor="#2A3045" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="16" FontSize="11" />
+                    <Button Text="בוטל" Command="{Binding SetStatusFilterCommand}" CommandParameter="Cancelled" BackgroundColor="#2A3045" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="16" FontSize="11" />
+                </HorizontalStackLayout>
+
+                <!-- Bookings Collection -->
+                <CollectionView ItemsSource="{Binding FilteredBookings}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="dtos:BookingDto">
+                            <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="14" Margin="0,4">
+                                <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                                <VerticalStackLayout Spacing="8">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <VerticalStackLayout>
+                                            <Label Text="{Binding BookingCode}" FontSize="15" FontAttributes="Bold" TextColor="White" />
+                                            <Label Text="{Binding CustomerName}" FontSize="13" TextColor="#38BDF8" />
+                                        </VerticalStackLayout>
+                                        <Border Grid.Column="1" BackgroundColor="#1E293B" Padding="8,4" VerticalOptions="Start">
+                                            <Border.StrokeShape><RoundRectangle CornerRadius="4" /></Border.StrokeShape>
+                                            <Label Text="{Binding Status}" FontSize="11" FontAttributes="Bold" TextColor="#10B981" />
+                                        </Border>
+                                    </Grid>
+
+                                    <Grid ColumnDefinitions="*,*">
+                                        <Label Text="{Binding TotalAmount, StringFormat='סה&quot;כ: ${0:N0}'}" FontSize="12" TextColor="#CBD5E1" />
+                                        <Label Grid.Column="1" Text="{Binding PaidAmount, StringFormat='שולם: ${0:N0}'}" FontSize="12" TextColor="#10B981" />
+                                    </Grid>
+
+                                    <!-- Actions -->
+                                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
+                                        <Button Text="ערוך סטטוס"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyBookingsViewModel}}, Path=OpenEditModalCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#272C3D"
+                                                TextColor="White"
+                                                HeightRequest="34"
+                                                FontSize="11"
+                                                CornerRadius="6" />
+                                        <Button Grid.Column="1"
+                                                Text="קלוט תשלום 💳"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyBookingsViewModel}}, Path=OpenPaymentModalCommand}"
+                                                CommandParameter="{Binding .}"
+                                                BackgroundColor="#BC225E"
+                                                TextColor="White"
+                                                HeightRequest="34"
+                                                FontSize="11"
+                                                CornerRadius="6" />
+                                    </Grid>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="לא נמצאו הזמנות תואמות" FontSize="13" TextColor="#64748B" HorizontalOptions="Center" Margin="30" />
+                    </CollectionView.EmptyView>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Edit Booking Modal Popup -->
+        <Grid BackgroundColor="#CC000000" IsVisible="{Binding IsEditModalOpen}" Padding="20">
+            <Border BackgroundColor="#1B1F2D" StrokeThickness="1" Stroke="#3B425A" Padding="20" VerticalOptions="Center" MaximumWidthRequest="400">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="עריכת הזמנה / Edit Booking" FontSize="16" FontAttributes="Bold" TextColor="White" />
+                    
+                    <Label Text="סטטוס הזמנה:" FontSize="12" TextColor="#94A3B8" />
+                    <Entry Text="{Binding EditStatus}" TextColor="White" BackgroundColor="#11131B" />
+
+                    <Label Text="סכום כולל ($):" FontSize="12" TextColor="#94A3B8" />
+                    <Entry Text="{Binding EditTotalAmount}" Keyboard="Numeric" TextColor="White" BackgroundColor="#11131B" />
+
+                    <Label Text="שולם ($):" FontSize="12" TextColor="#94A3B8" />
+                    <Entry Text="{Binding EditPaidAmount}" Keyboard="Numeric" TextColor="White" BackgroundColor="#11131B" />
+
+                    <Label Text="הערות פנימיות:" FontSize="12" TextColor="#94A3B8" />
+                    <Editor Text="{Binding EditNotes}" HeightRequest="60" TextColor="White" BackgroundColor="#11131B" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                        <Button Text="ביטול" Command="{Binding CloseEditModalCommand}" BackgroundColor="#2E3448" TextColor="#CBD5E1" HeightRequest="40" CornerRadius="6" />
+                        <Button Grid.Column="1" Text="שמור שינויים" Command="{Binding SaveBookingChangesCommand}" BackgroundColor="#BC225E" TextColor="White" HeightRequest="40" CornerRadius="6" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <!-- Record Payment Modal Popup -->
+        <Grid BackgroundColor="#CC000000" IsVisible="{Binding IsPaymentModalOpen}" Padding="20">
+            <Border BackgroundColor="#1B1F2D" StrokeThickness="1" Stroke="#3B425A" Padding="20" VerticalOptions="Center" MaximumWidthRequest="400">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="קליטת תשלום / Record Payment" FontSize="16" FontAttributes="Bold" TextColor="White" />
+                    
+                    <Label Text="סכום לתשלום ($):" FontSize="12" TextColor="#94A3B8" />
+                    <Entry Text="{Binding PaymentAmount}" Keyboard="Numeric" TextColor="White" BackgroundColor="#11131B" />
+
+                    <Label Text="אמצעי תשלום (CreditCard, Cash, BankTransfer):" FontSize="12" TextColor="#94A3B8" />
+                    <Entry Text="{Binding PaymentMethod}" TextColor="White" BackgroundColor="#11131B" />
+
+                    <Label Text="אסמכתא / קבלה:" FontSize="12" TextColor="#94A3B8" />
+                    <Entry Text="{Binding PaymentReference}" Placeholder="מס' אישור או אסמכתא בנקאית" PlaceholderColor="#64748B" TextColor="White" BackgroundColor="#11131B" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,0">
+                        <Button Text="ביטול" Command="{Binding ClosePaymentModalCommand}" BackgroundColor="#2E3448" TextColor="#CBD5E1" HeightRequest="40" CornerRadius="6" />
+                        <Button Grid.Column="1" Text="אשר תשלום" Command="{Binding SubmitPaymentCommand}" BackgroundColor="#10B981" TextColor="White" HeightRequest="40" CornerRadius="6" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+    </Grid>
+</ContentPage>

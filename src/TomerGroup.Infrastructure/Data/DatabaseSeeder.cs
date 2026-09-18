@@ -894,6 +894,161 @@ public static class DatabaseSeeder
             await context.Vehicles.AddRangeAsync(vehicles);
             await context.SaveChangesAsync();
         }
+
+        // 14. Seed Authoritative Trek Routes for Admin & Customer App
+        if (!await context.TrekRoutes.AnyAsync())
+        {
+            var flagshipTreks = TrekCatalog.GetFlagshipTreks();
+            var trekEntities = flagshipTreks.Select(trek => new TrekRouteEntity
+            {
+                Id = trek.Id,
+                Name = trek.Name,
+                Region = trek.Region,
+                Difficulty = trek.Difficulty,
+                DurationDays = trek.EstimatedDurationDays,
+                DistanceKm = trek.TotalDistanceKm,
+                MaxElevationMeters = (int)trek.MaxElevationMeters,
+                CoordinatesJson = System.Text.Json.JsonSerializer.Serialize(trek.Coordinates),
+                WaypointsJson = System.Text.Json.JsonSerializer.Serialize(trek.Waypoints),
+                ElevationProfileJson = System.Text.Json.JsonSerializer.Serialize(trek.ElevationProfile),
+                IsPublished = true,
+                PublishedAt = DateTime.UtcNow.AddDays(-30)
+            }).ToList();
+
+            await context.TrekRoutes.AddRangeAsync(trekEntities);
+            await context.SaveChangesAsync();
+        }
+
+        // 15. Seed Support Tickets (Section 19)
+        if (!await context.SupportTickets.AnyAsync())
+        {
+            var customer = await context.Customers.FirstOrDefaultAsync();
+            var trip = await context.Trips.FirstOrDefaultAsync();
+            var staff = await context.Users.FirstOrDefaultAsync(u => u.Role == UserRole.Operations || u.Role == UserRole.Admin);
+
+            if (customer != null)
+            {
+                var ticket1 = new SupportTicket
+                {
+                    CustomerId = customer.Id,
+                    TripId = trip?.Id,
+                    Subject = "Altitude acclimatization advice for Salkantay Pass",
+                    Category = SupportCategory.HealthAndAltitude,
+                    Priority = SupportTicketPriority.High,
+                    Status = SupportTicketStatus.Open,
+                    AssignedStaffUserId = staff?.Id,
+                    CreatedAt = DateTime.UtcNow.AddHours(-18),
+                    Messages = new List<SupportTicketMessage>
+                    {
+                        new()
+                        {
+                            SenderUserId = customer.UserId,
+                            SenderName = $"{customer.FirstName} {customer.LastName}",
+                            SenderRole = "Customer",
+                            MessageText = "Shalom! We are arriving in Cusco 2 days before the Salkantay Trek. Should we take Sorojchi pills or Diamox, and does the agency hotel provide coca tea and oxygen?",
+                            CreatedAt = DateTime.UtcNow.AddHours(-18)
+                        },
+                        new()
+                        {
+                            SenderUserId = staff?.Id,
+                            SenderName = staff != null ? $"{staff.FirstName} {staff.LastName}" : "Tomer Operations",
+                            SenderRole = "Staff",
+                            MessageText = "Shalom! Welcome to Peru. Our hotel in Cusco has oxygen-enriched rooms and unlimited 24/7 coca tea. We recommend drinking 3-4 liters of water daily. Our medical oxygen kits are always on the trek with your guide.",
+                            CreatedAt = DateTime.UtcNow.AddHours(-14)
+                        }
+                    }
+                };
+
+                var ticket2 = new SupportTicket
+                {
+                    CustomerId = customer.Id,
+                    TripId = trip?.Id,
+                    Subject = "Confirming airport pickup terminal & WhatsApp contact",
+                    Category = SupportCategory.TransportPickup,
+                    Priority = SupportTicketPriority.Medium,
+                    Status = SupportTicketStatus.Resolved,
+                    AssignedStaffUserId = staff?.Id,
+                    ResolutionNotes = "Driver Juan Quispe assigned with sign with passenger name.",
+                    ResolvedAt = DateTime.UtcNow.AddDays(-1),
+                    CreatedAt = DateTime.UtcNow.AddDays(-2),
+                    Messages = new List<SupportTicketMessage>
+                    {
+                        new()
+                        {
+                            SenderUserId = customer.UserId,
+                            SenderName = $"{customer.FirstName} {customer.LastName}",
+                            SenderRole = "Customer",
+                            MessageText = "Hi team, what time will our driver wait for us outside Cusco Airport (CUZ)?",
+                            CreatedAt = DateTime.UtcNow.AddDays(-2)
+                        },
+                        new()
+                        {
+                            SenderUserId = staff?.Id,
+                            SenderName = "Operations Team",
+                            SenderRole = "Staff",
+                            MessageText = "Driver Juan Quispe will wait at the main exit with a Tomer Group sign with your name. Flight LA2041 is monitored live.",
+                            CreatedAt = DateTime.UtcNow.AddDays(-2).AddHours(2)
+                        }
+                    }
+                };
+
+                await context.SupportTickets.AddRangeAsync(ticket1, ticket2);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        // 16. Seed Staff Tasks (Section 20)
+        if (!await context.StaffTasks.AnyAsync())
+        {
+            var customer = await context.Customers.FirstOrDefaultAsync();
+            var trip = await context.Trips.FirstOrDefaultAsync();
+            var staff = await context.Users.FirstOrDefaultAsync(u => u.Role == UserRole.Operations || u.Role == UserRole.Admin);
+
+            var tasks = new List<StaffTask>
+            {
+                new()
+                {
+                    Title = "Confirm airport pickup & assign driver for Cusco arrivals",
+                    Description = "Verify arrival flights for today's arriving group and confirm Mercedes Sprinter status.",
+                    CustomerId = customer?.Id,
+                    TripId = trip?.Id,
+                    DueDate = DateTime.UtcNow.AddHours(4),
+                    Priority = StaffTaskPriority.Urgent,
+                    Status = StaffTaskStatus.Open,
+                    AssignedStaffUserId = staff?.Id,
+                    CreatedAt = DateTime.UtcNow.AddDays(-1)
+                },
+                new()
+                {
+                    Title = "Verify passport document for Machu Picchu train circuit",
+                    Description = "PeruRail and Inca Rail require valid passport numbers matching permits exactly.",
+                    CustomerId = customer?.Id,
+                    TripId = trip?.Id,
+                    DueDate = DateTime.UtcNow.AddDays(1),
+                    Priority = StaffTaskPriority.High,
+                    Status = StaffTaskStatus.InProgress,
+                    AssignedStaffUserId = staff?.Id,
+                    CreatedAt = DateTime.UtcNow.AddDays(-2)
+                },
+                new()
+                {
+                    Title = "Confirm hotel oxygen concentrator reservations",
+                    Description = "Verify with Hotel Monasterio / Palacio del Inka that oxygen concentrators are reserved for arriving high-altitude travelers.",
+                    CustomerId = customer?.Id,
+                    TripId = trip?.Id,
+                    DueDate = DateTime.UtcNow.AddDays(2),
+                    Priority = StaffTaskPriority.Medium,
+                    Status = StaffTaskStatus.Completed,
+                    AssignedStaffUserId = staff?.Id,
+                    CompletedAt = DateTime.UtcNow.AddHours(-6),
+                    CompletionNotes = "Confirmed with front desk reception.",
+                    CreatedAt = DateTime.UtcNow.AddDays(-3)
+                }
+            };
+
+            await context.StaffTasks.AddRangeAsync(tasks);
+            await context.SaveChangesAsync();
+        }
     }
 }
 

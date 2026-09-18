@@ -15,7 +15,7 @@
                 <BoxView Color="#4D000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
 
                 <!-- Back Button -->
-                <Button Text="← חזרה להזמנות"
+                <Button Text="{Binding BackButtonText}"
                         Command="{Binding GoBackCommand}"
                         BackgroundColor="#CC0A0A0C"
                         TextColor="White"
@@ -49,7 +49,7 @@
                 <Border BackgroundColor="{StaticResource Secondary}" StrokeShape="RoundRectangle 18" StrokeThickness="0" Padding="16">
                     <Grid ColumnDefinitions="*,Auto">
                         <VerticalStackLayout Spacing="3">
-                            <Label Text="מספר אישור רשמי / VOUCHER CODE" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" CharacterSpacing="1" />
+                            <Label Text="{Binding VoucherCodeHeader}" FontSize="11" TextColor="{StaticResource Primary}" FontAttributes="Bold" CharacterSpacing="1" />
                             <Label Text="{Binding ConfirmationCode}" FontSize="18" FontAttributes="Bold" TextColor="White" />
                         </VerticalStackLayout>
 
@@ -63,14 +63,14 @@
                 <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                     <Border Grid.Column="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 16" Padding="14">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="📅 תאריכי השירות" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                            <Label Text="{Binding DatesLabel}" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
                             <Label Text="{Binding Dates}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                         </VerticalStackLayout>
                     </Border>
 
                     <Border Grid.Column="1" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 16" Padding="14">
                         <VerticalStackLayout Spacing="4">
-                            <Label Text="👥 נוסעים" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
+                            <Label Text="{Binding TravelersLabel}" FontSize="12" TextColor="#64748B" FontAttributes="Bold" />
                             <Label Text="{Binding Travelers}" FontSize="14" FontAttributes="Bold" TextColor="#0F172A" />
                         </VerticalStackLayout>
                     </Border>
@@ -79,7 +79,7 @@
                 <!-- Provider & Location -->
                 <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White">
                     <VerticalStackLayout Spacing="8">
-                        <Label Text="ספק שירות ומיקום" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
+                        <Label Text="{Binding ProviderAndLocationTitle}" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" />
                         <Label Text="{Binding Provider}" FontSize="13" TextColor="#334155" FontAttributes="Bold" />
                         <Label Text="{Binding Location, StringFormat='📍 {0}'}" FontSize="13" TextColor="#64748B" />
                     </VerticalStackLayout>
@@ -88,7 +88,7 @@
                 <!-- Special Requests -->
                 <Border BackgroundColor="#F0FDF4" Stroke="#BBF7D0" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="✨ בקשות ודגשים שאושרו" FontSize="14" FontAttributes="Bold" TextColor="#166534" />
+                        <Label Text="{Binding ApprovedRequestsTitle}" FontSize="14" FontAttributes="Bold" TextColor="#166534" />
                         <Label Text="{Binding SpecialRequests}" FontSize="12" TextColor="#14532D" LineHeight="1.3" />
                     </VerticalStackLayout>
                 </Border>
@@ -96,13 +96,13 @@
                 <!-- Official Notes -->
                 <Border BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeThickness="1" StrokeShape="RoundRectangle 18" Padding="16">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="📋 הנחיות שימוש בשובר" FontSize="13" FontAttributes="Bold" TextColor="#475569" />
+                        <Label Text="{Binding VoucherNotesTitle}" FontSize="13" FontAttributes="Bold" TextColor="#475569" />
                         <Label Text="{Binding VoucherNotes}" FontSize="12" TextColor="#64748B" LineHeight="1.3" />
                     </VerticalStackLayout>
                 </Border>
 
                 <!-- Support Action -->
-                <Button Text="צור קשר עם מוקד ההזמנות 💬"
+                <Button Text="{Binding ContactSupportButtonText}"
                         Command="{Binding ContactSupportCommand}"
                         Style="{StaticResource BrandButtonStyle}"
                         Margin="0,8,0,0" />
@@ -112,4 +112,3 @@
     </ScrollView>
 
 </ContentPage>
-

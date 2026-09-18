@@ -1,35 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#0A0A0C" />
+    <radialGradient id="appBgGrad" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#1A1A22" />
+      <stop offset="55%" stop-color="#0B0B0E" />
       <stop offset="100%" stop-color="#000000" />
-    </linearGradient>
-    <linearGradient id="tgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#E11D68" />
-      <stop offset="50%" stop-color="#BC225E" />
-      <stop offset="100%" stop-color="#99154A" />
-    </linearGradient>
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#BC225E" flood-opacity="0.35"/>
-    </filter>
+    </radialGradient>
   </defs>
 
-  <!-- Pitch Black Luxury Background matching Logo -->
-  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
-
-  <!-- Circular subtle accent ring -->
-  <circle cx="256" cy="220" r="140" fill="none" stroke="#BC225E" stroke-width="3" opacity="0.25" />
-
-  <!-- Official TG Monogram Icon -->
-  <g filter="url(#glow)">
-    <!-- 'T' bar and stem -->
-    <path d="M160 140 H310 V172 H252 V300 H210 V172 H160 Z" fill="url(#tgGrad)" />
-    
-    <!-- Interlocking 'G' crescent & inner shelf -->
-    <path d="M352 205 C345 170 315 145 275 145 C220 145 180 190 180 250 C180 310 222 355 285 355 C335 355 365 325 368 280 H280 V248 H398 C398 320 350 388 280 388 C198 388 144 326 144 250 C144 172 202 112 282 112 C335 112 376 145 388 195 Z" fill="#FFFFFF" opacity="0.95" />
-  </g>
-
-  <!-- Brand Typography -->
-  <text x="256" y="425" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="800" letter-spacing="4">TOMER GROUP</text>
-  <text x="256" y="455" text-anchor="middle" fill="#E11D68" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" letter-spacing="3">PERU TRAVEL EXPERIENCE</text>
+  <!-- Pitch Black Luxury Canvas matching Tomer Group Brand -->
+  <rect width="512" height="512" fill="url(#appBgGrad)" />
 </svg>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:dtos="clr-namespace:TomerGroup.Core.DTOs;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyCustomer360Page"
+             x:DataType="vm:AgencyCustomer360ViewModel"
+             Title="פרופיל לקוח 360°"
+             BackgroundColor="#0F1015">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="14" Padding="16">
+
+            <!-- CUSTOMER HEADER CARD -->
+            <Border StrokeThickness="1" Stroke="#2D3345" BackgroundColor="#171A24" Padding="16">
+                <Border.StrokeShape><RoundRectangle CornerRadius="12" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <VerticalStackLayout Spacing="2">
+                            <Label Text="{Binding Profile.FullName}" FontSize="20" FontAttributes="Bold" TextColor="White" />
+                            <Label Text="{Binding Profile.Email}" FontSize="12" TextColor="#94A3B8" />
+                            <Label Text="{Binding Profile.Phone}" FontSize="12" TextColor="#38BDF8" />
+                        </VerticalStackLayout>
+                        <Border Grid.Column="1" BackgroundColor="#064E3B" StrokeThickness="1" Stroke="#059669" Padding="8,4" VerticalOptions="Start">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                            <Label Text="{Binding Profile.Nationality, StringFormat='אזרחות: {0}'}" FontSize="11" FontAttributes="Bold" TextColor="#34D399" />
+                        </Border>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10" Margin="0,4,0,0">
+                        <Label Text="{Binding Profile.PassportNumber, StringFormat='דרכון: {0}'}" FontSize="12" TextColor="#CBD5E1" VerticalOptions="Center" />
+                        <Button Grid.Column="1"
+                                Text="WhatsApp שיחה"
+                                Command="{Binding OpenWhatsAppCommand}"
+                                BackgroundColor="#25D366"
+                                TextColor="Black"
+                                FontAttributes="Bold"
+                                HeightRequest="34"
+                                Padding="12,0"
+                                CornerRadius="6" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- TAB SELECTOR BAR (HORIZONTAL SCROLL) -->
+            <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                <HorizontalStackLayout Spacing="6">
+                    <Button Text="סקירה (Overview)" Command="{Binding SelectTabCommand}" CommandParameter="0" BackgroundColor="#25293A" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+                    <Button Text="טיולים (Trips)" Command="{Binding SelectTabCommand}" CommandParameter="1" BackgroundColor="#25293A" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+                    <Button Text="הזמנות (Bookings)" Command="{Binding SelectTabCommand}" CommandParameter="2" BackgroundColor="#25293A" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+                    <Button Text="מסמכים (Docs)" Command="{Binding SelectTabCommand}" CommandParameter="3" BackgroundColor="#25293A" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+                    <Button Text="תשלומים (Payments)" Command="{Binding SelectTabCommand}" CommandParameter="4" BackgroundColor="#25293A" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+                    <Button Text="שירות (Support)" Command="{Binding SelectTabCommand}" CommandParameter="5" BackgroundColor="#25293A" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+                    <Button Text="יומן פעולות (Audit)" Command="{Binding SelectTabCommand}" CommandParameter="6" BackgroundColor="#25293A" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+                </HorizontalStackLayout>
+            </ScrollView>
+
+            <!-- TAB 0: OVERVIEW -->
+            <VerticalStackLayout Spacing="10">
+                <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto" RowSpacing="8" ColumnSpacing="8">
+                    <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#1A1E2B" Padding="10"><Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <VerticalStackLayout><Label Text="סה&quot;כ טיולים" FontSize="11" TextColor="#94A3B8"/><Label Text="{Binding Profile.TotalTrips}" FontSize="18" FontAttributes="Bold" TextColor="#38BDF8"/></VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#1A1E2B" Padding="10"><Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <VerticalStackLayout><Label Text="סה&quot;כ הזמנות" FontSize="11" TextColor="#94A3B8"/><Label Text="{Binding Profile.TotalBookings}" FontSize="18" FontAttributes="Bold" TextColor="#A78BFA"/></VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="0" BackgroundColor="#1A1E2B" Padding="10"><Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <VerticalStackLayout><Label Text="סה&quot;כ שולם" FontSize="11" TextColor="#94A3B8"/><Label Text="{Binding Profile.TotalSpent, StringFormat='${0:N0}'}" FontSize="18" FontAttributes="Bold" TextColor="#10B981"/></VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="1" Grid.Column="1" BackgroundColor="#1A1E2B" Padding="10"><Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <VerticalStackLayout><Label Text="יתרה לתשלום" FontSize="11" TextColor="#94A3B8"/><Label Text="{Binding Profile.PendingBalance, StringFormat='${0:N0}'}" FontSize="18" FontAttributes="Bold" TextColor="#F43F5E"/></VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="2" Grid.Column="0" BackgroundColor="#1A1E2B" Padding="10"><Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <VerticalStackLayout><Label Text="מסמכים מאומתים" FontSize="11" TextColor="#94A3B8"/><Label Text="{Binding Profile.VerifiedDocumentsCount}" FontSize="18" FontAttributes="Bold" TextColor="#F59E0B"/></VerticalStackLayout>
+                    </Border>
+                    <Border Grid.Row="2" Grid.Column="1" BackgroundColor="#1A1E2B" Padding="10"><Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                        <VerticalStackLayout><Label Text="פניות שירות פתוחות" FontSize="11" TextColor="#94A3B8"/><Label Text="{Binding Profile.OpenSupportRequests}" FontSize="18" FontAttributes="Bold" TextColor="#E11D68"/></VerticalStackLayout>
+                    </Border>
+                </Grid>
+
+                <Border BackgroundColor="#1E2333" StrokeThickness="1" Stroke="#2D354D" Padding="12" Margin="0,6,0,0">
+                    <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="הערות פנימיות ורפואיות:" FontSize="11" FontAttributes="Bold" TextColor="#CBD5E1" />
+                        <Label Text="{Binding Profile.Notes}" FontSize="12" TextColor="#94A3B8" />
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+
+            <!-- TAB 1: TRIPS -->
+            <CollectionView ItemsSource="{Binding Trips}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:TripSummaryDto">
+                        <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="12" Margin="0,3">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                                    <Label Text="{Binding Destinations}" FontSize="11" TextColor="#38BDF8" />
+                                    <Label Text="{Binding StartDate, StringFormat='תאריכים: {0:dd/MM/yyyy}'}" FontSize="11" TextColor="#94A3B8" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Status}" FontSize="11" TextColor="#10B981" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- TAB 2: BOOKINGS -->
+            <CollectionView ItemsSource="{Binding Bookings}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:BookingSummaryDto">
+                        <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="12" Margin="0,3">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding BookingCode}" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                                    <Label Text="{Binding TourOrTripName}" FontSize="12" TextColor="#A78BFA" />
+                                    <Label Text="{Binding TotalAmount, StringFormat='סכום: ${0:N0}'}" FontSize="11" TextColor="#CBD5E1" />
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Status}" FontSize="11" TextColor="#10B981" HorizontalOptions="End" />
+                                    <Label Text="{Binding PaymentStatus}" FontSize="11" TextColor="#F59E0B" HorizontalOptions="End" />
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- TAB 3: DOCUMENTS -->
+            <CollectionView ItemsSource="{Binding Documents}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:DocumentItemDto">
+                        <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="12" Margin="0,3">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding FileName}" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                                    <Label Text="{Binding DocumentType}" FontSize="11" TextColor="#94A3B8" />
+                                    <Label Text="{Binding Status, StringFormat='סטטוס: {0}'}" FontSize="11" TextColor="#10B981" />
+                                </VerticalStackLayout>
+                                <HorizontalStackLayout Grid.Column="1" Spacing="6" VerticalOptions="Center">
+                                    <Button Text="אמת ✓"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyCustomer360ViewModel}}, Path=VerifyDocumentCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#059669"
+                                            TextColor="White"
+                                            HeightRequest="28"
+                                            FontSize="10"
+                                            Padding="8,0"
+                                            CornerRadius="4" />
+                                    <Button Text="דחה ✕"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyCustomer360ViewModel}}, Path=RejectDocumentCommand}"
+                                            CommandParameter="{Binding .}"
+                                            BackgroundColor="#DC2626"
+                                            TextColor="White"
+                                            HeightRequest="28"
+                                            FontSize="10"
+                                            Padding="8,0"
+                                            CornerRadius="4" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- TAB 4: PAYMENTS -->
+            <CollectionView ItemsSource="{Binding Payments}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:PaymentItemDto">
+                        <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="12" Margin="0,3">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Amount, StringFormat='${0:N2}'}" FontSize="15" FontAttributes="Bold" TextColor="#10B981" />
+                                    <Label Text="{Binding PaymentMethod, StringFormat='אמצעי: {0}'}" FontSize="11" TextColor="#94A3B8" />
+                                    <Label Text="{Binding TransactionReference, StringFormat='אסמכתא: {0}'}" FontSize="11" TextColor="#64748B" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding PaymentDate, StringFormat='{0:dd/MM/yyyy}'}" FontSize="11" TextColor="#CBD5E1" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- TAB 5: SUPPORT TICKETS -->
+            <CollectionView ItemsSource="{Binding SupportTickets}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:SupportTicketSummaryDto">
+                        <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="12" Margin="0,3">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="8"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Subject}" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                                    <Label Text="{Binding Category}" FontSize="11" TextColor="#A78BFA" />
+                                    <Label Text="{Binding Priority, StringFormat='דחיפות: {0}'}" FontSize="11" TextColor="#FB7185" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Status}" FontSize="11" TextColor="#38BDF8" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- TAB 6: ACTIVITY LOG -->
+            <CollectionView ItemsSource="{Binding ActivityLog}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:AdminActivityFeedItemDto">
+                        <Border StrokeThickness="1" Stroke="#222634" BackgroundColor="#131620" Padding="10,8" Margin="0,2">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="6"/></Border.StrokeShape>
+                            <Grid ColumnDefinitions="*,Auto">
+                                <VerticalStackLayout Spacing="2">
+                                    <Label Text="{Binding Description}" FontSize="12" TextColor="#E2E8F0" />
+                                    <Label Text="{Binding UserEmail, StringFormat='נרשם ע&quot;י: {0}'}" FontSize="10" TextColor="#64748B" />
+                                </VerticalStackLayout>
+                                <Label Grid.Column="1" Text="{Binding Timestamp, StringFormat='{0:HH:mm}'}" FontSize="10" TextColor="#94A3B8" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+

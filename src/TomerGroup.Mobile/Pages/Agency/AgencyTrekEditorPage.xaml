@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Agency"
+             xmlns:models="clr-namespace:TomerGroup.Core.Models;assembly=TomerGroup.Core"
+             x:Class="TomerGroup.Mobile.Pages.Agency.AgencyTrekEditorPage"
+             x:DataType="vm:AgencyTrekEditorViewModel"
+             Title="עורך מפות וטרקים / Trek Route Editor"
+             BackgroundColor="#0F1015">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="14" Padding="16">
+
+            <!-- Existing Treks Selector -->
+            <Grid ColumnDefinitions="*,Auto">
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
+                    <HorizontalStackLayout Spacing="8" BindableLayout.ItemsSource="{Binding TrekRoutes}">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="models:TrekRouteEntity">
+                                <Button Text="{Binding Name}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:AgencyTrekEditorViewModel}}, Path=SelectTrekCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="#252A3A"
+                                        TextColor="White"
+                                        HeightRequest="32"
+                                        Padding="10,0"
+                                        CornerRadius="16"
+                                        FontSize="11" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </HorizontalStackLayout>
+                </ScrollView>
+                <Button Grid.Column="1" Text="+ חדש" Command="{Binding NewTrekCommand}" BackgroundColor="#BC225E" TextColor="White" HeightRequest="32" Padding="10,0" CornerRadius="6" FontSize="11" />
+            </Grid>
+
+            <!-- Status Banner -->
+            <Border BackgroundColor="#1E2435" StrokeThickness="1" Stroke="#2E3752" Padding="10" IsVisible="{Binding StatusMessage, Converter={x:Null}}">
+                <Border.StrokeShape><RoundRectangle CornerRadius="6" /></Border.StrokeShape>
+                <Label Text="{Binding StatusMessage}" TextColor="#38BDF8" FontSize="12" HorizontalOptions="Center" />
+            </Border>
+
+            <!-- Trek Properties -->
+            <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="10">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="פרטי המסלול / Route Properties" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                        <Border Grid.Column="1" BackgroundColor="{Binding IsPublished, Converter={x:Null}}" Padding="6,2">
+                            <Border.StrokeShape><RoundRectangle CornerRadius="4" /></Border.StrokeShape>
+                            <Label Text="{Binding IsPublished, StringFormat='פורסם: {0}'}" FontSize="10" TextColor="#10B981" />
+                        </Border>
+                    </Grid>
+
+                    <Label Text="שם המסלול:" FontSize="11" TextColor="#94A3B8" />
+                    <Entry Text="{Binding Name}" TextColor="White" BackgroundColor="#10121A" />
+
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="8">
+                        <VerticalStackLayout>
+                            <Label Text="אזור:" FontSize="11" TextColor="#94A3B8" />
+                            <Entry Text="{Binding Region}" TextColor="White" BackgroundColor="#10121A" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="רמת קושי:" FontSize="11" TextColor="#94A3B8" />
+                            <Entry Text="{Binding Difficulty}" TextColor="White" BackgroundColor="#10121A" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                        <VerticalStackLayout>
+                            <Label Text="משך (ימים):" FontSize="11" TextColor="#94A3B8" />
+                            <Entry Text="{Binding DurationDays}" Keyboard="Numeric" TextColor="White" BackgroundColor="#10121A" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="מרחק (ק&quot;מ):" FontSize="11" TextColor="#94A3B8" />
+                            <Entry Text="{Binding DistanceKm}" Keyboard="Numeric" TextColor="White" BackgroundColor="#10121A" />
+                        </VerticalStackLayout>
+                        <VerticalStackLayout Grid.Column="2">
+                            <Label Text="רום מקסימלי (מ'):" FontSize="11" TextColor="#94A3B8" />
+                            <Entry Text="{Binding MaxElevationMeters}" Keyboard="Numeric" TextColor="White" BackgroundColor="#10121A" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- GPX Import Section -->
+            <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="14">
+                <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="ייבוא קובץ GPX / Import Track" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                    <Label Text="הדבק כאן את תוכן ה-XML של קובץ ה-GPX לחישוב אוטומטי של מרחקים וגבהים:" FontSize="11" TextColor="#94A3B8" />
+                    <Editor Text="{Binding GpxInputText}" Placeholder="&lt;?xml version='1.0'?&gt;&lt;gpx ...&gt;" PlaceholderColor="#64748B" HeightRequest="70" TextColor="White" BackgroundColor="#10121A" />
+                    <Button Text="ייבא GPX ומדוד גבהים 🛰️" Command="{Binding ImportGpxCommand}" BackgroundColor="#2563EB" TextColor="White" HeightRequest="38" CornerRadius="6" FontSize="12" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Interactive Map Preview -->
+            <Border StrokeThickness="1" Stroke="#252A3A" BackgroundColor="#161922" Padding="4">
+                <Border.StrokeShape><RoundRectangle CornerRadius="10" /></Border.StrokeShape>
+                <VerticalStackLayout Spacing="6">
+                    <Label Text="תצוגת מפה חיה / Interactive Map Preview" FontSize="13" FontAttributes="Bold" TextColor="#CBD5E1" Margin="8,4,0,0" />
+                    <WebView HeightRequest="260">
+                        <WebView.Source>
+                            <HtmlWebViewSource Html="{Binding MapHtml}" />
+                        </WebView.Source>
+                    </WebView>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Action Buttons -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,10,0,20">
+                <Button Text="שמור שינויים 💾" Command="{Binding SaveTrekCommand}" BackgroundColor="#059669" TextColor="White" HeightRequest="44" CornerRadius="8" FontAttributes="Bold" />
+                <Button Grid.Column="1" Text="פרסם לקטלוג 🚀" Command="{Binding PublishTrekCommand}" BackgroundColor="#BC225E" TextColor="White" HeightRequest="44" CornerRadius="8" FontAttributes="Bold" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
+

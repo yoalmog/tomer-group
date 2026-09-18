@@ -25,6 +25,26 @@ public class DocumentDto
     public DateTime? ExpirationDate { get; set; }
     public bool IsCustomerVisible { get; set; } = true;
     public string DownloadUrl => $"/api/documents/{Id}/download";
+
+    public string DisplayName
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "he") return !string.IsNullOrWhiteSpace(HebrewName) ? HebrewName : Name;
+            return !string.IsNullOrWhiteSpace(Name) ? Name : HebrewName;
+        }
+    }
+
+    public string DisplaySecondaryName
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "he") return !string.IsNullOrWhiteSpace(Name) && Name != HebrewName ? Name : string.Empty;
+            return !string.IsNullOrWhiteSpace(HebrewName) && HebrewName != Name ? HebrewName : string.Empty;
+        }
+    }
 }
 
 public class UploadDocumentDto

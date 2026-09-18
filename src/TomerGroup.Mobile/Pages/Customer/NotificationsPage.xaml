@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels.Customer"
              x:Class="TomerGroup.Mobile.Pages.Customer.NotificationsPage"
-             Title="הודעות ועדכונים"
+             Title="{Binding PageTitle}"
              BackgroundColor="{StaticResource BackgroundColor}">
 
     <ScrollView>
@@ -13,17 +13,17 @@
             <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="{StaticResource PrimaryDark}">
                 <VerticalStackLayout Spacing="8">
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="מרכז עדכונים והתרעות 🔔" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
+                        <Label Text="{Binding HeroBannerTitle}" TextColor="White" FontSize="18" FontAttributes="Bold" VerticalOptions="Center" />
                         <Border Grid.Column="1" BackgroundColor="{StaticResource Secondary}" StrokeShape="RoundRectangle 12" Padding="8,2"
                                 IsVisible="{Binding UnreadCount, Converter={StaticResource IntToBoolConverter}}">
-                            <Label Text="{Binding UnreadCount, StringFormat='{0} חדשות'}" TextColor="White" FontSize="11" FontAttributes="Bold" />
+                            <Label Text="{Binding FormattedUnreadCount}" TextColor="White" FontSize="11" FontAttributes="Bold" />
                         </Border>
                     </Grid>
-                    <Label Text="עדכוני זמני איסוף נהג, הנפקת כרטיסי כניסה, שינויי מסלול והודעות דחופות מצוות קוסקו."
+                    <Label Text="{Binding HeroBannerSubtitle}"
                            TextColor="#B0C4DE" FontSize="13" LineBreakMode="WordWrap" />
 
                     <!-- Quick WhatsApp Support Trigger -->
-                    <Button Text="💬 מוקד ווטסאפ קוסקו (חירום וסיוע 24/7)"
+                    <Button Text="{Binding WhatsAppSupportButtonText}"
                             Command="{Binding OpenWhatsAppSupportCommand}"
                             BackgroundColor="#25D366" TextColor="White" HeightRequest="38" FontSize="13" FontAttributes="Bold" CornerRadius="8" Margin="0,6,0,0" />
                 </VerticalStackLayout>
@@ -37,11 +37,11 @@
 
             <!-- Filter Tabs & Mark All Read -->
             <Grid ColumnDefinitions="Auto,Auto,*" ColumnSpacing="8">
-                <Button Grid.Column="0" Text="הכל" Command="{Binding FilterByStatusCommand}" CommandParameter="הכל"
+                <Button Grid.Column="0" Text="{Binding FilterAllText}" Command="{Binding FilterByStatusCommand}" CommandParameter="all"
                         Style="{StaticResource PrimaryButtonStyle}" CornerRadius="18" HeightRequest="36" FontSize="12" />
-                <Button Grid.Column="1" Text="לא נקראו" Command="{Binding FilterByStatusCommand}" CommandParameter="לא נקראו"
+                <Button Grid.Column="1" Text="{Binding FilterUnreadText}" Command="{Binding FilterByStatusCommand}" CommandParameter="unread"
                         BackgroundColor="{StaticResource PrimaryLight}" TextColor="{StaticResource PrimaryDark}" CornerRadius="18" HeightRequest="36" FontSize="12" />
-                <Button Grid.Column="2" Text="סמן הכל כנקרא ✓" Command="{Binding MarkAllAsReadCommand}"
+                <Button Grid.Column="2" Text="{Binding MarkAllReadText}" Command="{Binding MarkAllAsReadCommand}"
                         BackgroundColor="Transparent" TextColor="{StaticResource PrimaryDark}" FontSize="12" HorizontalOptions="End" />
             </Grid>
 
@@ -56,8 +56,9 @@
                                         <Label Text="🔔" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
                                     </Border>
                                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                                        <Label Text="{Binding HebrewTitle}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
-                                        <Label Text="{Binding Title}" FontSize="12" TextColor="{StaticResource TextSecondary}" />
+                                        <Label Text="{Binding DisplayTitle}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource PrimaryDark}" />
+                                        <Label Text="{Binding DisplaySecondaryTitle}" FontSize="12" TextColor="{StaticResource TextSecondary}"
+                                               IsVisible="{Binding DisplaySecondaryTitle, Converter={StaticResource StringNotEmptyConverter}}" />
                                     </VerticalStackLayout>
                                     <Border Grid.Column="2" StrokeShape="RoundRectangle 4" Padding="6,2" VerticalOptions="Start"
                                             BackgroundColor="{Binding IsRead, Converter={StaticResource ReadStatusColorConverter}}">
@@ -65,11 +66,11 @@
                                     </Border>
                                 </Grid>
 
-                                <Label Text="{Binding HebrewMessage}" FontSize="13" TextColor="{StaticResource TextPrimary}" LineBreakMode="WordWrap" />
+                                <Label Text="{Binding DisplayMessage}" FontSize="13" TextColor="{StaticResource TextPrimary}" LineBreakMode="WordWrap" />
 
                                 <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
                                     <Label Text="{Binding CreatedAt, StringFormat='{0:dd/MM/yyyy HH:mm}'}" FontSize="11" TextColor="{StaticResource TextSecondary}" VerticalOptions="Center" />
-                                    <Button Grid.Column="1" Text="סמן כנקרא ✓"
+                                    <Button Grid.Column="1" Text="{Binding Source={RelativeSource AncestorType={x:Type vm:NotificationsViewModel}}, Path=MarkAsReadButtonText}"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:NotificationsViewModel}}, Path=MarkAsReadCommand}"
                                             CommandParameter="{Binding .}"
                                             IsVisible="{Binding IsRead, Converter={StaticResource InvertedBoolConverter}}"
@@ -85,4 +86,3 @@
     </ScrollView>
 
 </ContentPage>
-

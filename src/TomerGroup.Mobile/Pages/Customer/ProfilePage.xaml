@@ -102,12 +102,12 @@
                         <VerticalStackLayout Spacing="6" IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}">
                             <Label Text="{Binding DietaryPreferences}" FontSize="14" TextColor="#0F172A" FontAttributes="Bold"
                                    IsVisible="{Binding DietaryPreferences, Converter={StaticResource StringNotEmptyConverter}}" />
-                            <Label Text="לא הוגדרו עדיין העדפות כשרות מיוחדות" FontSize="13" TextColor="#94A3B8"
+                            <Label Text="{Binding NoDietaryPreferencesText}" FontSize="13" TextColor="#94A3B8"
                                    IsVisible="{Binding DietaryPreferences, Converter={StaticResource StringEmptyConverter}}" />
                         </VerticalStackLayout>
 
                         <!-- Edit Mode Picker -->
-                        <Picker Title="בחר העדפת כשרות ותזונה"
+                        <Picker Title="{Binding DietaryPickerTitle}"
                                 ItemsSource="{Binding DietaryOptions}"
                                 SelectedItem="{Binding SelectedDietaryOption}"
                                 TextColor="#0F172A"
@@ -122,10 +122,10 @@
                 <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White">
                     <VerticalStackLayout Spacing="10">
                         <Grid ColumnDefinitions="*,Auto">
-                            <Label Text="🛂 פרטי דרכון לאישורי כניסה" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" VerticalOptions="Center" />
+                            <Label Text="{Binding PassportSectionTitle}" FontSize="15" FontAttributes="Bold" TextColor="#0F172A" VerticalOptions="Center" />
 
                             <Button Grid.Column="1"
-                                    Text="👁️ הצג"
+                                    Text="{Binding PassportRevealButtonText}"
                                     Command="{Binding ToggleRevealPassportCommand}"
                                     BackgroundColor="#F1F5F9"
                                     TextColor="#0F172A"
@@ -136,7 +136,7 @@
                         </Grid>
 
                         <Label Text="{Binding DisplayPassportNumber}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                        <Label Text="הדרכון משמש להנפקת אישורי שמורת מאצ'ו פיצ'ו וכרטיסי רכבת." FontSize="11" TextColor="#64748B" />
+                        <Label Text="{Binding PassportNoticeText}" FontSize="11" TextColor="#64748B" />
                     </VerticalStackLayout>
                 </Border>
 
@@ -149,25 +149,25 @@
 
                         <Grid ColumnDefinitions="*,*" IsVisible="{Binding IsEditing, Converter={StaticResource InvertedBoolConverter}}">
                             <VerticalStackLayout>
-                                <Label Text="שם איש קשר:" FontSize="11" TextColor="#64748B" />
+                                <Label Text="{Binding ContactNameLabel}" FontSize="11" TextColor="#64748B" />
                                 <Label Text="{Binding EmergencyContactName}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                             </VerticalStackLayout>
                             <VerticalStackLayout Grid.Column="1">
-                                <Label Text="טלפון לשעת חירום:" FontSize="11" TextColor="#64748B" />
+                                <Label Text="{Binding EmergencyPhoneLabel}" FontSize="11" TextColor="#64748B" />
                                 <Label Text="{Binding EmergencyContactPhone}" FontSize="14" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
                             </VerticalStackLayout>
                         </Grid>
 
                         <!-- Edit Mode -->
                         <VerticalStackLayout Spacing="8" IsVisible="{Binding IsEditing}">
-                            <Entry Placeholder="שם מלא של איש הקשר" Text="{Binding EmergencyContactName}" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
-                            <Entry Placeholder="טלפון איש הקשר (כולל קידומת בינלאומית)" Text="{Binding EmergencyContactPhone}" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+                            <Entry Placeholder="{Binding ContactNamePlaceholder}" Text="{Binding EmergencyContactName}" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
+                            <Entry Placeholder="{Binding EmergencyPhonePlaceholder}" Text="{Binding EmergencyContactPhone}" TextColor="#0F172A" BackgroundColor="#F8FAFC" />
                         </VerticalStackLayout>
                     </VerticalStackLayout>
                 </Border>
 
                 <!-- Save Button in Edit Mode -->
-                <Button Text="שמור שינויים בפרופיל ✓"
+                <Button Text="{Binding SaveProfileButtonText}"
                         Command="{Binding SaveProfileCommand}"
                         IsVisible="{Binding IsEditing}"
                         Style="{StaticResource BrandButtonStyle}"

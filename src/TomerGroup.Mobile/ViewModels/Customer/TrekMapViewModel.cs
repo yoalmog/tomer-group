@@ -49,6 +49,79 @@ public partial class TrekMapViewModel : BaseViewModel
 
     public ObservableCollection<TrekRoute> AvailableRoutes { get; } = new();
 
+    public string BackButtonText => CurrentLanguage switch
+    {
+        "en" => "← Back",
+        "es" => "← Volver",
+        _ => "← חזור"
+    };
+
+    public string LocateMeButtonText => CurrentLanguage switch
+    {
+        "en" => "📍 My Location",
+        "es" => "📍 Mi Ubicación",
+        _ => "📍 מיקומי"
+    };
+
+    public string ElevationProfileButtonText => CurrentLanguage switch
+    {
+        "en" => "📈 Elevation Profile",
+        "es" => "📈 Perfil de Altura",
+        _ => "📈 פרופיל גבהים"
+    };
+
+    public string ExternalMapButtonText => CurrentLanguage switch
+    {
+        "en" => "🗺️ Open in Maps",
+        "es" => "🗺️ Abrir en Mapas",
+        _ => "🗺️ פתח במפות ניווט"
+    };
+
+    public string DistanceMetricLabel => CurrentLanguage switch
+    {
+        "en" => "Distance",
+        "es" => "Distancia",
+        _ => "מרחק"
+    };
+
+    public string MaxAltitudeMetricLabel => CurrentLanguage switch
+    {
+        "en" => "Max Altitude",
+        "es" => "Altitud Máx",
+        _ => "רום שיא"
+    };
+
+    public string ElevationGainMetricLabel => CurrentLanguage switch
+    {
+        "en" => "Elevation Gain",
+        "es" => "Desnivel",
+        _ => "טיפוס מצטבר"
+    };
+
+    public string DurationMetricLabel => CurrentLanguage switch
+    {
+        "en" => "Est. Duration",
+        "es" => "Duración Est.",
+        _ => "משך משוער"
+    };
+
+    public string WaypointsTitle => CurrentLanguage switch
+    {
+        "en" => "Waypoints & Elevations:",
+        "es" => "Puntos de Ruta y Alturas:",
+        _ => "נקודות ציון וגבהים במסלול:"
+    };
+
+    public string DistanceFormatted => $"{SelectedRoute?.TotalDistanceKm:F0} {(CurrentLanguage == "he" ? "ק״מ" : "km")}";
+    public string MaxElevationFormatted => $"{SelectedRoute?.MaxElevationMeters:N0} {(CurrentLanguage == "he" ? "מ׳" : "m")}";
+    public string ElevationGainFormatted => $"+{SelectedRoute?.ElevationGainMeters:N0} {(CurrentLanguage == "he" ? "מ׳" : "m")}";
+    public string DurationFormatted => CurrentLanguage switch
+    {
+        "en" => $"{SelectedRoute?.EstimatedDurationDays} Days",
+        "es" => $"{SelectedRoute?.EstimatedDurationDays} Días",
+        _ => $"{SelectedRoute?.EstimatedDurationDays} ימים"
+    };
+
     public TrekMapViewModel(
         ILocalizationService localization,
         INavigationService navigation,
@@ -66,9 +139,38 @@ public partial class TrekMapViewModel : BaseViewModel
         }
 
         _selectedRoute = AvailableRoutes.FirstOrDefault() ?? new TrekRoute();
-        Title = "מפת טרקים אינטראקטיבית";
+        Title = CurrentLanguage switch
+        {
+            "en" => "Interactive Trek Map",
+            "es" => "Mapa de Treks Interactivo",
+            _ => "מפת טרקים אינטראקטיבית"
+        };
 
         GenerateMapHtml();
+    }
+
+    protected override void OnLanguageChanged()
+    {
+        Title = CurrentLanguage switch
+        {
+            "en" => "Interactive Trek Map",
+            "es" => "Mapa de Treks Interactivo",
+            _ => "מפת טרקים אינטראקטיבית"
+        };
+        OnPropertyChanged(nameof(BackButtonText));
+        OnPropertyChanged(nameof(LocateMeButtonText));
+        OnPropertyChanged(nameof(ElevationProfileButtonText));
+        OnPropertyChanged(nameof(ExternalMapButtonText));
+        OnPropertyChanged(nameof(DistanceMetricLabel));
+        OnPropertyChanged(nameof(MaxAltitudeMetricLabel));
+        OnPropertyChanged(nameof(ElevationGainMetricLabel));
+        OnPropertyChanged(nameof(DurationMetricLabel));
+        OnPropertyChanged(nameof(WaypointsTitle));
+        OnPropertyChanged(nameof(DistanceFormatted));
+        OnPropertyChanged(nameof(MaxElevationFormatted));
+        OnPropertyChanged(nameof(ElevationGainFormatted));
+        OnPropertyChanged(nameof(DurationFormatted));
+        OnPropertyChanged(nameof(SelectedRoute));
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)

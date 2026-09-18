@@ -63,7 +63,7 @@
                         <Label Text="{Binding TripDates}" FontSize="13" TextColor="#F1F5F9" />
                         <Label Text="{Binding TripDestinationsSummary}" FontSize="12" TextColor="#CBD5E1" />
 
-                        <Button Text="לצפייה במסלול הטיול המלא"
+                        <Button Text="{Binding ViewFullItineraryButtonText}"
                                 Command="{Binding OpenMyTripCommand}"
                                 BackgroundColor="{StaticResource Primary}"
                                 TextColor="White"
@@ -81,7 +81,7 @@
 
                         <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,4,0,0">
                             <Button Grid.Column="0"
-                                    Text="גלה יעדים וחוויות"
+                                    Text="{Binding DiscoverButtonText}"
                                     Command="{Binding OpenExploreCommand}"
                                     BackgroundColor="{StaticResource Primary}"
                                     TextColor="White"
@@ -112,7 +112,7 @@
             <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding HasNextActivity}" BackgroundColor="White">
                 <VerticalStackLayout Spacing="10">
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="הפעילות הבאה שלך" FontSize="13" TextColor="#64748B" FontAttributes="Bold" />
+                        <Label Text="{Binding NextActivityLabel}" FontSize="13" TextColor="#64748B" FontAttributes="Bold" />
                         <Border Grid.Column="1" BackgroundColor="{StaticResource TomerRoseTint}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,2">
                             <Label Text="UP NEXT" TextColor="{StaticResource Primary}" FontSize="10" FontAttributes="Bold" />
                         </Border>
@@ -122,7 +122,7 @@
                         <Border BackgroundColor="{StaticResource TomerRoseTint}" StrokeShape="RoundRectangle 16" StrokeThickness="0" HeightRequest="60" WidthRequest="66">
                             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="0">
                                 <Label Text="{Binding NextActivityTime}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                                <Label Text="שעה" FontSize="10" TextColor="{StaticResource TomerRoseDark}" HorizontalOptions="Center" />
+                                <Label Text="{Binding TimeLabel}" FontSize="10" TextColor="{StaticResource TomerRoseDark}" HorizontalOptions="Center" />
                             </VerticalStackLayout>
                         </Border>
 
@@ -133,7 +133,7 @@
                         </VerticalStackLayout>
                     </Grid>
 
-                    <Button Text="פרטי פעילות והנחיות"
+                    <Button Text="{Binding ActivityDetailsButtonText}"
                             Command="{Binding OpenMyTripCommand}"
                             Style="{StaticResource OutlineButtonStyle}"
                             HeightRequest="40"
@@ -148,7 +148,7 @@
             <Border Style="{StaticResource CardFrameStyle}" IsVisible="{Binding HasActiveTrip}" BackgroundColor="White">
                 <VerticalStackLayout Spacing="8">
                     <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="התקדמות במסע" FontSize="13" TextColor="#64748B" FontAttributes="Bold" />
+                        <Label Text="{Binding JourneyProgressLabel}" FontSize="13" TextColor="#64748B" FontAttributes="Bold" />
                         <Label Grid.Column="1" Text="{Binding TripProgressText}" FontSize="13" TextColor="{StaticResource Primary}" FontAttributes="Bold" />
                     </Grid>
 
@@ -165,7 +165,7 @@
                         <Border BackgroundColor="{StaticResource TomerRoseTint}" StrokeShape="RoundRectangle 14" StrokeThickness="0" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center">
                             <Label Text="🗺️" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
-                        <Label Text="המסלול" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+                        <Label Text="{Binding ItineraryTabLabel}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
                     </VerticalStackLayout>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenMyTripCommand}" />
@@ -177,7 +177,7 @@
                         <Border BackgroundColor="#F0FDF4" StrokeShape="RoundRectangle 14" StrokeThickness="0" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center">
                             <Label Text="📋" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
-                        <Label Text="הזמנות" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+                        <Label Text="{Binding BookingsTabLabel}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
                     </VerticalStackLayout>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenBookingsCommand}" />
@@ -189,7 +189,7 @@
                         <Border BackgroundColor="#EFF6FF" StrokeShape="RoundRectangle 14" StrokeThickness="0" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center">
                             <Label Text="🎫" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
-                        <Label Text="מסמכים" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+                        <Label Text="{Binding DocumentsTabLabel}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
                     </VerticalStackLayout>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenDocumentsCommand}" />
@@ -201,7 +201,7 @@
                         <Border BackgroundColor="#FAF5FF" StrokeShape="RoundRectangle 14" StrokeThickness="0" WidthRequest="40" HeightRequest="40" HorizontalOptions="Center">
                             <Label Text="🏔️" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
                         </Border>
-                        <Label Text="גלה עוד" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
+                        <Label Text="{Binding ExploreTabLabel}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Secondary}" HorizontalOptions="Center" />
                     </VerticalStackLayout>
                     <Border.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding OpenExploreCommand}" />
@@ -218,7 +218,7 @@
                     <Border BackgroundColor="{StaticResource TomerRoseTint}" Stroke="#FEE2E2" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
                         <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
                             <Label Text="☀️" FontSize="14" VerticalOptions="Center" />
-                            <Label Text="היום שלי" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
+                            <Label Text="{Binding MyDayChipLabel}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" VerticalOptions="Center" />
                         </HorizontalStackLayout>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenMyDayCommand}" />
@@ -229,7 +229,7 @@
                     <Border BackgroundColor="#F0FDF4" Stroke="#DCFCE7" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
                         <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
                             <Label Text="🤖" FontSize="14" VerticalOptions="Center" />
-                            <Label Text="עוזר טיולים AI" FontSize="12" FontAttributes="Bold" TextColor="#166534" VerticalOptions="Center" />
+                            <Label Text="{Binding AIAssistantChipLabel}" FontSize="12" FontAttributes="Bold" TextColor="#166534" VerticalOptions="Center" />
                         </HorizontalStackLayout>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenCustomerAIAssistantCommand}" />
@@ -240,7 +240,7 @@
                     <Border BackgroundColor="#EFF6FF" Stroke="#DBEAFE" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
                         <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
                             <Label Text="🎒" FontSize="14" VerticalOptions="Center" />
-                            <Label Text="רשימת ציוד" FontSize="12" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center" />
+                            <Label Text="{Binding PackingListChipLabel}" FontSize="12" FontAttributes="Bold" TextColor="#1D4ED8" VerticalOptions="Center" />
                         </HorizontalStackLayout>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenPackingListCommand}" />
@@ -251,7 +251,7 @@
                     <Border BackgroundColor="#FAF5FF" Stroke="#F3E8FF" StrokeThickness="1" StrokeShape="RoundRectangle 20" Padding="14,8">
                         <HorizontalStackLayout Spacing="6" VerticalOptions="Center">
                             <Label Text="✨" FontSize="14" VerticalOptions="Center" />
-                            <Label Text="יומן חוויות" FontSize="12" FontAttributes="Bold" TextColor="#6B21A8" VerticalOptions="Center" />
+                            <Label Text="{Binding TripMemoriesChipLabel}" FontSize="12" FontAttributes="Bold" TextColor="#6B21A8" VerticalOptions="Center" />
                         </HorizontalStackLayout>
                         <Border.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding OpenTripMemoriesCommand}" />
@@ -264,8 +264,8 @@
             <!-- DISCOVER PERU: DESTINATIONS CAROUSEL                         -->
             <!-- ============================================================ -->
             <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
-                <Label Text="יעדי הדגל בפרו" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" VerticalOptions="Center" />
-                <Button Grid.Column="1" Text="צפה בהכל ←" Command="{Binding OpenExploreCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" FontSize="12" FontAttributes="Bold" Padding="0" />
+                <Label Text="{Binding FlagshipDestinationsTitle}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" VerticalOptions="Center" />
+                <Button Grid.Column="1" Text="{Binding ViewAllButtonText}" Command="{Binding OpenExploreCommand}" BackgroundColor="Transparent" TextColor="{StaticResource Primary}" FontSize="12" FontAttributes="Bold" Padding="0" />
             </Grid>
 
             <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
@@ -277,12 +277,12 @@
                                 <Image Source="{Binding CuscoImage}" Aspect="AspectFill" HeightRequest="130" />
                                 <BoxView Color="#33000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
                                 <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3" Margin="10" VerticalOptions="Start" HorizontalOptions="Start">
-                                    <Label Text="3,400 מטר" TextColor="White" FontSize="10" FontAttributes="Bold" />
+                                    <Label Text="3,400m" TextColor="White" FontSize="10" FontAttributes="Bold" />
                                 </Border>
                             </Grid>
                             <VerticalStackLayout Padding="14" Spacing="4">
-                                <Label Text="קוסקו (Cusco)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
-                                <Label Text="בירת אימפריית האינקה, כיכר פלאזה דה ארמס, שווקים ובית חב&quot;ד" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding CuscoName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                <Label Text="{Binding CuscoDescription}" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                         <Border.GestureRecognizers>
@@ -297,12 +297,12 @@
                                 <Image Source="{Binding MachuPicchuImage}" Aspect="AspectFill" HeightRequest="130" />
                                 <BoxView Color="#33000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
                                 <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3" Margin="10" VerticalOptions="Start" HorizontalOptions="Start">
-                                    <Label Text="פלא עולם" TextColor="White" FontSize="10" FontAttributes="Bold" />
+                                    <Label Text="{Binding WorldWonderBadge}" TextColor="White" FontSize="10" FontAttributes="Bold" />
                                 </Border>
                             </Grid>
                             <VerticalStackLayout Padding="14" Spacing="4">
-                                <Label Text="מאצ'ו פיצ'ו (Machu Picchu)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
-                                <Label Text="מצודת האינקה הנסתרת בעננים, רכבות פנורמיות ווואינה פיצ'ו" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding MachuPicchuName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                <Label Text="{Binding MachuPicchuDescription}" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                         <Border.GestureRecognizers>
@@ -317,12 +317,12 @@
                                 <Image Source="{Binding SacredValleyImage}" Aspect="AspectFill" HeightRequest="130" />
                                 <BoxView Color="#33000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
                                 <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3" Margin="10" VerticalOptions="Start" HorizontalOptions="Start">
-                                    <Label Text="2,870 מטר" TextColor="White" FontSize="10" FontAttributes="Bold" />
+                                    <Label Text="2,870m" TextColor="White" FontSize="10" FontAttributes="Bold" />
                                 </Border>
                             </Grid>
                             <VerticalStackLayout Padding="14" Spacing="4">
-                                <Label Text="העמק הקדוש (Sacred Valley)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
-                                <Label Text="מבצר אויאנטייטמבו, טרסות מוראי, מכרות המלח במאראס ומלונות בוטיק" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding SacredValleyName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                <Label Text="{Binding SacredValleyDescription}" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                         <Border.GestureRecognizers>
@@ -337,12 +337,12 @@
                                 <Image Source="{Binding LakeTiticacaImage}" Aspect="AspectFill" HeightRequest="130" />
                                 <BoxView Color="#33000000" VerticalOptions="Fill" HorizontalOptions="Fill" />
                                 <Border BackgroundColor="{StaticResource Primary}" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3" Margin="10" VerticalOptions="Start" HorizontalOptions="Start">
-                                    <Label Text="3,812 מטר" TextColor="White" FontSize="10" FontAttributes="Bold" />
+                                    <Label Text="3,812m" TextColor="White" FontSize="10" FontAttributes="Bold" />
                                 </Border>
                             </Grid>
                             <VerticalStackLayout Padding="14" Spacing="4">
-                                <Label Text="אגם טיטיקקה (Lake Titicaca)" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
-                                <Label Text="האיים הצפים של האורוס, תרבות ילידית ושקיעות מרהיבות" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
+                                <Label Text="{Binding LakeTiticacaName}" FontSize="15" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                                <Label Text="{Binding LakeTiticacaDescription}" FontSize="12" TextColor="#64748B" MaxLines="2" LineBreakMode="TailTruncation" />
                             </VerticalStackLayout>
                         </VerticalStackLayout>
                         <Border.GestureRecognizers>
@@ -355,20 +355,20 @@
             <!-- ============================================================ -->
             <!-- TOMER GROUP ADVANTAGE: BESPOKE EXPERIENCES                   -->
             <!-- ============================================================ -->
-            <Label Text="חוויית השירות של Tomer Group" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" Margin="0,8,0,0" />
+            <Label Text="{Binding ServiceExperienceTitle}" FontSize="18" FontAttributes="Bold" TextColor="{StaticResource Secondary}" Margin="0,8,0,0" />
 
             <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
                 <Border Grid.Column="0" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 18" Padding="14">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="🫁 התאקלמות לגובה" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
-                        <Label Text="חדרים מועשרים בחמצן במלונות קוסקו ותכנון מסלול הדרגתי מותאם אישית." FontSize="11" TextColor="#64748B" LineHeight="1.3" />
+                        <Label Text="{Binding AcclimatizationTitle}" FontSize="13" FontAttributes="Bold" TextColor="{StaticResource Primary}" />
+                        <Label Text="{Binding AcclimatizationDescription}" FontSize="11" TextColor="#64748B" LineHeight="1.3" />
                     </VerticalStackLayout>
                 </Border>
 
                 <Border Grid.Column="1" BackgroundColor="White" Stroke="#E2E8F0" StrokeShape="RoundRectangle 18" Padding="14">
                     <VerticalStackLayout Spacing="6">
-                        <Label Text="✡️ כשרות ושבת" FontSize="13" FontAttributes="Bold" TextColor="#166534" />
-                        <Label Text="סיוע בתיאום ארוחות שבת כשרות בקוסקו ולימה עם בתי חב&quot;ד המקומיים." FontSize="11" TextColor="#64748B" LineHeight="1.3" />
+                        <Label Text="{Binding KosherShabbatTitle}" FontSize="13" FontAttributes="Bold" TextColor="#166534" />
+                        <Label Text="{Binding KosherShabbatDescription}" FontSize="11" TextColor="#64748B" LineHeight="1.3" />
                     </VerticalStackLayout>
                 </Border>
             </Grid>
@@ -383,8 +383,8 @@
                     </Border>
 
                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
-                        <Label Text="מוקד שירות וסיוע 24/7 בפרו" FontSize="14" FontAttributes="Bold" TextColor="White" />
-                        <Label Text="צוות השטח שלנו זמין עבורכם בכל שעה בוואטסאפ ובטלפון" FontSize="11" TextColor="#CBD5E1" />
+                        <Label Text="{Binding SupportHotlineTitle}" FontSize="14" FontAttributes="Bold" TextColor="White" />
+                        <Label Text="{Binding SupportHotlineSubtitle}" FontSize="11" TextColor="#CBD5E1" />
                     </VerticalStackLayout>
                 </Grid>
                 <Border.GestureRecognizers>

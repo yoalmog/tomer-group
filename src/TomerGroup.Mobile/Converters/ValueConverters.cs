@@ -117,11 +117,22 @@ public class ReadStatusTextConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
+        var lang = TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he";
         if (value is bool isRead && isRead)
         {
-            return "נקרא";
+            return lang.ToLowerInvariant() switch
+            {
+                "en" => "Read",
+                "es" => "Leído",
+                _ => "נקרא"
+            };
         }
-        return "חדש";
+        return lang.ToLowerInvariant() switch
+        {
+            "en" => "New",
+            "es" => "Nuevo",
+            _ => "חדש"
+        };
     }
 
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

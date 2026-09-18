@@ -34,5 +34,10 @@ public class AuditLog : BaseEntity
     public string? EntityId { get; set; }
     public string? MetadataJson { get; set; }
     public string? IpAddress { get; set; }
+
+    public string TargetEntity { get => EntityName; set => EntityName = value; }
+    public Guid? TargetEntityId { get => Guid.TryParse(EntityId, out var g) ? g : null; set => EntityId = value?.ToString(); }
+    public string? Description { get => MetadataJson; set => MetadataJson = value; }
+    public DateTime Timestamp { get => CreatedAt; set => CreatedAt = value; }
 }
 

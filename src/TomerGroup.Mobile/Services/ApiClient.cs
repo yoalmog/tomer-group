@@ -102,8 +102,28 @@ public interface IApiClient
     Task<ApiResponse<AdminUserDto>> GetAdminUserByIdAsync(Guid id);
     Task<ApiResponse<AdminUserDto>> CreateAdminUserAsync(CreateAdminUserDto request);
     Task<ApiResponse<AdminUserDto>> UpdateAdminUserAsync(Guid id, UpdateAdminUserDto request);
-    Task<ApiResponse<bool>> DeactivateAdminUserAsync(Guid id);
-    Task<ApiResponse<PagedResult<AdminActivityFeedItemDto>>> GetAdminAuditLogsAsync(string? action = null, string? entity = null, int page = 1, int pageSize = 20);
+    // Operations Platform V2
+    Task<ApiResponse<AdminDashboardV2Dto>> GetOperationsDashboardV2Async();
+    Task<ApiResponse<AdminSearchResultDto>> SearchGlobalAsync(string query);
+    Task<ApiResponse<Customer360Dto>> GetCustomer360Async(Guid customerId);
+    Task<ApiResponse<List<TrekRouteEntity>>> GetAdminTreksAsync();
+    Task<ApiResponse<TrekRouteEntity>> GetAdminTrekByIdAsync(Guid id);
+    Task<ApiResponse<TrekRouteEntity>> SaveTrekRouteAsync(SaveTrekRouteDto dto);
+    Task<ApiResponse<TrekRouteEntity>> UpdateTrekRouteAsync(Guid id, SaveTrekRouteDto dto);
+    Task<ApiResponse<TrekRouteEntity>> PublishTrekRouteAsync(Guid id);
+    Task<ApiResponse<TrekRouteEntity>> UnpublishTrekRouteAsync(Guid id);
+    Task<ApiResponse<GpxImportResultDto>> ImportGpxAsync(string gpxContent);
+    Task<ApiResponse<List<OperationalCalendarEventDto>>> GetOperationalCalendarAsync(DateTime? start = null, DateTime? end = null, string? filter = null);
+    Task<ApiResponse<List<SupportTicketSummaryDto>>> GetSupportTicketsAsync(SupportTicketStatus? status = null, SupportTicketPriority? priority = null);
+    Task<ApiResponse<SupportTicket>> GetSupportTicketByIdAsync(Guid id);
+    Task<ApiResponse<SupportTicket>> CreateSupportTicketAsync(CreateSupportTicketDto dto);
+    Task<ApiResponse<SupportTicketMessage>> ReplyToSupportTicketAsync(Guid id, SupportTicketReplyDto dto);
+    Task<ApiResponse<SupportTicket>> UpdateSupportTicketStatusAsync(Guid id, UpdateSupportTicketStatusDto dto);
+    Task<ApiResponse<List<StaffTask>>> GetStaffTasksAsync(StaffTaskStatus? status = null, bool dueSoonOnly = false);
+    Task<ApiResponse<StaffTask>> CreateStaffTaskAsync(CreateStaffTaskDto dto);
+    Task<ApiResponse<StaffTask>> UpdateStaffTaskStatusAsync(Guid id, UpdateStaffTaskStatusDto dto);
+    Task<ApiResponse<Booking>> UpdateBookingAdminAsync(Guid id, UpdateBookingAdminDto dto);
+    Task<ApiResponse<Payment>> RecordBookingPaymentAsync(Guid id, PaymentItemDto dto);
 }
 
 public class ApiClient : IApiClient
@@ -1167,6 +1187,303 @@ public class ApiClient : IApiClient
         catch (Exception ex)
         {
             return ApiResponse<PagedResult<AdminActivityFeedItemDto>>.Fail($"Error loading audit logs: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<AdminDashboardV2Dto>> GetOperationsDashboardV2Async()
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<AdminDashboardV2Dto>>("api/admin/dashboard/v2");
+            return result ?? ApiResponse<AdminDashboardV2Dto>.Fail("Failed to load operations dashboard");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<AdminDashboardV2Dto>.Fail($"Error loading operations dashboard: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<AdminSearchResultDto>> SearchGlobalAsync(string query)
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<AdminSearchResultDto>>($"api/admin/search?q={Uri.EscapeDataString(query)}");
+            return result ?? ApiResponse<AdminSearchResultDto>.Fail("No search results found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<AdminSearchResultDto>.Fail($"Search error: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<Customer360Dto>> GetCustomer360Async(Guid customerId)
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<Customer360Dto>>($"api/customers/{customerId}/360");
+            return result ?? ApiResponse<Customer360Dto>.Fail("Customer 360 profile not found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<Customer360Dto>.Fail($"Error loading customer profile: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<List<TrekRouteEntity>>> GetAdminTreksAsync()
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<List<TrekRouteEntity>>>("api/admin/treks");
+            return result ?? ApiResponse<List<TrekRouteEntity>>.Fail("No trek routes found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<List<TrekRouteEntity>>.Fail($"Error loading trek routes: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<TrekRouteEntity>> GetAdminTrekByIdAsync(Guid id)
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<TrekRouteEntity>>($"api/admin/treks/{id}");
+            return result ?? ApiResponse<TrekRouteEntity>.Fail("Trek route not found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<TrekRouteEntity>.Fail($"Error loading trek route: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<TrekRouteEntity>> SaveTrekRouteAsync(SaveTrekRouteDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/admin/treks", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<TrekRouteEntity>>();
+            return result ?? ApiResponse<TrekRouteEntity>.Fail("Failed to save trek route");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<TrekRouteEntity>.Fail($"Error saving trek route: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<TrekRouteEntity>> UpdateTrekRouteAsync(Guid id, SaveTrekRouteDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/admin/treks/{id}", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<TrekRouteEntity>>();
+            return result ?? ApiResponse<TrekRouteEntity>.Fail("Failed to update trek route");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<TrekRouteEntity>.Fail($"Error updating trek route: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<TrekRouteEntity>> PublishTrekRouteAsync(Guid id)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsync($"api/admin/treks/{id}/publish", null);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<TrekRouteEntity>>();
+            return result ?? ApiResponse<TrekRouteEntity>.Fail("Failed to publish trek route");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<TrekRouteEntity>.Fail($"Error publishing trek route: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<TrekRouteEntity>> UnpublishTrekRouteAsync(Guid id)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsync($"api/admin/treks/{id}/unpublish", null);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<TrekRouteEntity>>();
+            return result ?? ApiResponse<TrekRouteEntity>.Fail("Failed to unpublish trek route");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<TrekRouteEntity>.Fail($"Error unpublishing trek route: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<GpxImportResultDto>> ImportGpxAsync(string gpxContent)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/admin/treks/import-gpx", gpxContent);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<GpxImportResultDto>>();
+            return result ?? ApiResponse<GpxImportResultDto>.Fail("Failed to parse GPX content");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<GpxImportResultDto>.Fail($"Error parsing GPX: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<List<OperationalCalendarEventDto>>> GetOperationalCalendarAsync(DateTime? start = null, DateTime? end = null, string? filter = null)
+    {
+        try
+        {
+            var query = "api/admin/calendar?";
+            if (start.HasValue) query += $"start={start.Value:yyyy-MM-dd}&";
+            if (end.HasValue) query += $"end={end.Value:yyyy-MM-dd}&";
+            if (!string.IsNullOrEmpty(filter)) query += $"filter={Uri.EscapeDataString(filter)}";
+
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<List<OperationalCalendarEventDto>>>(query.TrimEnd('&', '?'));
+            return result ?? ApiResponse<List<OperationalCalendarEventDto>>.Fail("No operational calendar events found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<List<OperationalCalendarEventDto>>.Fail($"Error loading calendar: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<List<SupportTicketSummaryDto>>> GetSupportTicketsAsync(SupportTicketStatus? status = null, SupportTicketPriority? priority = null)
+    {
+        try
+        {
+            var query = "api/support?";
+            if (status.HasValue) query += $"status={status.Value}&";
+            if (priority.HasValue) query += $"priority={priority.Value}&";
+
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<List<SupportTicketSummaryDto>>>(query.TrimEnd('&', '?'));
+            return result ?? ApiResponse<List<SupportTicketSummaryDto>>.Fail("No support tickets found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<List<SupportTicketSummaryDto>>.Fail($"Error loading support tickets: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<SupportTicket>> GetSupportTicketByIdAsync(Guid id)
+    {
+        try
+        {
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<SupportTicket>>($"api/support/{id}");
+            return result ?? ApiResponse<SupportTicket>.Fail("Support ticket not found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<SupportTicket>.Fail($"Error loading support ticket: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<SupportTicket>> CreateSupportTicketAsync(CreateSupportTicketDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/support", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<SupportTicket>>();
+            return result ?? ApiResponse<SupportTicket>.Fail("Failed to create support ticket");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<SupportTicket>.Fail($"Error creating support ticket: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<SupportTicketMessage>> ReplyToSupportTicketAsync(Guid id, SupportTicketReplyDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/support/{id}/reply", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<SupportTicketMessage>>();
+            return result ?? ApiResponse<SupportTicketMessage>.Fail("Failed to reply to ticket");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<SupportTicketMessage>.Fail($"Error replying to ticket: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<SupportTicket>> UpdateSupportTicketStatusAsync(Guid id, UpdateSupportTicketStatusDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/support/{id}/status", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<SupportTicket>>();
+            return result ?? ApiResponse<SupportTicket>.Fail("Failed to update ticket status");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<SupportTicket>.Fail($"Error updating ticket status: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<List<StaffTask>>> GetStaffTasksAsync(StaffTaskStatus? status = null, bool dueSoonOnly = false)
+    {
+        try
+        {
+            var query = $"api/stafftasks?dueSoonOnly={dueSoonOnly}";
+            if (status.HasValue) query += $"&status={status.Value}";
+
+            var result = await _httpClient.GetFromJsonAsync<ApiResponse<List<StaffTask>>>(query);
+            return result ?? ApiResponse<List<StaffTask>>.Fail("No staff tasks found");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<List<StaffTask>>.Fail($"Error loading staff tasks: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<StaffTask>> CreateStaffTaskAsync(CreateStaffTaskDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/stafftasks", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<StaffTask>>();
+            return result ?? ApiResponse<StaffTask>.Fail("Failed to create staff task");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<StaffTask>.Fail($"Error creating staff task: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<StaffTask>> UpdateStaffTaskStatusAsync(Guid id, UpdateStaffTaskStatusDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/stafftasks/{id}/status", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<StaffTask>>();
+            return result ?? ApiResponse<StaffTask>.Fail("Failed to update staff task status");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<StaffTask>.Fail($"Error updating task status: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<Booking>> UpdateBookingAdminAsync(Guid id, UpdateBookingAdminDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/bookings/{id}/admin", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<Booking>>();
+            return result ?? ApiResponse<Booking>.Fail("Failed to update booking");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<Booking>.Fail($"Error updating booking: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<Payment>> RecordBookingPaymentAsync(Guid id, PaymentItemDto dto)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync($"api/bookings/{id}/payments", dto);
+            var result = await response.Content.ReadFromJsonAsync<ApiResponse<Payment>>();
+            return result ?? ApiResponse<Payment>.Fail("Failed to record payment");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<Payment>.Fail($"Error recording payment: {ex.Message}");
         }
     }
 }

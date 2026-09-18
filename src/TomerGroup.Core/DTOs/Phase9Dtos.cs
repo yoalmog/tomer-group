@@ -12,6 +12,36 @@ public class NotificationDto
     public bool IsRead { get; set; }
     public DateTime CreatedAt { get; set; }
     public string? ActionUrl { get; set; }
+
+    public string DisplayTitle
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "he") return !string.IsNullOrWhiteSpace(HebrewTitle) ? HebrewTitle : Title;
+            return !string.IsNullOrWhiteSpace(Title) ? Title : HebrewTitle;
+        }
+    }
+
+    public string DisplaySecondaryTitle
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "he") return !string.IsNullOrWhiteSpace(Title) && Title != HebrewTitle ? Title : string.Empty;
+            return !string.IsNullOrWhiteSpace(HebrewTitle) && HebrewTitle != Title ? HebrewTitle : string.Empty;
+        }
+    }
+
+    public string DisplayMessage
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "he") return !string.IsNullOrWhiteSpace(HebrewMessage) ? HebrewMessage : Message;
+            return !string.IsNullOrWhiteSpace(Message) ? Message : HebrewMessage;
+        }
+    }
 }
 
 public class CreateNotificationDto

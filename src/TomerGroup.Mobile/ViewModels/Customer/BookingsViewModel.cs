@@ -2,6 +2,8 @@ using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using TomerGroup.Core.DTOs;
+using TomerGroup.Core.Interfaces;
+using TomerGroup.Core.Localization;
 using TomerGroup.Mobile.Services;
 
 namespace TomerGroup.Mobile.ViewModels.Customer;
@@ -22,7 +24,7 @@ public class RichBookingCard
     public object? RawData { get; set; }
 }
 
-public partial class BookingsViewModel : ObservableObject
+public partial class BookingsViewModel : BaseViewModel
 {
     private readonly IApiClient _apiClient;
     private readonly INavigationService _navigationService;
@@ -32,6 +34,16 @@ public partial class BookingsViewModel : ObservableObject
         IApiClient apiClient,
         INavigationService navigationService,
         IDestinationImageService? imageService = null)
+        : this(new LocalizationService(), navigationService, apiClient, imageService)
+    {
+    }
+
+    public BookingsViewModel(
+        ILocalizationService localization,
+        INavigationService navigationService,
+        IApiClient apiClient,
+        IDestinationImageService? imageService = null)
+        : base(localization, navigationService)
     {
         _apiClient = apiClient;
         _navigationService = navigationService;
@@ -40,6 +52,8 @@ public partial class BookingsViewModel : ObservableObject
         HotelBookings = new ObservableCollection<HotelBookingDto>();
         Transfers = new ObservableCollection<TransportationDto>();
         DisplayCards = new ObservableCollection<RichBookingCard>();
+
+        UpdateEmptyTexts();
     }
 
     public ObservableCollection<BookingDto> Bookings { get; }
@@ -49,12 +63,6 @@ public partial class BookingsViewModel : ObservableObject
 
     [ObservableProperty]
     private bool _isAuthenticated;
-
-    [ObservableProperty]
-    private bool _isBusy;
-
-    [ObservableProperty]
-    private string _errorMessage = string.Empty;
 
     [ObservableProperty]
     private decimal _totalOutstanding;
@@ -70,6 +78,123 @@ public partial class BookingsViewModel : ObservableObject
 
     [ObservableProperty]
     private string _emptyDescription = "הזמנות ושוברי השירות של הטיול שלך יופיעו כאן ברגע שהסוכנות תאשר את ההזמנה.";
+
+    public string PageTitle => CurrentLanguage switch
+    {
+        "en" => "My Bookings & Vouchers",
+        "es" => "Mis Reservas y Vouchers",
+        _ => "ההזמנות והשוברים שלי"
+    };
+
+    public string GatewayTitle => CurrentLanguage switch
+    {
+        "en" => "Your Bookings & Vouchers",
+        "es" => "Tus Reservas y Vouchers",
+        _ => "ההזמנות והשוברים שלך"
+    };
+
+    public string GatewayDescription => CurrentLanguage switch
+    {
+        "en" => "Log in to view all your hotel vouchers, train permits, and private transfers confirmed for your journey in Peru.",
+        "es" => "Inicia sesión para ver todos tus vouchers de hoteles, boletos de tren y traslados privados confirmados en Perú.",
+        _ => "התחבר כדי לצפות בכל שוברי המלונות, אישורי הרכבות וההעברות הפרטיות שאושרו עבורך בפרו."
+    };
+
+    public string SignInButtonText => CurrentLanguage switch
+    {
+        "en" => "Sign In to View Bookings",
+        "es" => "Iniciar Sesión para Ver Reservas",
+        _ => "התחבר לצפייה בהזמנות"
+    };
+
+    public string ContinueExploringText => CurrentLanguage switch
+    {
+        "en" => "Explore Destinations ←",
+        "es" => "Explorar Destinos ←",
+        _ => "המשך לגלות יעדים ←"
+    };
+
+    public string ContactAgencyText => CurrentLanguage switch
+    {
+        "en" => "Contact Tomer Group 💬",
+        "es" => "Contactar a la Agencia 💬",
+        _ => "צור קשר עם הסוכנות 💬"
+    };
+
+    public string SummaryBannerStatus => CurrentLanguage switch
+    {
+        "en" => "Services & Bookings Status",
+        "es" => "Estado de Servicios y Reservas",
+        _ => "סטטוס שירותים והזמנות"
+    };
+
+    public string SummaryBannerTitle => CurrentLanguage switch
+    {
+        "en" => "All your bookings and hotels are organized",
+        "es" => "Todas tus reservas y hoteles están organizados",
+        _ => "כל ההזמנות והמלונות שלך מסודרים"
+    };
+
+    public string SummaryBannerSubtitle => CurrentLanguage switch
+    {
+        "en" => "Original service vouchers available offline without internet",
+        "es" => "Vouchers oficiales disponibles sin conexión a internet",
+        _ => "שוברי שירות מקוריים זמינים גם ללא חיבור אינטרנט"
+    };
+
+    public string ConfirmedBadgeText => CurrentLanguage switch
+    {
+        "en" => "✓ Confirmed",
+        "es" => "✓ Confirmado",
+        _ => "✓ מאושר"
+    };
+
+    public string ServicesSectionTitle => CurrentLanguage switch
+    {
+        "en" => "Services & Travel Vouchers",
+        "es" => "Servicios y Vouchers de Viaje",
+        _ => "שירותים ושוברי נסיעה"
+    };
+
+    public string DetailsAndVoucherButtonText => CurrentLanguage switch
+    {
+        "en" => "Details & Voucher ←",
+        "es" => "Detalles y Voucher ←",
+        _ => "פרטים ושובר ←"
+    };
+
+    private void UpdateEmptyTexts()
+    {
+        EmptyTitle = CurrentLanguage switch
+        {
+            "en" => "No Bookings Yet",
+            "es" => "Sin Reservas Aún",
+            _ => "אין עדיין הזמנות"
+        };
+        EmptyDescription = CurrentLanguage switch
+        {
+            "en" => "Your bookings and service vouchers will appear here once confirmed by the agency team.",
+            "es" => "Tus reservas y vouchers de servicio aparecerán aquí una vez confirmados por el equipo.",
+            _ => "הזמנות ושוברי השירות של הטיול שלך יופיעו כאן ברגע שהסוכנות תאשר את ההזמנה."
+        };
+    }
+
+    protected override void OnLanguageChanged()
+    {
+        UpdateEmptyTexts();
+        OnPropertyChanged(nameof(PageTitle));
+        OnPropertyChanged(nameof(GatewayTitle));
+        OnPropertyChanged(nameof(GatewayDescription));
+        OnPropertyChanged(nameof(SignInButtonText));
+        OnPropertyChanged(nameof(ContinueExploringText));
+        OnPropertyChanged(nameof(ContactAgencyText));
+        OnPropertyChanged(nameof(SummaryBannerStatus));
+        OnPropertyChanged(nameof(SummaryBannerTitle));
+        OnPropertyChanged(nameof(SummaryBannerSubtitle));
+        OnPropertyChanged(nameof(ConfirmedBadgeText));
+        OnPropertyChanged(nameof(ServicesSectionTitle));
+        OnPropertyChanged(nameof(DetailsAndVoucherButtonText));
+    }
 
     [RelayCommand]
     public async Task InitializeAsync()

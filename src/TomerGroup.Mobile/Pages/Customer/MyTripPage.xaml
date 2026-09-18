@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:TomerGroup.Mobile.ViewModels"
              x:Class="TomerGroup.Mobile.Pages.Customer.MyTripPage"
-             Title="הטיול שלי"
+             Title="{Binding PageTitle}"
              BackgroundColor="#F8FAFC">
 
     <ScrollView>
@@ -21,17 +21,17 @@
                         <Image Source="tomer_group_logo.png" Aspect="AspectFit" WidthRequest="64" HeightRequest="64" />
                     </Border>
 
-                    <Label Text="המסע שלך ממתין לך" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
-                    <Label Text="התחבר כדי לצפות במסלול הטיול המפורט יום אחרי יום, זמני האיסוף, פרטי המדריכים וההעברות הפרטיות בהרי האנדים."
+                    <Label Text="{Binding GatewayTitle}" FontSize="22" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
+                    <Label Text="{Binding GatewayDescription}"
                            FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" LineHeight="1.3" />
 
-                    <Button Text="התחבר עכשיו"
+                    <Button Text="{Binding SignInButtonText}"
                             Command="{Binding OpenSignInCommand}"
                             Style="{StaticResource BrandButtonStyle}"
                             WidthRequest="220"
                             HorizontalOptions="Center" />
 
-                    <Button Text="המשך לגלות יעדים ←"
+                    <Button Text="{Binding ContinueExploringText}"
                             Command="{Binding ContinueExploringCommand}"
                             BackgroundColor="Transparent"
                             TextColor="#64748B"
@@ -56,7 +56,7 @@
                     <Label Text="{Binding EmptyTitle}" FontSize="18" FontAttributes="Bold" TextColor="#0F172A" HorizontalOptions="Center" />
                     <Label Text="{Binding EmptyDescription}" FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" LineBreakMode="WordWrap" LineHeight="1.3" />
 
-                    <Button Text="צור קשר עם מומחי היעד 💬"
+                    <Button Text="{Binding ContactSpecialistText}"
                             Command="{Binding OpenContactCommand}"
                             Style="{StaticResource BrandButtonStyle}"
                             HorizontalOptions="Center"
@@ -75,7 +75,7 @@
 
                     <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Start" Margin="16">
                         <Border BackgroundColor="#10B981" StrokeShape="RoundRectangle 10" StrokeThickness="0" Padding="8,3">
-                            <Label Text="CONFIRMED TRIP" TextColor="White" FontSize="10" FontAttributes="Bold" />
+                            <Label Text="{Binding ConfirmedTripBadge}" TextColor="White" FontSize="10" FontAttributes="Bold" />
                         </Border>
                     </VerticalStackLayout>
 
@@ -91,7 +91,7 @@
             <!-- 4. HORIZONTAL DAY SELECTOR TABS                              -->
             <!-- ============================================================ -->
             <VerticalStackLayout Spacing="8" IsVisible="{Binding HasTrip}">
-                <Label Text="ימי המסלול" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
+                <Label Text="{Binding ItineraryDaysTitle}" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
 
                 <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Never">
                     <HorizontalStackLayout Spacing="8">
@@ -109,11 +109,11 @@
                                             WidthRequest="84"
                                             HeightRequest="60">
                                         <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="2">
-                                            <Label Text="{Binding DayNumber, StringFormat='יום {0}'}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
+                                            <Label Text="{Binding FormattedDayNumber}" FontSize="12" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
                                             <Label Text="{Binding Destination}" FontSize="11" TextColor="#64748B" HorizontalOptions="Center" MaxLines="1" LineBreakMode="TailTruncation" />
                                         </VerticalStackLayout>
                                         <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyTripViewModel}}, Path=SelectDayCommand}"
+                                             <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MyTripViewModel}}, Path=SelectDayCommand}"
                                                                   CommandParameter="{Binding .}" />
                                         </Border.GestureRecognizers>
                                     </Border>
@@ -144,7 +144,7 @@
             <!-- 6. VERTICAL TIMELINE OF ACTIVITIES                           -->
             <!-- ============================================================ -->
             <VerticalStackLayout Spacing="10" IsVisible="{Binding HasTrip}">
-                <Label Text="לוח זמנים ופעילויות" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
+                <Label Text="{Binding TimelineTitle}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Secondary}" />
 
                 <CollectionView ItemsSource="{Binding SelectedDayActivities}">
                     <CollectionView.ItemTemplate>
@@ -154,7 +154,7 @@
                                     <!-- Time Column -->
                                     <VerticalStackLayout VerticalOptions="Start" HorizontalOptions="Center" Spacing="2">
                                         <Label Text="{Binding StartTime, StringFormat='{0:hh\\:mm}'}" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource Primary}" HorizontalOptions="Center" />
-                                        <Label Text="התחלה" FontSize="10" TextColor="#94A3B8" HorizontalOptions="Center" />
+                                        <Label Text="{Binding Source={RelativeSource AncestorType={x:Type vm:MyTripViewModel}}, Path=StartTimeLabel}" FontSize="10" TextColor="#94A3B8" HorizontalOptions="Center" />
                                     </VerticalStackLayout>
 
                                     <!-- Vertical Timeline Pin & Line -->
@@ -170,13 +170,13 @@
 
                                         <HorizontalStackLayout Spacing="6" Margin="0,2,0,0" IsVisible="{Binding GuideName, Converter={StaticResource StringNotEmptyConverter}}">
                                             <Border BackgroundColor="#F0FDF4" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="8,2">
-                                                <Label Text="{Binding GuideName, StringFormat='👤 מדריך: {0}'}" TextColor="#166534" FontSize="11" FontAttributes="Bold" />
+                                                <Label Text="{Binding FormattedGuideName}" TextColor="#166534" FontSize="11" FontAttributes="Bold" />
                                             </Border>
                                         </HorizontalStackLayout>
 
                                         <HorizontalStackLayout Spacing="6" Margin="0,2,0,0" IsVisible="{Binding DriverName, Converter={StaticResource StringNotEmptyConverter}}">
                                             <Border BackgroundColor="#EFF6FF" StrokeShape="RoundRectangle 8" StrokeThickness="0" Padding="8,2">
-                                                <Label Text="{Binding DriverName, StringFormat='🚗 נהג: {0}'}" TextColor="#1E40AF" FontSize="11" FontAttributes="Bold" />
+                                                <Label Text="{Binding FormattedDriverName}" TextColor="#1E40AF" FontSize="11" FontAttributes="Bold" />
                                             </Border>
                                         </HorizontalStackLayout>
                                     </VerticalStackLayout>

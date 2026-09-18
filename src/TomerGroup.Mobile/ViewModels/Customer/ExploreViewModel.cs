@@ -15,10 +15,44 @@ public class DestinationCard
     public string Region { get; set; } = string.Empty;
     public string Elevation { get; set; } = string.Empty;
     public string Tagline { get; set; } = string.Empty;
+    public string EnglishTagline { get; set; } = string.Empty;
+    public string SpanishTagline { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public string EnglishDescription { get; set; } = string.Empty;
+    public string SpanishDescription { get; set; } = string.Empty;
     public string ImageUrl { get; set; } = string.Empty;
     public string RecommendedDays { get; set; } = string.Empty;
     public List<string> Highlights { get; set; } = new();
+
+    public string DisplayTitle => (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() == "he"
+        ? HebrewTitle
+        : Title;
+
+    public string DisplaySubtitle => (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant() == "he"
+        ? Title
+        : Region;
+
+    public string DisplayTagline
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "en" && !string.IsNullOrWhiteSpace(EnglishTagline)) return EnglishTagline;
+            if (lang == "es" && !string.IsNullOrWhiteSpace(SpanishTagline)) return SpanishTagline;
+            return Tagline;
+        }
+    }
+
+    public string DisplayDescription
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "en" && !string.IsNullOrWhiteSpace(EnglishDescription)) return EnglishDescription;
+            if (lang == "es" && !string.IsNullOrWhiteSpace(SpanishDescription)) return SpanishDescription;
+            return Description;
+        }
+    }
 }
 
 public class PeruTravelTip
@@ -26,6 +60,36 @@ public class PeruTravelTip
     public string Icon { get; set; } = "🏔️";
     public string Title { get; set; } = string.Empty;
     public string Subtitle { get; set; } = string.Empty;
+    public string HebrewTitle { get; set; } = string.Empty;
+    public string EnglishTitle { get; set; } = string.Empty;
+    public string SpanishTitle { get; set; } = string.Empty;
+    public string HebrewSubtitle { get; set; } = string.Empty;
+    public string EnglishSubtitle { get; set; } = string.Empty;
+    public string SpanishSubtitle { get; set; } = string.Empty;
+
+    public string DisplayTitle
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "en" && !string.IsNullOrWhiteSpace(EnglishTitle)) return EnglishTitle;
+            if (lang == "es" && !string.IsNullOrWhiteSpace(SpanishTitle)) return SpanishTitle;
+            if (!string.IsNullOrWhiteSpace(HebrewTitle)) return HebrewTitle;
+            return Title;
+        }
+    }
+
+    public string DisplaySubtitle
+    {
+        get
+        {
+            var lang = (TomerGroup.Core.Localization.LocalizationService.LanguageGetter?.Invoke("he") ?? "he").ToLowerInvariant();
+            if (lang == "en" && !string.IsNullOrWhiteSpace(EnglishSubtitle)) return EnglishSubtitle;
+            if (lang == "es" && !string.IsNullOrWhiteSpace(SpanishSubtitle)) return SpanishSubtitle;
+            if (!string.IsNullOrWhiteSpace(HebrewSubtitle)) return HebrewSubtitle;
+            return Subtitle;
+        }
+    }
 }
 
 public partial class ExploreViewModel : BaseViewModel
@@ -41,6 +105,104 @@ public partial class ExploreViewModel : BaseViewModel
 
     [ObservableProperty]
     private ObservableCollection<PeruTravelTip> _travelTips = new();
+
+    public string PageHeaderTitle => CurrentLanguage switch
+    {
+        "en" => "Discover Peru",
+        "es" => "Descubre el Perú",
+        _ => "גלה את פרו"
+    };
+
+    public string PageHeaderSubtitle => CurrentLanguage switch
+    {
+        "en" => "Destinations, treks, and unforgettable experiences",
+        "es" => "Destinos, treks y experiencias inolvidables",
+        _ => "יעדים, טרקים וחוויות בלתי נשכחות"
+    };
+
+    public string FilterAllText => CurrentLanguage switch
+    {
+        "en" => "All",
+        "es" => "Todos",
+        _ => "הכל"
+    };
+
+    public string FilterTreksText => CurrentLanguage switch
+    {
+        "en" => "Andean Treks 🥾",
+        "es" => "Treks Andinos 🥾",
+        _ => "טרקים באנדים 🥾"
+    };
+
+    public string FilterCuscoText => CurrentLanguage switch
+    {
+        "en" => "Cusco & Sacred Valley",
+        "es" => "Cusco y Valle Sagrado",
+        _ => "קוסקו והעמק הקדוש"
+    };
+
+    public string FilterMachuText => CurrentLanguage switch
+    {
+        "en" => "Machu Picchu",
+        "es" => "Machu Picchu",
+        _ => "מאצ'ו פיצ'ו"
+    };
+
+    public string FilterAndesText => CurrentLanguage switch
+    {
+        "en" => "Andes Mountains",
+        "es" => "Cordillera de los Andes",
+        _ => "הרי האנדים"
+    };
+
+    public string FilterAmazonText => CurrentLanguage switch
+    {
+        "en" => "Amazon Rainforest",
+        "es" => "Selva Amazónica",
+        _ => "יער האמזונס"
+    };
+
+    public string HighlightsLabel => CurrentLanguage switch
+    {
+        "en" => "✨ Key Highlights",
+        "es" => "✨ Experiencias Clave",
+        _ => "✨ חוויות מרכזיות"
+    };
+
+    public string TrekMapButtonText => CurrentLanguage switch
+    {
+        "en" => "Interactive Trek Map 🗺️",
+        "es" => "Mapa de Trek Interactivo 🗺️",
+        _ => "צפה במפת מסלול אינטראקטיבית 🗺️"
+    };
+
+    public string TipsSectionTitle => CurrentLanguage switch
+    {
+        "en" => "Essential Peru Travel Tips",
+        "es" => "Consejos Esenciales para Viajar a Perú",
+        _ => "טיפים חיוניים למטייל בפרו"
+    };
+
+    public string ContactCardTitle => CurrentLanguage switch
+    {
+        "en" => "Planning Your Journey to Peru?",
+        "es" => "¿Planeando su Viaje a Perú?",
+        _ => "מתכננים את הטיול שלכם לפרו?"
+    };
+
+    public string ContactCardDescription => CurrentLanguage switch
+    {
+        "en" => "Tomer Group destination specialists will design a custom itinerary with hotels, transfers and private guides.",
+        "es" => "Los especialistas de Tomer Group diseñarán un itinerario personalizado con hoteles, traslados y guías.",
+        _ => "מומחי היעד של Tomer Group ירכיבו עבורכם מסלול אישי מותאם במדויק כולל מלונות, העברות והדרכה בעברית."
+    };
+
+    public string ContactCardButtonText => CurrentLanguage switch
+    {
+        "en" => "Talk with Our Specialists 💬",
+        "es" => "Hablar con Especialistas 💬",
+        _ => "דברו עם צוות המומחים שלנו 💬"
+    };
 
     public ExploreViewModel(
         ILocalizationService localization,
@@ -66,6 +228,21 @@ public partial class ExploreViewModel : BaseViewModel
             "es" => "Explorar Perú",
             _ => "גלה את פרו"
         };
+        InitializeData();
+        OnPropertyChanged(nameof(PageHeaderTitle));
+        OnPropertyChanged(nameof(PageHeaderSubtitle));
+        OnPropertyChanged(nameof(FilterAllText));
+        OnPropertyChanged(nameof(FilterTreksText));
+        OnPropertyChanged(nameof(FilterCuscoText));
+        OnPropertyChanged(nameof(FilterMachuText));
+        OnPropertyChanged(nameof(FilterAndesText));
+        OnPropertyChanged(nameof(FilterAmazonText));
+        OnPropertyChanged(nameof(HighlightsLabel));
+        OnPropertyChanged(nameof(TrekMapButtonText));
+        OnPropertyChanged(nameof(TipsSectionTitle));
+        OnPropertyChanged(nameof(ContactCardTitle));
+        OnPropertyChanged(nameof(ContactCardDescription));
+        OnPropertyChanged(nameof(ContactCardButtonText));
     }
 
     private void InitializeData()
@@ -200,19 +377,37 @@ public partial class ExploreViewModel : BaseViewModel
         {
             Icon = "🫁",
             Title = "התרגלות לגובה (Soroche)",
-            Subtitle = "מומלץ לשהות ביום הראשון בעמק הקדוש הנמוך, לשתות חליטת קוקה ולנוח."
+            Subtitle = "מומלץ לשהות ביום הראשון בעמק הקדוש הנמוך, לשתות חליטת קוקה ולנוח.",
+            HebrewTitle = "התרגלות לגובה (Soroche)",
+            EnglishTitle = "Altitude Acclimatization (Soroche)",
+            SpanishTitle = "Aclimatación a la Altura (Soroche)",
+            HebrewSubtitle = "מומלץ לשהות ביום הראשון בעמק הקדוש הנמוך, לשתות חליטת קוקה ולנוח.",
+            EnglishSubtitle = "Spend your first night resting in the lower Sacred Valley, drink coca tea, and hydrate generously.",
+            SpanishSubtitle = "Pase su primera noche descansando en el Valle Sagrado, tome mate de coca e hidrátese bien."
         });
         TravelTips.Add(new PeruTravelTip
         {
             Icon = "✡️",
             Title = "כשרות ושבת בפרו",
-            Subtitle = "בתי חב\"ד פעילים בקוסקו ובלימה עם ארוחות שבת כשרות ואווירה ביתית."
+            Subtitle = "בתי חב\"ד פעילים בקוסקו ובלימה עם ארוחות שבת כשרות ואווירה ביתית.",
+            HebrewTitle = "כשרות ושבת בפרו",
+            EnglishTitle = "Kosher & Shabbat in Peru",
+            SpanishTitle = "Comida Kosher y Shabat en Perú",
+            HebrewSubtitle = "בתי חב\"ד פעילים בקוסקו ובלימה עם ארוחות שבת כשרות ואווירה ביתית.",
+            EnglishSubtitle = "Chabad Houses in Cusco and Lima provide certified kosher meals and welcoming Shabbat hospitality.",
+            SpanishSubtitle = "Las Casas de Jabad en Cusco y Lima brindan comidas kosher y hospitalidad para Shabat."
         });
         TravelTips.Add(new PeruTravelTip
         {
             Icon = "🛂",
             Title = "דרכונים וכרטיסים",
-            Subtitle = "למאצ'ו פיצ'ו ולרכבות יש להציג דרכון מקורי בלבד. כל האישורים נשמרים באפליקציה."
+            Subtitle = "למאצ'ו פיצ'ו ולרכבות יש להציג דרכון מקורי בלבד. כל האישורים נשמרים באפליקציה.",
+            HebrewTitle = "דרכונים וכרטיסים",
+            EnglishTitle = "Original Passports Required",
+            SpanishTitle = "Pasaportes Originales Obligatorios",
+            HebrewSubtitle = "למאצ'ו פיצ'ו ולרכבות יש להציג דרכון מקורי בלבד. כל האישורים נשמרים באפליקציה.",
+            EnglishSubtitle = "Physical original passports must be presented at train stations and the Machu Picchu entrance.",
+            SpanishSubtitle = "Se deben presentar pasaportes físicos originales en las estaciones de tren y en el ingreso a Machu Picchu."
         });
 
         FilterDestinations("הכל");

@@ -1,20 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="tgGradFg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#E11D68" />
+    <linearGradient id="tgBrandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF2D78" />
       <stop offset="50%" stop-color="#BC225E" />
-      <stop offset="100%" stop-color="#99154A" />
+      <stop offset="100%" stop-color="#881337" />
     </linearGradient>
+    <filter id="tgGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#BC225E" flood-opacity="0.45"/>
+    </filter>
   </defs>
 
-  <!-- Centered TG Monogram for Android Adaptive Foreground -->
-  <g transform="translate(10, 10) scale(0.96)">
-    <!-- 'T' bar and stem -->
-    <path d="M160 140 H310 V172 H252 V300 H210 V172 H160 Z" fill="url(#tgGradFg)" />
+  <!-- Centered TG Monogram positioned strictly within the Android 66% Adaptive Safe Zone -->
+  <g filter="url(#tgGlow)" transform="translate(256, 256) scale(0.85) translate(-271, -250)">
+    <!-- 'T' bar and vertical stem in signature Tomer Magenta gradient -->
+    <path d="M160 140 H310 V172 H252 V300 H210 V172 H160 Z" fill="url(#tgBrandGrad)" />
     
-    <!-- Interlocking 'G' crescent & inner shelf -->
+    <!-- Interlocking 'G' crescent and inner shelf in pure brilliant white -->
     <path d="M352 205 C345 170 315 145 275 145 C220 145 180 190 180 250 C180 310 222 355 285 355 C335 355 365 325 368 280 H280 V248 H398 C398 320 350 388 280 388 C198 388 144 326 144 250 C144 172 202 112 282 112 C335 112 376 145 388 195 Z" fill="#FFFFFF" />
   </g>
-  <text x="256" y="420" text-anchor="middle" fill="#FFFFFF" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="800" letter-spacing="3">TOMER GROUP</text>
 </svg>
-

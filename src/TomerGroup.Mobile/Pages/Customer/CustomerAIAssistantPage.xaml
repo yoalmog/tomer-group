@@ -15,7 +15,7 @@
             </Border.Shadow>
             <Grid ColumnDefinitions="Auto, *, Auto" VerticalOptions="Center">
                 <Button Grid.Column="0"
-                        Text="← Back"
+                        Text="{Binding BackButtonText}"
                         Command="{Binding GoBackCommand}"
                         BackgroundColor="Transparent"
                         TextColor="#0F172A"
@@ -25,12 +25,12 @@
                         Padding="0" />
 
                 <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center" Spacing="2">
-                    <Label Text="TOMER AI CONCIERGE"
+                    <Label Text="{Binding ConciergeTitle}"
                            FontSize="14"
                            FontAttributes="Bold"
                            TextColor="#0F172A"
                            HorizontalOptions="Center" />
-                    <Label Text="Verified Peru Travel Assistant"
+                    <Label Text="{Binding ConciergeSubtitle}"
                            FontSize="10"
                            TextColor="#10B981"
                            FontAttributes="Bold"
@@ -48,9 +48,9 @@
         <!-- Quick Prompt Chips Carousel -->
         <ScrollView Grid.Row="1" Orientation="Horizontal" HorizontalScrollBarVisibility="Never" Padding="12, 10">
             <HorizontalStackLayout Spacing="8">
-                <Button Text="🎒 What to pack?"
+                <Button Text="{Binding PromptPackText}"
                         Command="{Binding SendPredefinedPromptCommand}"
-                        CommandParameter="What should I pack for tomorrow's tour?"
+                        CommandParameter="{Binding PromptPackParam}"
                         BackgroundColor="#FFFFFF"
                         TextColor="#0F172A"
                         CornerRadius="16"
@@ -60,9 +60,9 @@
                         BorderWidth="1"
                         Padding="12, 0" />
 
-                <Button Text="🗣️ Spanish phrases"
+                <Button Text="{Binding PromptSpanishText}"
                         Command="{Binding SendPredefinedPromptCommand}"
-                        CommandParameter="Translate essential travel phrases to Spanish"
+                        CommandParameter="{Binding PromptSpanishParam}"
                         BackgroundColor="#FFFFFF"
                         TextColor="#0F172A"
                         CornerRadius="16"
@@ -72,9 +72,9 @@
                         BorderWidth="1"
                         Padding="12, 0" />
 
-                <Button Text="⛰️ Altitude advice"
+                <Button Text="{Binding PromptAltitudeText}"
                         Command="{Binding SendPredefinedPromptCommand}"
-                        CommandParameter="How do I prepare for Cusco altitude?"
+                        CommandParameter="{Binding PromptAltitudeParam}"
                         BackgroundColor="#FFFFFF"
                         TextColor="#0F172A"
                         CornerRadius="16"
@@ -84,9 +84,9 @@
                         BorderWidth="1"
                         Padding="12, 0" />
 
-                <Button Text="🏛️ Machu Picchu rules"
+                <Button Text="{Binding PromptRulesText}"
                         Command="{Binding SendPredefinedPromptCommand}"
-                        CommandParameter="Tell me about Machu Picchu rules and guidelines"
+                        CommandParameter="{Binding PromptRulesParam}"
                         BackgroundColor="#FFFFFF"
                         TextColor="#0F172A"
                         CornerRadius="16"
@@ -147,7 +147,7 @@
             <Grid ColumnDefinitions="*, Auto">
                 <Entry Grid.Column="0"
                        Text="{Binding UserInput, Mode=TwoWay}"
-                       Placeholder="Ask about tours, altitude, packing, phrases..."
+                       Placeholder="{Binding InputPlaceholder}"
                        FontSize="13"
                        TextColor="{StaticResource Secondary}"
                        PlaceholderColor="#94A3B8"
@@ -155,18 +155,17 @@
                        ReturnCommand="{Binding SendMessageCommand}" />
 
                 <Button Grid.Column="1"
-                        Text="Send"
-                        Command="{Binding SendMessageCommand}"
-                        BackgroundColor="{StaticResource Primary}"
-                        TextColor="#FFFFFF"
-                        FontAttributes="Bold"
-                        FontSize="13"
-                        CornerRadius="14"
-                        HeightRequest="38"
-                        WidthRequest="70"
-                        Margin="8, 0, 0, 0" />
+                       Text="{Binding SendButtonText}"
+                       Command="{Binding SendMessageCommand}"
+                       BackgroundColor="{StaticResource Primary}"
+                       TextColor="#FFFFFF"
+                       FontAttributes="Bold"
+                       FontSize="13"
+                       CornerRadius="14"
+                       HeightRequest="38"
+                       WidthRequest="70"
+                       Margin="8, 0, 0, 0" />
             </Grid>
         </Border>
     </Grid>
 </ContentPage>
-

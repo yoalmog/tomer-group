@@ -51,6 +51,104 @@ public partial class LoginViewModel : BaseViewModel
         _ => "התחברות מנהל (tomergroupe@gmail.com)"
     };
 
+    public string BackToExploreText => CurrentLanguage switch
+    {
+        "en" => "✕ Back to Explore",
+        "es" => "✕ Volver a Explorar",
+        _ => "✕ חזרה לגלות"
+    };
+
+    public string EmailTabTitle => CurrentLanguage switch
+    {
+        "en" => "Email & Password",
+        "es" => "Correo y Contraseña",
+        _ => "אימייל וסיסמה"
+    };
+
+    public string PhoneTabTitle => CurrentLanguage switch
+    {
+        "en" => "SMS Code",
+        "es" => "Código por SMS",
+        _ => "קוד ב-SMS"
+    };
+
+    public string PersonalAreaHeading => CurrentLanguage switch
+    {
+        "en" => "Sign in to Your Account",
+        "es" => "Acceso a su Cuenta",
+        _ => "כניסה לאזור האישי"
+    };
+
+    public string EmailFieldLabel => CurrentLanguage switch
+    {
+        "en" => "Email Address",
+        "es" => "Correo Electrónico",
+        _ => "כתובת אימייל"
+    };
+
+    public string PasswordFieldLabel => CurrentLanguage switch
+    {
+        "en" => "Password",
+        "es" => "Contraseña",
+        _ => "סיסמה"
+    };
+
+    public string ForgotPasswordButtonText => CurrentLanguage switch
+    {
+        "en" => "Forgot Password?",
+        "es" => "¿Olvidó su Contraseña?",
+        _ => "שכחת סיסמה?"
+    };
+
+    public string PhoneLoginHeading => CurrentLanguage switch
+    {
+        "en" => "Sign in with SMS",
+        "es" => "Acceso con SMS",
+        _ => "כניסה באמצעות SMS"
+    };
+
+    public string PhoneFieldLabel => CurrentLanguage switch
+    {
+        "en" => "Mobile Phone Number",
+        "es" => "Número de Teléfono Móvil",
+        _ => "מספר טלפון נייד"
+    };
+
+    public string SendCodeButtonText => CurrentLanguage switch
+    {
+        "en" => "Send Verification Code 📲",
+        "es" => "Enviar Código 📲",
+        _ => "שלח קוד אימות 📲"
+    };
+
+    public string CodeFieldLabel => CurrentLanguage switch
+    {
+        "en" => "6-digit Verification Code",
+        "es" => "Código de Verificación de 6 dígitos",
+        _ => "קוד אימות בן 6 ספרות"
+    };
+
+    public string VerifyCodeButtonText => CurrentLanguage switch
+    {
+        "en" => "Verify Code & Sign In ✓",
+        "es" => "Verificar e Iniciar Sesión ✓",
+        _ => "אמת קוד והתחבר ✓"
+    };
+
+    public string ContinueAsGuestText => CurrentLanguage switch
+    {
+        "en" => "Continue Exploring as Guest ←",
+        "es" => "Continuar como Invitado ←",
+        _ => "המשך לגלות יעדים כאורח ←"
+    };
+
+    public string SupportFooterText => CurrentLanguage switch
+    {
+        "en" => "Tomer Group team is available 24/7 for support",
+        "es" => "El equipo de Tomer Group está disponible 24/7",
+        _ => "צוות Tomer Group זמין 24/7 לכל סיוע"
+    };
+
     public LoginViewModel(
         ILocalizationService localization,
         INavigationService navigation,
@@ -61,6 +159,27 @@ public partial class LoginViewModel : BaseViewModel
         _apiClient = apiClient;
         _secureStorage = secureStorage;
         Title = Localize(LocalizationKeys.Login);
+    }
+
+    protected override void OnLanguageChanged()
+    {
+        Title = Localize(LocalizationKeys.Login);
+        OnPropertyChanged(nameof(SignInButtonText));
+        OnPropertyChanged(nameof(AdminQuickFillText));
+        OnPropertyChanged(nameof(BackToExploreText));
+        OnPropertyChanged(nameof(EmailTabTitle));
+        OnPropertyChanged(nameof(PhoneTabTitle));
+        OnPropertyChanged(nameof(PersonalAreaHeading));
+        OnPropertyChanged(nameof(EmailFieldLabel));
+        OnPropertyChanged(nameof(PasswordFieldLabel));
+        OnPropertyChanged(nameof(ForgotPasswordButtonText));
+        OnPropertyChanged(nameof(PhoneLoginHeading));
+        OnPropertyChanged(nameof(PhoneFieldLabel));
+        OnPropertyChanged(nameof(SendCodeButtonText));
+        OnPropertyChanged(nameof(CodeFieldLabel));
+        OnPropertyChanged(nameof(VerifyCodeButtonText));
+        OnPropertyChanged(nameof(ContinueAsGuestText));
+        OnPropertyChanged(nameof(SupportFooterText));
     }
 
     [RelayCommand]
@@ -92,9 +211,7 @@ public partial class LoginViewModel : BaseViewModel
         SelectedLanguage = lang;
         Localization.SetLanguage(lang);
         RefreshDirection();
-        Title = Localize(LocalizationKeys.Login);
-        OnPropertyChanged(nameof(SignInButtonText));
-        OnPropertyChanged(nameof(AdminQuickFillText));
+        OnLanguageChanged();
     }
 
     [RelayCommand]

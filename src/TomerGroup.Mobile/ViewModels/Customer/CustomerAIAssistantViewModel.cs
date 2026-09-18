@@ -35,6 +35,97 @@ public partial class CustomerAIAssistantViewModel : BaseViewModel
 
     public ObservableCollection<ChatMessageItem> Messages { get; } = new();
 
+    public string BackButtonText => CurrentLanguage switch
+    {
+        "en" => "← Back",
+        "es" => "← Volver",
+        _ => "← חזרה"
+    };
+
+    public string ConciergeTitle => CurrentLanguage switch
+    {
+        "en" => "TOMER AI CONCIERGE",
+        "es" => "CONSERJE TOMER AI",
+        _ => "עוזר AI קונסיירז'"
+    };
+
+    public string ConciergeSubtitle => CurrentLanguage switch
+    {
+        "en" => "Verified Peru Travel Assistant",
+        "es" => "Asistente Verificado de Viaje",
+        _ => "עוזר טיולים מוסמך לפרו"
+    };
+
+    public string PromptPackText => CurrentLanguage switch
+    {
+        "en" => "🎒 What to pack?",
+        "es" => "🎒 ¿Qué empacar?",
+        _ => "🎒 מה לארוז?"
+    };
+
+    public string PromptPackParam => CurrentLanguage switch
+    {
+        "en" => "What should I pack for tomorrow's tour?",
+        "es" => "¿Qué debo empacar para el tour de mañana?",
+        _ => "מה כדאי לארוז לסיור מחר?"
+    };
+
+    public string PromptSpanishText => CurrentLanguage switch
+    {
+        "en" => "🗣️ Spanish phrases",
+        "es" => "🗣️ Frases en español",
+        _ => "🗣️ משפטים בספרדית"
+    };
+
+    public string PromptSpanishParam => CurrentLanguage switch
+    {
+        "en" => "Translate essential travel phrases to Spanish",
+        "es" => "Traducir frases esenciales de viaje al español",
+        _ => "תרגם משפטים חיוניים לטיול לספרדית"
+    };
+
+    public string PromptAltitudeText => CurrentLanguage switch
+    {
+        "en" => "⛰️ Altitude advice",
+        "es" => "⛰️ Consejos de altura",
+        _ => "⛰️ עצות לגבהים"
+    };
+
+    public string PromptAltitudeParam => CurrentLanguage switch
+    {
+        "en" => "How do I prepare for Cusco altitude?",
+        "es" => "¿Cómo prepararme para la altitud de Cusco?",
+        _ => "איך מתמודדים עם מחלת גבהים בקוסקו?"
+    };
+
+    public string PromptRulesText => CurrentLanguage switch
+    {
+        "en" => "🏛️ Machu Picchu rules",
+        "es" => "🏛️ Reglas Machu Picchu",
+        _ => "🏛️ כללי מאצ'ו פיצ'ו"
+    };
+
+    public string PromptRulesParam => CurrentLanguage switch
+    {
+        "en" => "Tell me about Machu Picchu rules and guidelines",
+        "es" => "Cuáles son las normas y pautas para ingresar a Machu Picchu",
+        _ => "מהם הכללים וההנחיות לכניסה למאצ'ו פיצ'ו?"
+    };
+
+    public string InputPlaceholder => CurrentLanguage switch
+    {
+        "en" => "Ask about tours, altitude, packing, phrases...",
+        "es" => "Pregunte sobre tours, altura, equipaje, frases...",
+        _ => "שאל על מסלולים, גבהים, ציוד, משפטים שימושיים..."
+    };
+
+    public string SendButtonText => CurrentLanguage switch
+    {
+        "en" => "Send",
+        "es" => "Enviar",
+        _ => "שלח"
+    };
+
     public CustomerAIAssistantViewModel(
         ILocalizationService localization,
         INavigationService navigation,
@@ -45,14 +136,46 @@ public partial class CustomerAIAssistantViewModel : BaseViewModel
         _apiClient = apiClient;
         _secureStorage = secureStorage;
 
-        Title = "Tomer AI Travel Concierge";
+        Title = ConciergeTitle;
+        ResetWelcomeMessage();
+    }
 
-        // Initial welcome message
-        Messages.Add(new ChatMessageItem
+    private void ResetWelcomeMessage()
+    {
+        if (Messages.Count == 0 || (Messages.Count == 1 && Messages[0].IsAI))
         {
-            Sender = "AI",
-            Message = "Shalom & Welcome! I am your Tomer Group Peru travel assistant. I can explain your itinerary, answer questions about packing and altitude, or provide Spanish translations for your journey."
-        });
+            Messages.Clear();
+            var welcome = CurrentLanguage switch
+            {
+                "en" => "Welcome! I am your Tomer Group Peru travel assistant. I can explain your itinerary, answer questions about packing and altitude, or provide Spanish translations for your journey.",
+                "es" => "¡Bienvenido! Soy su asistente de viaje de Tomer Group Perú. Puedo explicarle su itinerario, responder preguntas sobre equipaje y altura, o asistirle en español.",
+                _ => "שלום וברוכים הבאים! אני עוזר הטיולים שלכם ב-Tomer Group. אשמח להסביר על מסלול הטיול, לענות על שאלות לגבי ציוד והתאקלמות לגובה, או לסייע בתרגום."
+            };
+            Messages.Add(new ChatMessageItem
+            {
+                Sender = "AI",
+                Message = welcome
+            });
+        }
+    }
+
+    protected override void OnLanguageChanged()
+    {
+        Title = ConciergeTitle;
+        OnPropertyChanged(nameof(BackButtonText));
+        OnPropertyChanged(nameof(ConciergeTitle));
+        OnPropertyChanged(nameof(ConciergeSubtitle));
+        OnPropertyChanged(nameof(PromptPackText));
+        OnPropertyChanged(nameof(PromptPackParam));
+        OnPropertyChanged(nameof(PromptSpanishText));
+        OnPropertyChanged(nameof(PromptSpanishParam));
+        OnPropertyChanged(nameof(PromptAltitudeText));
+        OnPropertyChanged(nameof(PromptAltitudeParam));
+        OnPropertyChanged(nameof(PromptRulesText));
+        OnPropertyChanged(nameof(PromptRulesParam));
+        OnPropertyChanged(nameof(InputPlaceholder));
+        OnPropertyChanged(nameof(SendButtonText));
+        ResetWelcomeMessage();
     }
 
     public async Task InitializeAsync()
