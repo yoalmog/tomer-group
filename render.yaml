@@ -1,0 +1,36 @@
+# Render Infrastructure as Code Blueprint
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: tomergroup-api
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
+      # Supabase Cloud Database & Storage configuration (set in Render Dashboard or Environment Group)
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
+      - key: SUPABASE_DB_CONNECTION_STRING
+        sync: false
+
+      # Optional internal JWT signing secret override
+      - key: JWT_SECRET
+        sync: false
+
+      # Production CORS allowed origins (comma-delimited)
+      - key: ALLOWED_ORIGINS
+        value: "https://tomergroup.com,https://admin.tomergroup.com,https://app.tomergroup.com"
+

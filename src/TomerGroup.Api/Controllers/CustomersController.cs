@@ -244,7 +244,7 @@ public class CustomersController : ControllerBase
                 Timestamp = a.Timestamp,
                 Action = a.Action,
                 Entity = a.TargetEntity,
-                Description = a.Description,
+                Description = a.Description ?? string.Empty,
                 UserEmail = a.UserEmail
             }).ToList()
         };

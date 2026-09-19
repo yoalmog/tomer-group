@@ -86,6 +86,9 @@ public class TomerDbContext : DbContext
 
         modelBuilder.Entity<Customer>(entity =>
         {
+            entity.HasIndex(c => c.AuthUserId);
+            entity.HasIndex(c => c.Email);
+
             entity.HasOne(c => c.User)
                 .WithOne(u => u.CustomerProfile)
                 .HasForeignKey<Customer>(c => c.UserId)

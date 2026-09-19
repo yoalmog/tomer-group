@@ -10,10 +10,20 @@ public interface IApiConfiguration
     Uri BaseAddress { get; }
     string EnvironmentName { get; }
     bool IsProduction { get; }
+    string SupabaseUrl { get; }
+    string SupabaseAnonKey { get; }
 }
 
 public class ApiConfiguration : IApiConfiguration
 {
+    // Public Production HTTPS Endpoints
+    public const string DefaultRenderProductionUrl = "https://tomergroup-api.onrender.com/";
+    public const string CustomDomainProductionUrl = "https://api.tomergroup.com/";
+
+    // Public Supabase Configuration (anon key is safe for client applications)
+    public const string DefaultSupabaseUrl = "https://tomergroup.supabase.co";
+    public const string DefaultSupabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.tomergroup_anon_public_key";
+
     private readonly Uri _baseAddress;
 
     public ApiConfiguration()
@@ -25,58 +35,43 @@ public class ApiConfiguration : IApiConfiguration
             _baseAddress = parsedUri;
             EnvironmentName = "Custom";
             IsProduction = parsedUri.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase);
-            return;
         }
-
 #if RELEASE
-        // Production API endpoint
-        _baseAddress = new Uri("https://api.tomergroup.com/");
-        EnvironmentName = "Production";
-        IsProduction = true;
-#else
-        // Development / Debug endpoint resolved according to runtime device/emulator
-        EnvironmentName = "Development";
-        IsProduction = false;
-
-#if ANDROID || IOS || MACCATALYST || WINDOWS || USE_MAUI
-        if (DeviceInfo.Platform == DevicePlatform.Android)
-        {
-            if (DeviceInfo.DeviceType == DeviceType.Virtual)
-            {
-                // Android Emulator routes to host development machine via 10.0.2.2
-                _baseAddress = new Uri("http://10.0.2.2:5000/");
-            }
-            else
-            {
-                // Physical Android device defaults to local network or fallback production API
-                _baseAddress = new Uri("https://api.tomergroup.com/");
-            }
-        }
-        else if (DeviceInfo.Platform == DevicePlatform.iOS)
-        {
-            if (DeviceInfo.DeviceType == DeviceType.Virtual)
-            {
-                // iOS Simulator shares localhost with the macOS host
-                _baseAddress = new Uri("http://localhost:5000/");
-            }
-            else
-            {
-                _baseAddress = new Uri("https://api.tomergroup.com/");
-            }
-        }
         else
         {
-            // Windows desktop / MacCatalyst / CLI development
-            _baseAddress = new Uri("http://localhost:5000/");
+            // Release builds MUST NEVER use localhost or local IPs
+            _baseAddress = new Uri(DefaultRenderProductionUrl);
+            EnvironmentName = "Production";
+            IsProduction = true;
         }
 #else
-        _baseAddress = new Uri("http://localhost:5000/");
+        else
+        {
+            // In Debug mode, default to the public HTTPS cloud API unless explicitly configured
+            var devCustomUrl = Environment.GetEnvironmentVariable("TOMERGROUP_DEV_API_URL");
+            if (!string.IsNullOrWhiteSpace(devCustomUrl) && Uri.TryCreate(devCustomUrl, UriKind.Absolute, out var parsedDevUri))
+            {
+                _baseAddress = parsedDevUri;
+                EnvironmentName = "Development-Custom";
+                IsProduction = false;
+            }
+            else
+            {
+                // Default to Render HTTPS cloud backend so testing works without a local server running
+                _baseAddress = new Uri(DefaultRenderProductionUrl);
+                EnvironmentName = "Development-Cloud";
+                IsProduction = false;
+            }
+        }
 #endif
-#endif
+
+        SupabaseUrl = Environment.GetEnvironmentVariable("SUPABASE_URL") ?? DefaultSupabaseUrl;
+        SupabaseAnonKey = Environment.GetEnvironmentVariable("SUPABASE_ANON_KEY") ?? DefaultSupabaseAnonKey;
     }
 
     public Uri BaseAddress => _baseAddress;
     public string EnvironmentName { get; }
     public bool IsProduction { get; }
+    public string SupabaseUrl { get; }
+    public string SupabaseAnonKey { get; }
 }
-

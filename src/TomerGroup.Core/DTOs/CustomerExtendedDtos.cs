@@ -85,6 +85,8 @@ public class UpdateCustomerProfileDto
     public string WhatsApp { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Country { get; set; } = "Israel";
+    public string? Language { get; set; }
+    public string? ProfileImageUrl { get; set; }
 
     public string? PassportNumber { get; set; }
     public DateTime? PassportExpiration { get; set; }

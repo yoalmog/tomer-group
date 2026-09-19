@@ -103,5 +103,94 @@ public class AuthController : ControllerBase
         var result = await _authService.GetCurrentUserAsync(userId);
         return result.Success ? Ok(result) : NotFound(result);
     }
+
+    [HttpPost("profile")]
+    [Authorize]
+    public async Task<IActionResult> SyncProfile(
+        [FromBody] CreateCustomerProfileRequestDto? request,
+        [FromServices] TomerGroup.Infrastructure.Data.TomerDbContext context,
+        CancellationToken cancellationToken)
+    {
+        var authUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+            ?? User.FindFirst("sub")?.Value
+            ?? string.Empty;
+
+        var email = User.FindFirst(ClaimTypes.Email)?.Value
+            ?? User.FindFirst("email")?.Value
+            ?? request?.Email
+            ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(authUserId) && string.IsNullOrWhiteSpace(email))
+        {
+            return Unauthorized(ApiResponse<CustomerProfileDto>.Fail("Unauthorized: No identity claim found in token"));
+        }
+
+        var customer = await Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.FirstOrDefaultAsync(
+            context.Customers,
+            c => c.AuthUserId == authUserId || (!string.IsNullOrWhiteSpace(email) && c.Email.ToLower() == email.ToLower()),
+            cancellationToken);
+
+        if (customer == null)
+        {
+            var firstName = !string.IsNullOrWhiteSpace(request?.FirstName) ? request.FirstName : (User.FindFirst("name")?.Value ?? "Traveler");
+            var lastName = request?.LastName ?? string.Empty;
+
+            var userGuid = Guid.NewGuid();
+            var newCustomer = new TomerGroup.Core.Models.Customer
+            {
+                Id = Guid.NewGuid(),
+                UserId = userGuid,
+                AuthUserId = authUserId,
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email,
+                Phone = request?.Phone ?? string.Empty,
+                Language = request?.Language ?? "he",
+                Country = "Israel",
+                Status = "Active",
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow
+            };
+
+            await context.Customers.AddAsync(newCustomer, cancellationToken);
+            await context.SaveChangesAsync(cancellationToken);
+            customer = newCustomer;
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(customer.AuthUserId) && !string.IsNullOrWhiteSpace(authUserId))
+            {
+                customer.AuthUserId = authUserId;
+            }
+            if (request != null && !string.IsNullOrWhiteSpace(request.Phone) && string.IsNullOrWhiteSpace(customer.Phone))
+            {
+                customer.Phone = request.Phone;
+            }
+            customer.UpdatedAt = DateTime.UtcNow;
+            await context.SaveChangesAsync(cancellationToken);
+        }
+
+        var profileDto = new CustomerProfileDto
+        {
+            Id = customer.Id,
+            AuthUserId = customer.AuthUserId,
+            FirstName = customer.FirstName,
+            LastName = customer.LastName,
+            HebrewName = customer.HebrewName,
+            PassportName = customer.PassportName,
+            Email = customer.Email,
+            Phone = customer.Phone,
+            WhatsApp = customer.WhatsApp,
+            Country = customer.Country,
+            Language = customer.Language,
+            ProfileImageUrl = customer.ProfileImageUrl,
+            Status = customer.Status,
+            CreatedAt = customer.CreatedAt,
+            UpdatedAt = customer.UpdatedAt
+        };
+
+        return Ok(ApiResponse<CustomerProfileDto>.Ok(profileDto, "Customer profile synced with cloud backend"));
+    }
 }
+
 

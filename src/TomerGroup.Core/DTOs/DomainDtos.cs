@@ -313,3 +313,38 @@ public class ReadinessStatusDto
     public Dictionary<string, string> Subsystems { get; set; } = new();
 }
 
+public class CustomerProfileDto
+{
+    public Guid Id { get; set; }
+    public string AuthUserId { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string HebrewName { get; set; } = string.Empty;
+    public string PassportName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public string WhatsApp { get; set; } = string.Empty;
+    public string Country { get; set; } = "Israel";
+    public string Language { get; set; } = "he";
+    public string? ProfileImageUrl { get; set; }
+    public string Status { get; set; } = "Active";
+    public string MaskedPassportNumber { get; set; } = string.Empty;
+    public string? DietaryPreferences { get; set; }
+    public string? EmergencyContactName { get; set; }
+    public string? EmergencyContactPhone { get; set; }
+    public string? SpecialRequests { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+}
+
+public class CreateCustomerProfileRequestDto
+{
+    public string AuthUserId { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string? Phone { get; set; }
+    public string? Language { get; set; } = "he";
+}
+
+

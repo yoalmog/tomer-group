@@ -215,3 +215,12 @@ public interface ISecurityAuditService
     Task<ApiResponse<PagedResult<AuditLogSummaryDto>>> GetAuditLogsAsync(AuditLogFilterDto filter, int page = 1, int pageSize = 50, CancellationToken cancellationToken = default);
 }
 
+public interface ISupabaseStorageService
+{
+    Task<ApiResponse<string>> UploadFileAsync(string bucket, string path, Stream stream, string contentType, bool isPublic = false, CancellationToken cancellationToken = default);
+    Task<ApiResponse<string>> GetSignedUrlAsync(string bucket, string path, int expiresInSeconds = 3600, CancellationToken cancellationToken = default);
+    Task<ApiResponse<bool>> DeleteFileAsync(string bucket, string path, CancellationToken cancellationToken = default);
+    string GetPublicUrl(string bucket, string path);
+}
+
+

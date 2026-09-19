@@ -54,6 +54,9 @@ public static class MauiProgram
             client.Timeout = TimeSpan.FromSeconds(15);
         });
 
+        // Supabase Auth Service
+        builder.Services.AddHttpClient<ISupabaseAuthService, SupabaseAuthService>();
+
         // Register ViewModels
         builder.Services.AddTransient<SplashViewModel>();
         builder.Services.AddTransient<LoginViewModel>();

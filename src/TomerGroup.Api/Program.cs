@@ -12,11 +12,20 @@ using TomerGroup.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Dynamic Port Binding for Render Cloud Hosting
+var renderPort = Environment.GetEnvironmentVariable("PORT");
+if (!string.IsNullOrWhiteSpace(renderPort))
+{
+    builder.WebHost.UseUrls($"http://0.0.0.0:{renderPort}");
+}
+
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // 1. Configure EF Core DbContext (PostgreSQL by default, with InMemory fallback for tests/offline)
 var dbProvider = builder.Configuration["DatabaseProvider"] ?? "PostgreSQL";
-var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var defaultConnectionString = builder.Configuration["SUPABASE_DB_CONNECTION_STRING"]
+    ?? builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? "Host=localhost;Port=5432;Database=tomergroup_db;Username=postgres;Password=postgres";
 
 builder.Services.AddDbContext<TomerDbContext>(options =>
 {
@@ -37,7 +46,8 @@ builder.Services.AddDbContext<TomerDbContext>(options =>
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenService, JwtTokenService>();
 
-// 3. Register Business Domain Services
+// 3. Register Business Domain Services & Supabase Storage
+builder.Services.AddHttpClient<ISupabaseStorageService, SupabaseStorageService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<ITripService, TripService>();
@@ -63,10 +73,30 @@ builder.Services.AddScoped<ISecurityAuditService, SecurityAuditService>();
 builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
 builder.Services.AddSingleton<IMapService, MapService>();
 
-// 4. Configure JWT Authentication
+// 4. Configure JWT Authentication (Supabase Auth + Internal Token Support)
 var jwtSecret = builder.Configuration["JwtSettings:Secret"] ?? "TomerGroupSuperSecretKeyForPeruTravelExperience2026!@#$998877";
 var jwtIssuer = builder.Configuration["JwtSettings:Issuer"] ?? "TomerGroupApi";
 var jwtAudience = builder.Configuration["JwtSettings:Audience"] ?? "TomerGroupApp";
+var supabaseUrl = builder.Configuration["SUPABASE_URL"] ?? builder.Configuration["SupabaseSettings:Url"];
+var supabaseJwtSecret = builder.Configuration["SUPABASE_JWT_SECRET"] ?? builder.Configuration["SupabaseSettings:JwtSecret"];
+
+var validIssuers = new List<string> { jwtIssuer };
+if (!string.IsNullOrWhiteSpace(supabaseUrl))
+{
+    validIssuers.Add($"{supabaseUrl.TrimEnd('/')}/auth/v1");
+}
+
+var validAudiences = new List<string> { jwtAudience, "authenticated" };
+
+var signingKeys = new List<SecurityKey>
+{
+    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret))
+};
+
+if (!string.IsNullOrWhiteSpace(supabaseJwtSecret) && supabaseJwtSecret != jwtSecret)
+{
+    signingKeys.Add(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(supabaseJwtSecret)));
+}
 
 builder.Services.AddAuthentication(options =>
 {
@@ -78,13 +108,13 @@ builder.Services.AddAuthentication(options =>
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
+        ValidIssuers = validIssuers,
         ValidateAudience = true,
+        ValidAudiences = validAudiences,
         ValidateLifetime = true,
         ValidateIssuerSigningKey = true,
-        ValidIssuer = jwtIssuer,
-        ValidAudience = jwtAudience,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecret)),
-        ClockSkew = TimeSpan.Zero
+        IssuerSigningKeys = signingKeys,
+        ClockSkew = TimeSpan.FromMinutes(1)
     };
 });
 

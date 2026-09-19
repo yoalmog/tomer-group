@@ -25,6 +25,7 @@ public interface IApiClient
     Task<ApiResponse<List<TourDto>>> GetToursAsync();
 
     // Customer & Profile management
+    Task<ApiResponse<CustomerProfileDto>> SyncSupabaseProfileAsync(CreateCustomerProfileRequestDto request);
     Task<ApiResponse<CustomerDto>> GetMyProfileAsync();
     Task<ApiResponse<CustomerDto>> UpdateMyProfileAsync(UpdateCustomerProfileDto request);
     Task<ApiResponse<CustomerSensitiveDetailsDto>> GetSensitiveDetailsAsync(Guid customerId);
@@ -172,7 +173,7 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<LoginResponseDto>.Fail($"Connection error: {ex.Message}");
+            return ApiResponse<LoginResponseDto>.Fail(FormatConnectionException(ex));
         }
     }
 
@@ -196,7 +197,7 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<LoginResponseDto>.Fail($"Connection error: {ex.Message}");
+            return ApiResponse<LoginResponseDto>.Fail(FormatConnectionException(ex));
         }
     }
 
@@ -219,7 +220,27 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<LoginResponseDto>.Fail($"Connection error: {ex.Message}");
+            return ApiResponse<LoginResponseDto>.Fail(FormatConnectionException(ex));
+        }
+    }
+
+    public async Task<ApiResponse<CustomerProfileDto>> SyncSupabaseProfileAsync(CreateCustomerProfileRequestDto request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/auth/profile", request);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ApiResponse<CustomerProfileDto>>();
+                return result ?? ApiResponse<CustomerProfileDto>.Fail("Empty profile response from server");
+            }
+
+            var error = await response.Content.ReadFromJsonAsync<ApiResponse<CustomerProfileDto>>();
+            return error ?? ApiResponse<CustomerProfileDto>.Fail($"Profile synchronization failed: {response.StatusCode}");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<CustomerProfileDto>.Fail(FormatConnectionException(ex));
         }
     }
 
@@ -233,7 +254,7 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<bool>.Fail($"Connection error: {ex.Message}");
+            return ApiResponse<bool>.Fail(FormatConnectionException(ex));
         }
     }
 
@@ -257,7 +278,7 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<LoginResponseDto>.Fail($"Connection error: {ex.Message}");
+            return ApiResponse<LoginResponseDto>.Fail(FormatConnectionException(ex));
         }
     }
 
@@ -271,7 +292,7 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<string>.Fail($"Connection error: {ex.Message}");
+            return ApiResponse<string>.Fail(FormatConnectionException(ex));
         }
     }
 
@@ -290,8 +311,21 @@ public class ApiClient : IApiClient
         }
         catch (Exception ex)
         {
-            return ApiResponse<bool>.Fail($"Connection error: {ex.Message}");
+            return ApiResponse<bool>.Fail(FormatConnectionException(ex));
         }
+    }
+
+    private static string FormatConnectionException(Exception ex)
+    {
+        if (ex is HttpRequestException || ex is System.Net.Sockets.SocketException)
+        {
+            return "Unable to connect to Tomer Group. Please check your internet connection and try again.";
+        }
+        if (ex is TaskCanceledException || ex is TimeoutException)
+        {
+            return "Connecting to Tomer Group is taking longer than expected. Please try again in a few moments.";
+        }
+        return "Service temporarily unavailable. Please try again shortly.";
     }
 
     public async Task<ApiResponse<HealthStatusDto>> GetHealthAsync()

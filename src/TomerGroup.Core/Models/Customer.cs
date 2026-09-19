@@ -5,6 +5,11 @@ public class Customer : BaseEntity
     public Guid UserId { get; set; }
     public User? User { get; set; }
 
+    /// <summary>
+    /// The unique identifier of the authenticated user in Supabase Auth (auth.users.id).
+    /// </summary>
+    public string AuthUserId { get; set; } = string.Empty;
+
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string HebrewName { get; set; } = string.Empty;
@@ -14,6 +19,9 @@ public class Customer : BaseEntity
     public string WhatsApp { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Country { get; set; } = "Israel";
+    public string Language { get; set; } = "he";
+    public string? ProfileImageUrl { get; set; }
+    public string Status { get; set; } = "Active";
 
     // Sensitive identity fields (encrypted/protected in API responses)
     public string? PassportNumber { get; set; }

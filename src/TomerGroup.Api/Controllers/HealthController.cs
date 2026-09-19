@@ -71,6 +71,7 @@ public class HealthController : ControllerBase
 
     [HttpGet("live")]
     [HttpGet("/health/live")]
+    [HttpGet("/api/health/live")]
     public IActionResult GetLiveness()
     {
         var process = Process.GetCurrentProcess();
@@ -88,6 +89,7 @@ public class HealthController : ControllerBase
 
     [HttpGet("ready")]
     [HttpGet("/health/ready")]
+    [HttpGet("/api/health/ready")]
     public async Task<IActionResult> GetReadiness()
     {
         var canConnect = false;
