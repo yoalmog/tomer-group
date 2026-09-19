@@ -43,6 +43,9 @@ public partial class App : Microsoft.Maui.Controls.Application
                     case "ForgotPassword":
                         MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<ForgotPasswordPage>());
                         break;
+                    case "Register":
+                        MainPage = new Microsoft.Maui.Controls.NavigationPage(_serviceProvider.GetRequiredService<RegisterPage>());
+                        break;
                     default:
                         MainPage = _serviceProvider.GetRequiredService<SplashPage>();
                         break;

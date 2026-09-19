@@ -13,6 +13,7 @@ public interface INavigationService
     string CurrentShell { get; }
     Task NavigateToSplashAsync();
     Task NavigateToLoginAsync();
+    Task NavigateToRegisterAsync();
     Task NavigateToForgotPasswordAsync();
     Task NavigateToCustomerShellAsync();
     Task NavigateToAgencyShellAsync();
@@ -59,6 +60,13 @@ public class NavigationService : INavigationService
         return Task.CompletedTask;
     }
 
+    public Task NavigateToRegisterAsync()
+    {
+        CurrentShell = "Register";
+        ShellChanged?.Invoke(CurrentShell);
+        return Task.CompletedTask;
+    }
+
     public Task NavigateToForgotPasswordAsync()
     {
         CurrentShell = "ForgotPassword";
@@ -93,6 +101,13 @@ public class NavigationService : INavigationService
             normalizedRoute.Equals("//Login", StringComparison.OrdinalIgnoreCase))
         {
             await NavigateToLoginAsync();
+            return;
+        }
+
+        if (normalizedRoute.Equals("Register", StringComparison.OrdinalIgnoreCase) ||
+            normalizedRoute.Equals("//Register", StringComparison.OrdinalIgnoreCase))
+        {
+            await NavigateToRegisterAsync();
             return;
         }
 

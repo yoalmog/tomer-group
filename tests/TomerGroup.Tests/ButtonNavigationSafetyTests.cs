@@ -31,6 +31,12 @@ public class ButtonNavigationSafetyTests
             return Task.CompletedTask;
         }
 
+        public Task NavigateToRegisterAsync()
+        {
+            CurrentShell = "Register";
+            return Task.CompletedTask;
+        }
+
         public Task NavigateToForgotPasswordAsync()
         {
             CurrentShell = "ForgotPassword";

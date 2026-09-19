@@ -97,6 +97,7 @@ public class PlanTripFlowTests
 
         public Task NavigateToSplashAsync() => Task.CompletedTask;
         public Task NavigateToLoginAsync() => Task.CompletedTask;
+        public Task NavigateToRegisterAsync() => Task.CompletedTask;
         public Task NavigateToForgotPasswordAsync() => Task.CompletedTask;
         public Task NavigateToCustomerShellAsync() => Task.CompletedTask;
         public Task NavigateToAgencyShellAsync() => Task.CompletedTask;

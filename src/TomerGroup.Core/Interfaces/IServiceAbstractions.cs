@@ -7,9 +7,12 @@ namespace TomerGroup.Core.Interfaces;
 public interface IAuthenticationService
 {
     Task<ApiResponse<LoginResponseDto>> LoginAsync(LoginRequestDto request, CancellationToken cancellationToken = default);
+    Task<ApiResponse<LoginResponseDto>> RegisterCustomerAsync(CustomerRegisterRequestDto request, CancellationToken cancellationToken = default);
     Task<ApiResponse<LoginResponseDto>> RefreshTokenAsync(RefreshTokenRequestDto request, CancellationToken cancellationToken = default);
     Task<ApiResponse<bool>> LogoutAsync(Guid userId, CancellationToken cancellationToken = default);
     Task<ApiResponse<UserInfoDto>> GetCurrentUserAsync(Guid userId, CancellationToken cancellationToken = default);
+    Task<ApiResponse<string>> ForgotPasswordAsync(ForgotPasswordRequestDto request, CancellationToken cancellationToken = default);
+    Task<ApiResponse<bool>> ResetPasswordAsync(ResetPasswordRequestDto request, CancellationToken cancellationToken = default);
 }
 
 public interface ICustomerService

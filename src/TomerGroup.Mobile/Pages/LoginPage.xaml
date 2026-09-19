@@ -93,6 +93,15 @@
                             Style="{StaticResource BrandButtonStyle}"
                             HeightRequest="48"
                             Margin="0,4,0,0" />
+
+                    <Button Text="{Binding CreateAccountButtonText}"
+                            Command="{Binding OpenRegisterCommand}"
+                            BackgroundColor="Transparent"
+                            TextColor="{StaticResource Primary}"
+                            FontSize="13"
+                            FontAttributes="Bold"
+                            HorizontalOptions="Center"
+                            Margin="0,2,0,0" />
                 </VerticalStackLayout>
             </Border>
 

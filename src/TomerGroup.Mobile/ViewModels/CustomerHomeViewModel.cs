@@ -401,6 +401,20 @@ public partial class CustomerHomeViewModel : BaseViewModel
         _ => "הטיול שלי"
     };
 
+    public string TopNavSignInText => CurrentLanguage switch
+    {
+        "en" => "Sign In",
+        "es" => "Entrar",
+        _ => "התחבר"
+    };
+
+    public string TopNavAccountText => CurrentLanguage switch
+    {
+        "en" => "My Account",
+        "es" => "Mi Cuenta",
+        _ => "החשבון שלי"
+    };
+
     // Section Titles
     public string FeaturedTreksTitle => CurrentLanguage switch
     {
@@ -754,6 +768,8 @@ public partial class CustomerHomeViewModel : BaseViewModel
         OnPropertyChanged(nameof(SupportHotlineSubtitle));
         OnPropertyChanged(nameof(WhatsAppActionLabel));
         OnPropertyChanged(nameof(CallOfficeActionLabel));
+        OnPropertyChanged(nameof(TopNavSignInText));
+        OnPropertyChanged(nameof(TopNavAccountText));
     }
 
     protected override void OnLanguageChanged()
@@ -985,5 +1001,17 @@ public partial class CustomerHomeViewModel : BaseViewModel
         Localization.SetLanguage(lang);
         RefreshDirection();
         UpdateLocalizedTexts();
+    }
+
+    [RelayCommand]
+    public async Task OpenLoginAsync()
+    {
+        await Navigation.NavigateToLoginAsync();
+    }
+
+    [RelayCommand]
+    public async Task OpenProfileAsync()
+    {
+        await Navigation.NavigateToAsync("//Profile");
     }
 }

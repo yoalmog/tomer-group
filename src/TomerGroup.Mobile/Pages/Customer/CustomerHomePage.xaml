@@ -59,6 +59,40 @@
                             <TapGestureRecognizer Command="{Binding OpenWhatsAppCommand}" />
                         </Border.GestureRecognizers>
                     </Border>
+
+                    <!-- Sign In / My Account Action -->
+                    <Border BackgroundColor="#0F172A"
+                            StrokeShape="RoundRectangle 16"
+                            StrokeThickness="0"
+                            Padding="8,0"
+                            HeightRequest="32"
+                            VerticalOptions="Center"
+                            IsVisible="{Binding IsAuthenticated, Converter={StaticResource InvertedBoolConverter}, FallbackValue=True}">
+                        <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                            <Label Text="👤" FontSize="12" VerticalOptions="Center" />
+                            <Label Text="{Binding TopNavSignInText}" FontSize="11" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenLoginCommand}" />
+                        </Border.GestureRecognizers>
+                    </Border>
+
+                    <Border BackgroundColor="#1E293B"
+                            StrokeShape="RoundRectangle 16"
+                            StrokeThickness="1"
+                            Stroke="#E2E8F0"
+                            Padding="8,0"
+                            HeightRequest="32"
+                            VerticalOptions="Center"
+                            IsVisible="{Binding IsAuthenticated, FallbackValue=False}">
+                        <HorizontalStackLayout Spacing="4" VerticalOptions="Center">
+                            <Label Text="👤" FontSize="12" VerticalOptions="Center" />
+                            <Label Text="{Binding TopNavAccountText}" FontSize="11" TextColor="White" FontAttributes="Bold" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenProfileCommand}" />
+                        </Border.GestureRecognizers>
+                    </Border>
                 </HorizontalStackLayout>
             </Grid>
 

@@ -100,6 +100,13 @@ public partial class LoginViewModel : BaseViewModel
         _ => "שכחת סיסמה?"
     };
 
+    public string CreateAccountButtonText => CurrentLanguage switch
+    {
+        "en" => "Don't have an account? Create Account",
+        "es" => "¿No tiene cuenta? Crear Cuenta",
+        _ => "אין לך חשבון? צור חשבון חדש"
+    };
+
     public string PhoneLoginHeading => CurrentLanguage switch
     {
         "en" => "Sign in with SMS",
@@ -165,7 +172,6 @@ public partial class LoginViewModel : BaseViewModel
     {
         Title = Localize(LocalizationKeys.Login);
         OnPropertyChanged(nameof(SignInButtonText));
-        OnPropertyChanged(nameof(AdminQuickFillText));
         OnPropertyChanged(nameof(BackToExploreText));
         OnPropertyChanged(nameof(EmailTabTitle));
         OnPropertyChanged(nameof(PhoneTabTitle));
@@ -173,6 +179,7 @@ public partial class LoginViewModel : BaseViewModel
         OnPropertyChanged(nameof(EmailFieldLabel));
         OnPropertyChanged(nameof(PasswordFieldLabel));
         OnPropertyChanged(nameof(ForgotPasswordButtonText));
+        OnPropertyChanged(nameof(CreateAccountButtonText));
         OnPropertyChanged(nameof(PhoneLoginHeading));
         OnPropertyChanged(nameof(PhoneFieldLabel));
         OnPropertyChanged(nameof(SendCodeButtonText));
@@ -180,21 +187,6 @@ public partial class LoginViewModel : BaseViewModel
         OnPropertyChanged(nameof(VerifyCodeButtonText));
         OnPropertyChanged(nameof(ContinueAsGuestText));
         OnPropertyChanged(nameof(SupportFooterText));
-    }
-
-    [RelayCommand]
-    public void FillAdminCredentials()
-    {
-        IsPhoneLoginMode = false;
-        Email = "tomergroupe@gmail.com";
-        Password = "123456";
-        ErrorMessage = null;
-        StatusInfo = CurrentLanguage switch
-        {
-            "en" => "Admin credentials populated. Tap Sign In to enter.",
-            "es" => "Credenciales de administrador cargadas. Pulse Iniciar Sesión.",
-            _ => "פרטי מנהל הוזנו. לחץ 'התחבר עכשיו' לכניסה למערכת."
-        };
     }
 
     [RelayCommand]
@@ -296,6 +288,12 @@ public partial class LoginViewModel : BaseViewModel
     public async Task OpenForgotPasswordAsync()
     {
         await Navigation.NavigateToForgotPasswordAsync();
+    }
+
+    [RelayCommand]
+    public async Task OpenRegisterAsync()
+    {
+        await Navigation.NavigateToAsync("Register");
     }
 
     [RelayCommand]

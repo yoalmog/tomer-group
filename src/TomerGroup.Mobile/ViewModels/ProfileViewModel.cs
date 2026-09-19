@@ -451,6 +451,41 @@ public partial class ProfileViewModel : BaseViewModel
         _ => "התנתק מהחשבון"
     };
 
+    public string QuickLinksTitle => CurrentLanguage switch
+    {
+        "en" => "🎒 My Travel Management",
+        "es" => "🎒 Gestión de Mi Viaje",
+        _ => "🎒 ניהול הטיול שלי"
+    };
+
+    public string MyTripsLinkText => CurrentLanguage switch
+    {
+        "en" => "My Trips & Itinerary",
+        "es" => "Mis Viajes e Itinerario",
+        _ => "הטיולים ומסלול הנסיעה שלי"
+    };
+
+    public string BookingsLinkText => CurrentLanguage switch
+    {
+        "en" => "Bookings & Reservations",
+        "es" => "Mis Reservas y Servicios",
+        _ => "ההזמנות והשרותים שלי"
+    };
+
+    public string DocumentsLinkText => CurrentLanguage switch
+    {
+        "en" => "Travel Documents & Permits",
+        "es" => "Documentos y Permisos",
+        _ => "מסמכי נסיעה ואישורי כניסה"
+    };
+
+    public string NotificationsLinkText => CurrentLanguage switch
+    {
+        "en" => "Travel Alerts & Updates",
+        "es" => "Alertas y Notificaciones",
+        _ => "התראות ועדכוני מסלול"
+    };
+
     protected override void OnLanguageChanged()
     {
         Title = Localize(LocalizationKeys.NavProfile);
@@ -477,6 +512,11 @@ public partial class ProfileViewModel : BaseViewModel
         OnPropertyChanged(nameof(SupportTitle));
         OnPropertyChanged(nameof(SupportSubtitle));
         OnPropertyChanged(nameof(LogoutButtonText));
+        OnPropertyChanged(nameof(QuickLinksTitle));
+        OnPropertyChanged(nameof(MyTripsLinkText));
+        OnPropertyChanged(nameof(BookingsLinkText));
+        OnPropertyChanged(nameof(DocumentsLinkText));
+        OnPropertyChanged(nameof(NotificationsLinkText));
     }
 
     [RelayCommand]
@@ -500,5 +540,48 @@ public partial class ProfileViewModel : BaseViewModel
     public void ChangeLanguage(string lang)
     {
         Localization.SetLanguage(lang);
+    }
+
+    [RelayCommand]
+    public async Task OpenMyTripsAsync()
+    {
+        await Navigation.NavigateToAsync("//MyTrip");
+    }
+
+    [RelayCommand]
+    public async Task OpenBookingsAsync()
+    {
+        await Navigation.NavigateToAsync("//Bookings");
+    }
+
+    [RelayCommand]
+    public async Task OpenDocumentsAsync()
+    {
+        await Navigation.NavigateToAsync("Documents");
+    }
+
+    [RelayCommand]
+    public async Task OpenNotificationsAsync()
+    {
+        await Navigation.NavigateToAsync("Notifications");
+    }
+
+    [RelayCommand]
+    public async Task OpenWhatsAppAsync()
+    {
+#if USE_MAUI
+        try
+        {
+            var phone = Brand.ContactPhone.Replace(" ", "").Replace("-", "").Replace("+", "");
+            var uri = new Uri($"https://wa.me/{phone}?text={Uri.EscapeDataString("Hello Tomer Group Support, I need assistance with my trip.")}");
+            await Microsoft.Maui.ApplicationModel.Launcher.OpenAsync(uri);
+        }
+        catch
+        {
+            await Navigation.NavigateToAsync("More");
+        }
+#else
+        await Task.CompletedTask;
+#endif
     }
 }

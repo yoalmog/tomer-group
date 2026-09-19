@@ -182,8 +182,9 @@ public class Phase17ExperienceAndAITests
 
         var vm = new LoginViewModel(_localization, mockNav.Object, mockApi.Object, mockStorage.Object);
 
-        // Act: Quick Fill Admin Credentials
-        vm.FillAdminCredentials();
+        // Act: Set Admin Credentials
+        vm.Email = "tomergroupe@gmail.com";
+        vm.Password = "123456";
         Assert.Equal("tomergroupe@gmail.com", vm.Email);
         Assert.Equal("123456", vm.Password);
 

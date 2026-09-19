@@ -109,6 +109,111 @@ public class AuthenticationService : IAuthenticationService
         return ApiResponse<LoginResponseDto>.Ok(response, "Login successful");
     }
 
+    public async Task<ApiResponse<LoginResponseDto>> RegisterCustomerAsync(CustomerRegisterRequestDto request, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(request.FirstName) || string.IsNullOrWhiteSpace(request.LastName))
+        {
+            return ApiResponse<LoginResponseDto>.Fail("First name and last name are required");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Email))
+        {
+            return ApiResponse<LoginResponseDto>.Fail("Email address is required");
+        }
+
+        var normalizedEmail = request.Email.ToLower().Trim();
+        if (!normalizedEmail.Contains('@') || !normalizedEmail.Contains('.'))
+        {
+            return ApiResponse<LoginResponseDto>.Fail("Please enter a valid email address");
+        }
+
+        if (string.IsNullOrWhiteSpace(request.Password) || request.Password.Length < 6)
+        {
+            return ApiResponse<LoginResponseDto>.Fail("Password must be at least 6 characters long");
+        }
+
+        if (request.Password != request.ConfirmPassword)
+        {
+            return ApiResponse<LoginResponseDto>.Fail("Passwords do not match");
+        }
+
+        // Enforce unique email across all users
+        var existingUser = await _context.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == normalizedEmail, cancellationToken);
+
+        if (existingUser != null)
+        {
+            return ApiResponse<LoginResponseDto>.Fail("An account with this email address already exists. Please sign in or reset your password.");
+        }
+
+        // Cryptographic password hashing (PBKDF2 with unique salt)
+        var (passwordHash, salt) = _hasher.HashPassword(request.Password);
+
+        var userId = Guid.NewGuid();
+        var customerId = Guid.NewGuid();
+
+        var newUser = new User
+        {
+            Id = userId,
+            Email = normalizedEmail,
+            PasswordHash = passwordHash,
+            Salt = salt,
+            FirstName = request.FirstName.Trim(),
+            LastName = request.LastName.Trim(),
+            Role = TomerGroup.Core.Enums.UserRole.Customer,
+            IsActive = true,
+            PreferredLanguage = string.IsNullOrWhiteSpace(request.PreferredLanguage) ? "en" : request.PreferredLanguage.Trim(),
+            CreatedAt = DateTime.UtcNow,
+            LastLoginAt = DateTime.UtcNow
+        };
+
+        var newCustomer = new Customer
+        {
+            Id = customerId,
+            UserId = userId,
+            FirstName = request.FirstName.Trim(),
+            LastName = request.LastName.Trim(),
+            Email = normalizedEmail,
+            Phone = request.Phone?.Trim() ?? string.Empty,
+            WhatsApp = request.Phone?.Trim() ?? string.Empty,
+            Country = "Israel",
+            IsActiveInPeru = false,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        var accessToken = _jwtTokenService.GenerateAccessToken(newUser);
+        var refreshToken = _jwtTokenService.GenerateRefreshToken();
+
+        newUser.RefreshToken = refreshToken;
+        newUser.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(30);
+
+        await _context.Users.AddAsync(newUser, cancellationToken);
+        await _context.Customers.AddAsync(newCustomer, cancellationToken);
+        await _context.SaveChangesAsync(cancellationToken);
+
+        await _auditService.LogAsync("CustomerRegistered", "User", userId.ToString(), userId, normalizedEmail, "Customer account created");
+
+        var response = new LoginResponseDto
+        {
+            Token = accessToken,
+            RefreshToken = refreshToken,
+            ExpiresAt = DateTime.UtcNow.AddMinutes(120),
+            User = new UserInfoDto
+            {
+                Id = userId,
+                Email = normalizedEmail,
+                FirstName = newUser.FirstName,
+                LastName = newUser.LastName,
+                Role = newUser.Role.ToString(),
+                CustomerId = customerId,
+                PreferredLanguage = newUser.PreferredLanguage
+            }
+        };
+
+        return ApiResponse<LoginResponseDto>.Ok(response, "Account created successfully");
+    }
+
     public async Task<ApiResponse<LoginResponseDto>> RefreshTokenAsync(RefreshTokenRequestDto request, CancellationToken cancellationToken = default)
     {
         var user = await _context.Users

@@ -85,6 +85,61 @@
                     </Grid>
                 </Border>
 
+                <!-- ============================================================ -->
+                <!-- TRAVEL MANAGEMENT QUICK ACTIONS (Trips, Bookings, Docs)      -->
+                <!-- ============================================================ -->
+                <Border Style="{StaticResource CardFrameStyle}" BackgroundColor="White">
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="{Binding QuickLinksTitle}" FontSize="16" FontAttributes="Bold" TextColor="#0F172A" />
+
+                        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="10" RowSpacing="10">
+                            <!-- My Trips -->
+                            <Border Grid.Row="0" Grid.Column="0" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" StrokeThickness="1" Padding="12,14">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="🗺️" FontSize="20" />
+                                    <Label Text="{Binding MyTripsLinkText}" FontSize="12" FontAttributes="Bold" TextColor="#0F172A" />
+                                </VerticalStackLayout>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenMyTripsCommand}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+
+                            <!-- Bookings -->
+                            <Border Grid.Row="0" Grid.Column="1" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" StrokeThickness="1" Padding="12,14">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="🎫" FontSize="20" />
+                                    <Label Text="{Binding BookingsLinkText}" FontSize="12" FontAttributes="Bold" TextColor="#0F172A" />
+                                </VerticalStackLayout>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenBookingsCommand}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+
+                            <!-- Documents -->
+                            <Border Grid.Row="1" Grid.Column="0" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" StrokeThickness="1" Padding="12,14">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="📁" FontSize="20" />
+                                    <Label Text="{Binding DocumentsLinkText}" FontSize="12" FontAttributes="Bold" TextColor="#0F172A" />
+                                </VerticalStackLayout>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenDocumentsCommand}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+
+                            <!-- Notifications -->
+                            <Border Grid.Row="1" Grid.Column="1" BackgroundColor="#F8FAFC" Stroke="#E2E8F0" StrokeShape="RoundRectangle 12" StrokeThickness="1" Padding="12,14">
+                                <VerticalStackLayout Spacing="6">
+                                    <Label Text="🔔" FontSize="20" />
+                                    <Label Text="{Binding NotificationsLinkText}" FontSize="12" FontAttributes="Bold" TextColor="#0F172A" />
+                                </VerticalStackLayout>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding OpenNotificationsCommand}" />
+                                </Border.GestureRecognizers>
+                            </Border>
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
                 <!-- Status / Alert message -->
                 <Border IsVisible="{Binding StatusMessage, Converter={StaticResource StringNotEmptyConverter}}"
                         BackgroundColor="#ECFDF5" Stroke="#A7F3D0" StrokeThickness="1" StrokeShape="RoundRectangle 14" Padding="12,10">
@@ -205,6 +260,9 @@
                         <Label Text="{Binding SupportSubtitle}" FontSize="11" TextColor="#CBD5E1" />
                     </VerticalStackLayout>
                 </Grid>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenWhatsAppCommand}" />
+                </Border.GestureRecognizers>
             </Border>
 
             <!-- Log Out Button (Authenticated Only - Returns smoothly to Public Home) -->

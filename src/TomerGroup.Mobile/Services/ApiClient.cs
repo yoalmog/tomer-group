@@ -12,6 +12,7 @@ public interface IApiClient
     void SetAuthToken(string? token);
     bool IsAuthenticated { get; }
     Task<ApiResponse<LoginResponseDto>> LoginAsync(string email, string password);
+    Task<ApiResponse<LoginResponseDto>> RegisterCustomerAsync(CustomerRegisterRequestDto request);
     Task<ApiResponse<LoginResponseDto>> RefreshTokenAsync(Guid userId, string refreshToken);
     Task<ApiResponse<bool>> SendPhoneCodeAsync(string phoneNumber);
     Task<ApiResponse<LoginResponseDto>> VerifyPhoneCodeAsync(string phoneNumber, string code);
@@ -168,6 +169,30 @@ public class ApiClient : IApiClient
 
             var error = await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponseDto>>();
             return error ?? ApiResponse<LoginResponseDto>.Fail($"Login failed: {response.StatusCode}");
+        }
+        catch (Exception ex)
+        {
+            return ApiResponse<LoginResponseDto>.Fail($"Connection error: {ex.Message}");
+        }
+    }
+
+    public async Task<ApiResponse<LoginResponseDto>> RegisterCustomerAsync(CustomerRegisterRequestDto request)
+    {
+        try
+        {
+            var response = await _httpClient.PostAsJsonAsync("api/auth/register", request);
+            if (response.IsSuccessStatusCode)
+            {
+                var result = await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponseDto>>();
+                if (result?.Data?.Token != null)
+                {
+                    SetAuthToken(result.Data.Token);
+                }
+                return result ?? ApiResponse<LoginResponseDto>.Fail("Empty response from server");
+            }
+
+            var error = await response.Content.ReadFromJsonAsync<ApiResponse<LoginResponseDto>>();
+            return error ?? ApiResponse<LoginResponseDto>.Fail(error?.Message ?? $"Registration failed: {response.StatusCode}");
         }
         catch (Exception ex)
         {

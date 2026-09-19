@@ -9,6 +9,17 @@ public class LoginRequestDto
     public string Password { get; set; } = string.Empty;
 }
 
+public class CustomerRegisterRequestDto
+{
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public string Password { get; set; } = string.Empty;
+    public string ConfirmPassword { get; set; } = string.Empty;
+    public string PreferredLanguage { get; set; } = "en";
+}
+
 public class RefreshTokenRequestDto
 {
     public string RefreshToken { get; set; } = string.Empty;
