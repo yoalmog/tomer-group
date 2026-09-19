@@ -94,6 +94,7 @@ public partial class SplashViewModel : BaseViewModel
     [ObservableProperty]
     private string _videoHtmlContent = string.Empty;
 
+    public Func<Task>? RequestShowLogo { get; set; }
     public Func<Task>? RequestTransitionAnimation { get; set; }
 
     public SplashViewModel(
@@ -145,30 +146,51 @@ public partial class SplashViewModel : BaseViewModel
                 }
             }
 
-            // Target cinematic splash duration: approximately 2.5 - 3.0 seconds
-            var elapsedMs = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
-            var targetDurationMs = IsVideoAvailable ? 2800 : 800;
-            var remainingMs = targetDurationMs - elapsedMs;
-
-            if (remainingMs > 50)
+            if (IsVideoAvailable)
             {
-                await Task.Delay(remainingMs);
+                // Stage 1: Play cinematic trekking video unobstructed for ~1.8 seconds (2-4 sec total window)
+                var elapsedMs = (int)(DateTime.UtcNow - startTime).TotalMilliseconds;
+                var initialVideoMs = 1800 - elapsedMs;
+                if (initialVideoMs > 20)
+                {
+                    await Task.Delay(initialVideoMs);
+                }
+
+                // Stage 2: Reveal official Tomer Group logo smoothly during final part of the video
+                if (RequestShowLogo != null)
+                {
+                    await RequestShowLogo();
+                }
+                await Task.Delay(1200);
+
+                // Stage 3: Smooth cross-fade transition directly to the Public Home screen
+                if (RequestTransitionAnimation != null)
+                {
+                    await RequestTransitionAnimation();
+                }
+            }
+            else
+            {
+                // Fallback without video: reveal logo immediately, brief hold (~1.0s)
+                if (RequestShowLogo != null)
+                {
+                    await RequestShowLogo();
+                }
+                await Task.Delay(1000);
+                if (RequestTransitionAnimation != null)
+                {
+                    await RequestTransitionAnimation();
+                }
             }
 
-            // Smooth fade-out animation if supported by UI
-            if (RequestTransitionAnimation != null)
-            {
-                await RequestTransitionAnimation();
-            }
-
-            // ALWAYS navigate to the Public Customer Home screen (never Login screen on startup)
+            // ALWAYS navigate directly to the Public Customer Home screen (never Login or Register on launch)
             await Navigation.NavigateToCustomerShellAsync();
         }
         catch (Exception ex)
         {
             ErrorMessage = ex.Message;
             IsVideoAvailable = false;
-            // Graceful fallback to Public Home
+            // Graceful fallback directly to Public Customer Home
             await Navigation.NavigateToCustomerShellAsync();
         }
         finally

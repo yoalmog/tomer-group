@@ -239,23 +239,79 @@ public class Phase16MobileNavigationTests
     }
 
     [Fact]
-    public void BrandSettings_ContainsSplashVideoConfigurations()
+    public async Task SplashViewModel_LogoRevealSequence_IsTriggeredDuringVideo()
     {
-        var settings = BrandSettings.CreateDefault();
+        var nav = new NavigationService();
+        var mockApi = new Mock<IApiClient>();
+        mockApi.Setup(a => a.GetBrandingAsync())
+            .ReturnsAsync(ApiResponse<BrandSettings>.Ok(BrandSettings.CreateDefault()));
 
-        Assert.True(settings.SplashVideoEnabled);
-        Assert.Equal("1.0", settings.SplashVideoVersion);
-        Assert.Null(settings.SplashVideoUrl);
+        var loc = new LocalizationService();
+        var vm = new SplashViewModel(loc, nav, mockApi.Object);
 
-        settings.SplashVideoUrl = "https://tomergroup.com/assets/video.mp4";
-        settings.SplashVideoVersion = "2.0";
-        settings.SplashVideoStartDate = DateTime.UtcNow;
-        settings.SplashVideoEndDate = DateTime.UtcNow.AddMonths(1);
+        bool logoRevealed = false;
+        bool transitionRan = false;
 
-        Assert.Equal("https://tomergroup.com/assets/video.mp4", settings.SplashVideoUrl);
-        Assert.Equal("2.0", settings.SplashVideoVersion);
-        Assert.NotNull(settings.SplashVideoStartDate);
-        Assert.NotNull(settings.SplashVideoEndDate);
+        vm.RequestShowLogo = () =>
+        {
+            logoRevealed = true;
+            return Task.CompletedTask;
+        };
+
+        vm.RequestTransitionAnimation = () =>
+        {
+            transitionRan = true;
+            return Task.CompletedTask;
+        };
+
+        // Act
+        await vm.InitializeAsync();
+
+        // Assert: Logo reveal is called during splash, transition runs, and shell is CustomerShell
+        Assert.True(logoRevealed);
+        Assert.True(transitionRan);
+        Assert.Equal("CustomerShell", nav.CurrentShell);
+    }
+
+    [Fact]
+    public async Task CustomerHomeViewModel_GuestMode_InitializesComplete9Categories_WithoutLogin()
+    {
+        var nav = new NavigationService();
+        var mockApi = new Mock<IApiClient>();
+        mockApi.Setup(a => a.IsAuthenticated).Returns(false);
+
+        var loc = new LocalizationService();
+        var img = new DestinationImageService();
+        var vm = new CustomerHomeViewModel(loc, nav, mockApi.Object, img);
+
+        // Act
+        await vm.InitializeAsync();
+
+        // Assert: Guest mode is fully operational without authentication
+        Assert.False(vm.IsAuthenticated);
+        Assert.Equal("Tomer Group", vm.CustomerGreeting);
+
+        // 9 Categories verified
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryTreksLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryDestinationsLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryToursLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryServicesLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryHotelsLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryActivitiesLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryAboutLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategorySupportLabel));
+        Assert.False(string.IsNullOrWhiteSpace(vm.CategoryMyTripLabel));
+
+        // Rich collections verified
+        Assert.NotEmpty(vm.FeaturedTreks);
+        Assert.NotEmpty(vm.FeaturedTours);
+        Assert.NotEmpty(vm.CuratedHotels);
+        Assert.NotEmpty(vm.AdventureActivities);
+
+        Assert.Contains(vm.FeaturedTreks, t => t.Title.Contains("Salkantay"));
+        Assert.Contains(vm.FeaturedTours, t => t.Title.Contains("Sacred Valley"));
+        Assert.Contains(vm.CuratedHotels, h => h.Name.Contains("Belmond"));
+        Assert.Contains(vm.AdventureActivities, a => a.Title.Contains("Zipline"));
     }
 }
 

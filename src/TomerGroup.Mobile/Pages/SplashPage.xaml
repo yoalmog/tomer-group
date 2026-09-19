@@ -46,8 +46,10 @@
             </BoxView.Background>
         </BoxView>
 
-        <!-- 4. Layer: Official Tomer Group Logo & Typography Overlay -->
+        <!-- 4. Layer: Official Tomer Group Logo & Typography Overlay (revealed during final part of video) -->
         <Grid x:Name="OverlayContainer"
+              Opacity="0"
+              Scale="0.92"
               VerticalOptions="Center"
               HorizontalOptions="Center"
               RowDefinitions="Auto,Auto,Auto"

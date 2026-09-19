@@ -12,13 +12,22 @@ public partial class SplashPage : Microsoft.Maui.Controls.ContentPage
         InitializeComponent();
         BindingContext = _viewModel = viewModel;
 
-        // Wire smooth transition animation
-        _viewModel.RequestTransitionAnimation = async () =>
+        // Wire smooth logo reveal during the final phase of video
+        _viewModel.RequestShowLogo = async () =>
         {
             if (OverlayContainer != null)
             {
-                await OverlayContainer.FadeTo(0, 300, Easing.CubicOut);
+                await Task.WhenAll(
+                    OverlayContainer.FadeTo(1.0, 700, Easing.CubicOut),
+                    OverlayContainer.ScaleTo(1.0, 700, Easing.CubicOut)
+                );
             }
+        };
+
+        // Wire smooth transition animation directly to Public Home
+        _viewModel.RequestTransitionAnimation = async () =>
+        {
+            await this.FadeTo(0.0, 300, Easing.CubicOut);
         };
 
         _viewModel.PropertyChanged += (s, e) =>
