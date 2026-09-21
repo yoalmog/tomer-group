@@ -96,7 +96,6 @@ Add the following in Render **Environment**:
 |---|---|---|
 | `ASPNETCORE_ENVIRONMENT` | `Production` | Runs API in hardened production mode |
 | `SUPABASE_URL` | `https://xyzcompany.supabase.co` | Supabase project URL |
-| `SUPABASE_KEY` | `eyJhbGciOi...` | Supabase anon key |
 | `SUPABASE_SERVICE_ROLE_KEY` | `eyJhbGciOi...` | Supabase service_role secret key |
 | `SUPABASE_JWT_SECRET` | `super-secret-jwt-key...` | Supabase project JWT secret |
 | `SUPABASE_DB_CONNECTION_STRING` | `Host=aws-0...;Port=5432;...` | Npgsql/PostgreSQL connection string |

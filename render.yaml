@@ -17,8 +17,6 @@ services:
       # Supabase Cloud Database & Storage configuration (set in Render Dashboard or Environment Group)
       - key: SUPABASE_URL
         sync: false
-      - key: SUPABASE_KEY
-        sync: false
       - key: SUPABASE_SERVICE_ROLE_KEY
         sync: false
       - key: SUPABASE_JWT_SECRET
